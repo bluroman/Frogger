@@ -6,9 +6,9 @@ class Log extends WrappingSprite
     public static inline var TYPE_B = 1;
     public static inline var TYPE_C = 2;
 
-    public static inline var TYPE_A_WIDTH = 95;
-    public static inline var TYPE_B_WIDTH = 196;
-    public static inline var TYPE_C_WIDTH = 127;
+    public static inline var TYPE_A_WIDTH = 100;
+    public static inline var TYPE_B_WIDTH = 200;
+    public static inline var TYPE_C_WIDTH = 150;
 
     /**
          * Simple sprite to represent a log. There are 3 types of logs, represented by TYPE_A, _B, and
@@ -28,11 +28,11 @@ class Log extends WrappingSprite
         switch (type)
         {
         case TYPE_A:
-            simpleGraphic = AssetPaths.tree_1__png;
+            simpleGraphic = AssetPaths.log_short__png;
         case TYPE_B:
-            simpleGraphic = AssetPaths.tree_2__png;
+            simpleGraphic = AssetPaths.log_long__png;
         case TYPE_C:
-            simpleGraphic = AssetPaths.tree_3__png;
+            simpleGraphic = AssetPaths.log_mid__png;
         }
 
         super(x, y, simpleGraphic, dir, velocity, parentState);

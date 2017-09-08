@@ -52,6 +52,7 @@ class PlayState extends BaseState
     private var lastLifeScore:Int = 0;
     private var nextLife:Int = 5000;
     private var totalElapsed:Float = 0;
+    private var snake:Snake;
 	override public function create():Void
 	{
 		super.create();
@@ -143,6 +144,9 @@ class PlayState extends BaseState
         turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
+
+        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed, this);
+        add(snake);
 
         // Create Player
         player = new Frog(calculateColumn(6), calculateRow(14) + 6, this);
