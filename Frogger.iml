@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="HAXE_MODULE" version="4">
+  <component name="HaxeModuleSettingsStorage">
+    <option name="buildConfig" value="3" />
+    <option name="flexSdkName" value="AIRSDK_Compiler_26_0_0_118" />
+    <option name="openFLTarget" value="Neko" />
+    <option name="outputFolder" value="$MODULE_DIR$/export" />
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/export" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/source" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Haxe 3.4.2" jdkType="Haxe toolkit" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="haxelib|openfl">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/openfl/3,6,1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/openfl/3,6,1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/flixel/4,3,0">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel/4,3,0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel/4,3,0" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/lime/2,9,1">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/lime/2,9,1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/lime/2,9,1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
