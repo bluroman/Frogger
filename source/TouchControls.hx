@@ -91,13 +91,23 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
                 pressedButton = ButtonsRight;
         }
         //var pt:FlxPoint = new FlxPoint(FlxG.mouse.x, FlxG.mouse.y);
+        #if FLX_MOUSE
         tmpBool = FlxG.mouse.justPressed && pressedButton.overlapsPoint(FlxG.mouse.getPosition());
+        #end
+        #if FLX_TOUCH
+        for (touch in FlxG.touches.list)
+        {
+            if(touch.justPressed && touch.overlaps(pressedButton))
+                tmpBool = true;
+        }
+        #end
         //return FlxG.mouse.justPressed();
         return tmpBool;
     }
 
     public function justReleased(buttonIndex:UInt):Bool
     {
+        tmpBool = false;
         var pressedButton:FlxObject = null;
         switch(buttonIndex)
         {
@@ -110,12 +120,22 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
             case 3:
                 pressedButton = ButtonsRight;
         }
-        return FlxG.mouse.justReleased && pressedButton.overlapsPoint(FlxG.mouse.getPosition());
+        #if FLX_MOUSE
+        tmpBool = FlxG.mouse.justReleased && pressedButton.overlapsPoint(FlxG.mouse.getPosition());
+        #end
+        #if FLX_TOUCH
+        for (touch in FlxG.touches.list)
+        {
+            if(touch.justReleased && touch.overlaps(pressedButton))
+                tmpBool = true;
+        }
+        #end
+        return tmpBool;
     }
 
     override public function update(elapsed:Float):Void
     {
-
+#if FLX_MOUSE
         if (FlxG.mouse.justPressed)
         {
             if (ButtonsUp.overlapsPoint(FlxG.mouse.getPosition()))
@@ -141,6 +161,42 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
             ButtonsLeft.color = 0x999999;
             ButtonsRight.color = 0x999999;
         }
+#end
+#if FLX_TOUCH
+    for( touch in FlxG.touches.list)
+    {
+        //if (FlxG.mouse.justPressed)
+        if(touch.justPressed)
+        {
+            //if (ButtonsUp.overlapsPoint(FlxG.mouse.getPosition()))
+            if (touch.overlaps(ButtonsUp))
+            {
+                ButtonsUp.color = 0xff0000;
+            } //else if (ButtonsDown.overlapsPoint(FlxG.mouse.getPosition()))
+            else if (touch.overlaps(ButtonsDown))
+            {
+                ButtonsDown.color = 0xff0000;
+            } //else if (ButtonsLeft.overlapsPoint(FlxG.mouse.getPosition()))
+            else if (touch.overlaps(ButtonsLeft))
+            {
+                ButtonsLeft.color = 0xff0000;
+            } //else if (ButtonsRight.overlapsPoint(FlxG.mouse.getPosition()))
+            else if (touch.overlaps(ButtonsRight))
+            {
+                ButtonsRight.color = 0xff0000;
+            }
+
+
+        }
+        else if (touch.justReleased)
+        {
+            ButtonsUp.color = 0x999999;
+            ButtonsDown.color = 0x999999;
+            ButtonsLeft.color = 0x999999;
+            ButtonsRight.color = 0x999999;
+        }
+    }
+#end
 
         super.update(elapsed); //uncommenting this breaks it. dont know why.
 

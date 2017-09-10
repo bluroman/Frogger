@@ -114,25 +114,45 @@ class Frog extends FlxSprite
             {
                 // Checks to see what key was just pressed and sets the target X or Y to the new position
                 // along with what direction to face
+                #if desktop
                 if ((FlxG.keys.justPressed.LEFT || (touchControls != null && touchControls.justPressed(2))) && x > 0)
+                #end
+                #if mobile
+                if (((touchControls != null && touchControls.justPressed(2))) && x > 0)
+                #end
                 {
                     targetX = x - maxMoveX;
                     set_facing(FlxObject.LEFT);
                     //facing = FlxObject.LEFT;
                 }
+                #if desktop
                 else if ((FlxG.keys.justPressed.RIGHT || (touchControls != null && touchControls.justPressed(3))) && x < FlxG.width - frameWidth)
+                #end
+                #if mobile
+                else if (((touchControls != null && touchControls.justPressed(3))) && x < FlxG.width - frameWidth)
+                #end
                 {
                     targetX = x + maxMoveX;
                     set_facing(FlxObject.RIGHT);
                     //facing = FlxObject.RIGHT;
                 }
+                #if desktop
                 else if ((FlxG.keys.justPressed.UP || (touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
+                #end
+                #if mobile
+                else if (((touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
+                #end
                 {
                     targetY = y - maxMoveY;
                     set_facing(FlxObject.UP);
                     //facing = FlxObject.UP;
                 }
+                #if desktop
                 else if ((FlxG.keys.justPressed.DOWN || (touchControls != null && touchControls.justPressed(1))) && y < 560)
+                #end
+                #if mobile
+                else if (((touchControls != null && touchControls.justPressed(1))) && y < 560)
+                #end
                 {
                     targetY = y + maxMoveY;
                     set_facing(FlxObject.DOWN);

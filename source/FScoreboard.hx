@@ -1,5 +1,5 @@
 package ;
-import cpp.Object;
+//import cpp.Object;
 import flixel.util.FlxSave;
 //import flash.net.SharedObject;
 /*typedef User_Score = {
@@ -11,7 +11,7 @@ class FScoreboard
 
     public static inline var ERROR_MESSAGE_NO_SCORE_PROP:String = "Supplied object does not have a score property.";
     //var so:SharedObject;
-    var _scores:Array<Object>;
+    var _scores:Array<Dynamic>;
     var id:String;
     var maxScores:Int;
     private var _gameSave:FlxSave;
@@ -43,7 +43,7 @@ class FScoreboard
          *
          * @param value Object with a score property on it.
          */
-    public function addScore(value:Object):Void
+    public function addScore(value:Dynamic):Void
     {
         //if (!value.hasOwnProperty("score"))
         //    throw new Error(ERROR_MESSAGE_NO_SCORE_PROP);
@@ -65,7 +65,7 @@ class FScoreboard
          *
          * @return a copy of the scores array. This may not be the same values stored in the SharedObject.
          */
-    public function get_scores():Array<Object>
+    public function get_scores():Array<Dynamic>
     {
         return _scores;
     }
@@ -82,7 +82,7 @@ class FScoreboard
          * @param value an array of score objects. At the min, the score object should have
          *        a property for score.
          */
-    public function set_scores(value:Array<Object>):Void
+    public function set_scores(value:Array<Dynamic>):Void
     {
         validateScoreObjects(value);
 
@@ -143,7 +143,7 @@ class FScoreboard
          * @param i the index of the score you are trying to retrieve.
          * @return the score object.
          */
-    public function getScore(i:Int):Object
+    public function getScore(i:Int):Dynamic
     {
         return _scores[i];
     }
@@ -180,7 +180,7 @@ class FScoreboard
              *
              * @param value
              */
-    private function saveToSharedObject(value:Array<Object>):Void
+    private function saveToSharedObject(value:Array<Dynamic>):Void
     {
         //so.data.localScoreboard = value;
         //so.flush();
@@ -194,7 +194,7 @@ class FScoreboard
          * @param val2
          * @return
          */
-    private function sortOnValue(val1:Object, val2:Object):Int
+    private function sortOnValue(val1:Dynamic, val2:Dynamic):Int
     {
 
         var score1:Int = val1.score;
@@ -219,7 +219,7 @@ class FScoreboard
          *
          * @param values
          */
-    private function validateScoreObjects(values:Array<Object>):Void
+    private function validateScoreObjects(values:Array<Dynamic>):Void
     {
         //for each(var score:Object in values)
         for(value in values)

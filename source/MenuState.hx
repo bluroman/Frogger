@@ -37,7 +37,7 @@ class MenuState extends BaseState
     override public function create():Void
     {
         super.create();
-        #if mobile
+        #if desktop
         FlxG.mouse.visible = false;
         #end
         FlxG.state.bgColor = 0x000000;
@@ -82,10 +82,12 @@ class MenuState extends BaseState
 
     override public function update(elapsed:Float):Void
     {
+        #if desktop
         if (FlxG.mouse.wheel != 0)
         {
             FlxG.camera.zoom += (FlxG.mouse.wheel / 10);
         }
+        #end
         if (_title.y > 100)
             _title.velocity.y = 0;
 

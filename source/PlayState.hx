@@ -443,8 +443,9 @@ class PlayState extends BaseState
     private function float(target:WrappingSprite, player:Frog):Void
     {
         playerIsFloating = true;
-
+#if desktop
         if (!(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT))
+#end
         {
             player.float(target.speed, target.facing);
         }

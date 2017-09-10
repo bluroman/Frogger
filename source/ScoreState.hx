@@ -2,13 +2,13 @@ package ;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.text.FlxText;
-import cpp.Object;
+//using cpp.Object;
 class ScoreState extends BaseState
 {
 
-    private var scores:Array<Object>;
+    private var scores:Array<Dynamic>;
     private var highScored:Bool = false;
-    private var newScore:Object;
+    private var newScore:Dynamic;
     private var newScorePosition:Int = -1;
 
     private var whichInitial:Int = 0;//the index of the initial being input, 0 through 2
@@ -29,7 +29,7 @@ class ScoreState extends BaseState
     var totalScores:Int = FroggerScoreboard.MAX_SCORES;
 
     var textItem:FlxText;
-    var score:Object;
+    var score:Dynamic;
 
     override public function create():Void
     {
@@ -96,7 +96,7 @@ class ScoreState extends BaseState
         //for (i = 0; i < totalScores; i++)
         for (i in 0...totalScores)
         {
-            var scoreObj:Object = scores[i];
+            var scoreObj:Dynamic = scores[i];
             //display the current score.
             //index
 
@@ -184,6 +184,7 @@ class ScoreState extends BaseState
 
     override public function update(elapsed:Float):Void
     {
+        #if desktop
         if (highScored)
         {
             var str:String = newScore.initials;
@@ -263,9 +264,10 @@ class ScoreState extends BaseState
             letterPreview.text = String.fromCharCode(arr[whichInitial]);
         }
         else if (FlxG.keys.anyPressed([ENTER]) || FlxG.mouse.justPressed) //no new highscore.
+        #end
         {
-            if (timer.active)
-                timer.cancel();
+            //if (timer.active)
+            //    timer.cancel();
 
             //scoreboard.scores = scores;
             scoreboard.set_scores(scores);
