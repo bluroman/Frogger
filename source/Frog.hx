@@ -56,8 +56,8 @@ class Frog extends FlxSprite
         animation.add("walk" + FlxObject.RIGHT, [2,3], 15, true);
         animation.add("walk" + FlxObject.DOWN, [4,5], 15, true);
         animation.add("walk" + FlxObject.LEFT, [6,7], 15, true);
-        animation.add("die_water", [8, 9, 10, 11], 2, false);
-        animation.add("die_road", [12, 13, 14, 15], 2, false);
+        animation.add("die_water", [8, 9, 10, 11], 3, false);
+        animation.add("die_road", [12, 13, 14, 15], 3, false);
 
             // Set facing direction
         //facing = FlxObject.UP;
@@ -100,8 +100,8 @@ class Frog extends FlxSprite
     {
 
             // Test to see if the frog is dead and at the last death frame
-        if(state.gameState == GameStates.COLLISION)
-            trace("Frame:" + animation.frameIndex);
+        //if(state.gameState == GameStates.COLLISION)
+        //    trace("Frame:" + animation.frameIndex);
         if (state.gameState == GameStates.COLLISION && ((animation.frameIndex == 11) || (animation.frameIndex ==15)))
         {
             // Flag game state that death animation is over and game can perform a restart

@@ -55,7 +55,7 @@ class Home extends TimerSprite
 
         //var id:UInt = Math.random() * odds;
         var id:UInt = rand.int(0, odds);
-        trace("id:" + id);
+        //trace("id:" + id);
 
         switch (id)
         {

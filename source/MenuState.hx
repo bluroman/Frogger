@@ -54,20 +54,20 @@ class MenuState extends BaseState
         add(new FlxText(20, FlxG.height - 30, FlxG.width - 40, "Original Frogger graphics and images by Konami. \nThis was created only for demonstration purposes").setFormat(null, 8, 0xffffffff, "center"));
 
         // Set up the menu options
-        _text3 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3, 0, "Play");
-        _text4 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 30, 0, "Visit NIWID");
-        _text5 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 60, 0, "Visit haxeflixel.com");
-        _text3.color = _text4.color = _text5.color = 0xAAFFFF00;
-        _text3.size = _text4.size = _text5.size = 16;
-        _text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
-        add(_text3);
-        add(_text4);
-        add(_text5);
-
-        _pointer = new FlxSprite();
-        _pointer.loadGraphic("assets/art/pointer.png");
-        _pointer.x = _text3.x - _pointer.width - 10;
-        add(_pointer);
+//        _text3 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3, 0, "Play");
+//        _text4 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 30, 0, "Visit NIWID");
+//        _text5 = new FlxText(FlxG.width * 2 / 3, FlxG.height * 2 / 3 + 60, 0, "Visit haxeflixel.com");
+//        _text3.color = _text4.color = _text5.color = 0xAAFFFF00;
+//        _text3.size = _text4.size = _text5.size = 16;
+//        _text3.antialiasing = _text4.antialiasing = _text5.antialiasing = true;
+//        add(_text3);
+//        add(_text4);
+//        add(_text5);
+//
+//        _pointer = new FlxSprite();
+//        _pointer.loadGraphic("assets/art/pointer.png");
+//        _pointer.x = _text3.x - _pointer.width - 10;
+//        add(_pointer);
     }
     private function myCallback(Timer:FlxTimer):Void
     {
@@ -90,34 +90,34 @@ class MenuState extends BaseState
             _title.velocity.y = 0;
 
         // this is the goofus way to do it. An array would be way better
-        _pointer.y = switch (_option)
-        {
-            case PLAY: _text3.y;
-            case BLOG: _text4.y;
-            case FLIXEL: _text5.y;
-        }
-
-        if (FlxG.keys.justPressed.UP)
-            modifySelectedOption(-1);
-        if (FlxG.keys.justPressed.DOWN)
-            modifySelectedOption(1);
-
-        if (FlxG.keys.anyJustPressed([SPACE, ENTER, C]))
-        {
-            switch (_option)
-            {
-                case PLAY:
-                    FlxG.cameras.fade(0xff969867, 1, false, startGame);
-                    //FlxG.sound.play("Theme");
-                    //FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
-                case BLOG:
-                    //_gameSave.data.highScore = 100;
-                    //_gameSave.flush();
-                    FlxG.openURL("http://chipacabra.blogspot.com");
-                case FLIXEL:
-                    FlxG.openURL("http://haxeflixel.com");
-            }
-        }
+//        _pointer.y = switch (_option)
+//        {
+//            case PLAY: _text3.y;
+//            case BLOG: _text4.y;
+//            case FLIXEL: _text5.y;
+//        }
+//
+//        if (FlxG.keys.justPressed.UP)
+//            modifySelectedOption(-1);
+//        if (FlxG.keys.justPressed.DOWN)
+//            modifySelectedOption(1);
+//
+//        if (FlxG.keys.anyJustPressed([SPACE, ENTER, C]))
+//        {
+//            switch (_option)
+//            {
+//                case PLAY:
+//                    FlxG.cameras.fade(0xff969867, 1, false, startGame);
+//                    //FlxG.sound.play("Theme");
+//                    //FlxG.sound.play("assets/sounds/coin" + Reg.SoundExtension, 1, false);
+//                case BLOG:
+//                    //_gameSave.data.highScore = 100;
+//                    //_gameSave.flush();
+//                    FlxG.openURL("http://chipacabra.blogspot.com");
+//                case FLIXEL:
+//                    FlxG.openURL("http://haxeflixel.com");
+//            }
+//        }
         #if FLX_TOUCH
         if (FlxG.touches.justStarted().length > 0 && timer.finished)
         #elseif FLX_MOUSE

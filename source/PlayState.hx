@@ -1,6 +1,7 @@
 package;
 
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxObject;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -33,7 +34,7 @@ class PlayState extends BaseState
 
     private var bases:Array<Home>;
     private var homeBaseGroup:FlxTypedGroup<Home>;
-    private var logGroup:FlxGroup;
+    private var logGroup:FlxTypedGroup<Log>;
     private var turtleGroup:FlxGroup;
     private var player:Frog;
     private var carGroup:FlxGroup;
@@ -53,6 +54,7 @@ class PlayState extends BaseState
     private var nextLife:Int = 5000;
     private var totalElapsed:Float = 0;
     private var snake:Snake;
+    private var blueFrog:BlueFrog;
 	override public function create():Void
 	{
 		super.create();
@@ -119,7 +121,7 @@ class PlayState extends BaseState
         homeBaseGroup.add(new Home(28 + 96 * 4, 59 + 22, 200, 200, 10, this));
 
         // Create logs and turtles
-        logGroup = new FlxGroup();
+        logGroup = new FlxTypedGroup<Log>();
         add(logGroup);
         turtleGroup = new FlxGroup();
         add(turtleGroup);
@@ -140,6 +142,9 @@ class PlayState extends BaseState
         logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed,this));
         logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
         logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
+
+        //blueFrog = new BlueFrog(100, 100, 0xffffff, logGroup.getRandom(0, logGroup.length));
+        //add(blueFrog);
 
         turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
@@ -253,6 +258,7 @@ class PlayState extends BaseState
             FlxG.overlap(logGroup, player, float);
             FlxG.overlap(turtleGroup, player, turtleFloat);
             FlxG.overlap(homeBaseGroup, player, baseCollision);
+            FlxG.overlap(snake, player, carCollision);
 
             // If nothing has collided with the player, test to see if they are out of bounds when in the water zone
             if (player.y < waterY)
@@ -489,9 +495,9 @@ class PlayState extends BaseState
     private function killPlayer(isWater:Bool):Void
     {
         //commented just test home collision
-        //gameState = GameStates.COLLISION;
-        //removeLife();
-        //player.death(isWater);
+        gameState = GameStates.COLLISION;
+        removeLife();
+        player.death(isWater);
     }
     private function gameOver():Void
     {
