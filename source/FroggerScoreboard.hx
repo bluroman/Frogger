@@ -1,5 +1,5 @@
 package ;
-import cpp.Object;
+//import cpp.Object;
 class FroggerScoreboard extends FScoreboard
 {
     public static inline var ID:String = "FlxFroggerScoreboard";
@@ -14,7 +14,7 @@ class FroggerScoreboard extends FScoreboard
 
         if (_scores == null)
         {
-            var defaultScores:Array<Object> = [
+            var defaultScores:Array<Dynamic> = [
             {initials:"GLC", score: 860630},
             {initials:"BUM", score: 10000},
             {initials:"SWF", score: 5000},
