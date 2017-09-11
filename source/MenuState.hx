@@ -126,6 +126,7 @@ class MenuState extends BaseState
         if (FlxG.mouse.justPressed && timer.finished)
         #end
         {
+            Reg.level = 0;
             FlxG.cameras.fade(0xff969867, 1, false, startGame);
         }
 

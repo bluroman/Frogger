@@ -61,6 +61,7 @@ class PlayState extends BaseState
         lifeSprites = new Array();
 
         // Create the BG sprites
+        add(new FlxSprite(0, calculateRow(1) + 19 + 20, AssetPaths.water_background1__png));
 
         add(new FlxSprite(0, calculateRow(14), AssetPaths.bottom_ground__png));
         add(new FlxSprite(0, calculateRow(8), AssetPaths.shore_sprite__png));
@@ -68,7 +69,7 @@ class PlayState extends BaseState
 
         //CONFIG::mobile
         //{
-        actorSpeed = 2;
+        actorSpeed = 1;
 
         //}
 
