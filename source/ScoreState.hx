@@ -1,4 +1,5 @@
 package ;
+import FScoreboard.User_Score;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import flixel.text.FlxText;
@@ -6,9 +7,9 @@ import flixel.text.FlxText;
 class ScoreState extends BaseState
 {
 
-    private var scores:Array<Dynamic>;
+    private var scores:Array<User_Score>;
     private var highScored:Bool = false;
-    private var newScore:Dynamic;
+    private var newScore:User_Score;
     private var newScorePosition:Int = -1;
 
     private var whichInitial:Int = 0;//the index of the initial being input, 0 through 2
@@ -29,7 +30,8 @@ class ScoreState extends BaseState
     var totalScores:Int = FroggerScoreboard.MAX_SCORES;
 
     var textItem:FlxText;
-    var score:Dynamic;
+    var score:User_Score;
+    var playerData:User_Score = {score:0, name:""};
 
     override public function create():Void
     {
@@ -40,8 +42,10 @@ class ScoreState extends BaseState
         scores = scoreboard.get_scores();
 
         newInitials = [];
+        playerData.score = playerScore;
+        playerData.name = "Hoon";
 
-        highScored = scoreboard.canSubmitScore(playerScore);
+        highScored = scoreboard.canSubmitScore(playerData);
 
         textItem = new FlxText(0, FlxG.height / 6, FlxG.width, "SCORE RANKING");
         textItem.setFormat(null, 15, 0xd8d94a, "center", 0);
@@ -50,9 +54,9 @@ class ScoreState extends BaseState
 
 
         //find out if score can be inserted at the beginning
-        if (!scores[0])
+        if (scores[0] == null)
         {
-            score = {score:Reg.score, initials:""};
+            score = {score:Reg.score, name:""};
             scores.push(score);
             newScore = score;
             highScored = true;
@@ -64,11 +68,12 @@ class ScoreState extends BaseState
         for (i in 0...totalScores)
         {
             score = scores[i];
+            trace("score: " + score.score + " name: " + score.name);
             if (highScored)
                 break;
             else if (score.score <= Reg.score)
             {
-                score = {score:Reg.score, initials:""};
+                score = {score:Reg.score, name:""};
                 newScorePosition = i;
                 //scores.splice(i, 0, score);
                 scores.insert(i, score);
@@ -83,7 +88,7 @@ class ScoreState extends BaseState
         //find out if score can be inserted at end
         if (!highScored && totalScores < 5)
         {
-            score = {score:Reg.score, initials:""};
+            score = {score:Reg.score, name:""};
             scores.push(score);
             newScorePosition = totalScores - 1;
             highScored = true;
@@ -96,7 +101,7 @@ class ScoreState extends BaseState
         //for (i = 0; i < totalScores; i++)
         for (i in 0...totalScores)
         {
-            var scoreObj:Dynamic = scores[i];
+            var scoreObj:User_Score = scores[i];
             //display the current score.
             //index
 
@@ -113,7 +118,7 @@ class ScoreState extends BaseState
             for (j in 0...3)
             {
 
-                textItem = new FlxText(xpos, ypos, 15, scoreObj.initials.charAt(j));
+                textItem = new FlxText(xpos, ypos, 15, scoreObj.name.charAt(j));
                 //new high score text gets colored red.
                 if (i == newScorePosition)
                 {
@@ -187,7 +192,7 @@ class ScoreState extends BaseState
         #if desktop
         if (highScored)
         {
-            var str:String = newScore.initials;
+            var str:String = newScore.name;
 
             var clkX:Float = FlxG.mouse.x;
             var clkY:Float = FlxG.mouse.y;
@@ -252,7 +257,7 @@ class ScoreState extends BaseState
 
             //str = String.fromCharCode(arr[0], arr[1], arr[2]);
             str = String.fromCharCode(arr[0]);
-            newScore.initials = str; //store the string
+            newScore.name = str; //store the string
             //for (i = 0; i < 3; i++)
             for (i in 0...3)
             {

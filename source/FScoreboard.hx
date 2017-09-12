@@ -2,16 +2,16 @@ package ;
 //import cpp.Object;
 import flixel.util.FlxSave;
 //import flash.net.SharedObject;
-/*typedef User_Score = {
+typedef User_Score = {
     var score : Int;
     var name : String;
-}*/
+}
 class FScoreboard
 {
 
     public static inline var ERROR_MESSAGE_NO_SCORE_PROP:String = "Supplied object does not have a score property.";
     //var so:SharedObject;
-    var _scores:Array<Dynamic>;
+    var _scores:Array<User_Score>;
     var id:String;
     var maxScores:Int;
     private var _gameSave:FlxSave;
@@ -43,12 +43,12 @@ class FScoreboard
          *
          * @param value Object with a score property on it.
          */
-    public function addScore(value:Dynamic):Void
+    public function addScore(value:User_Score):Void
     {
         //if (!value.hasOwnProperty("score"))
         //    throw new Error(ERROR_MESSAGE_NO_SCORE_PROP);
-        if(!Reflect.hasField(value, "score"))
-            trace(ERROR_MESSAGE_NO_SCORE_PROP);
+        //if(!Reflect.hasField(value, "score"))
+        //    trace(ERROR_MESSAGE_NO_SCORE_PROP);
 
         _scores.push(value);
 
@@ -65,7 +65,7 @@ class FScoreboard
          *
          * @return a copy of the scores array. This may not be the same values stored in the SharedObject.
          */
-    public function get_scores():Array<Dynamic>
+    public function get_scores():Array<User_Score>
     {
         return _scores;
     }
@@ -82,9 +82,9 @@ class FScoreboard
          * @param value an array of score objects. At the min, the score object should have
          *        a property for score.
          */
-    public function set_scores(value:Array<Dynamic>):Void
+    public function set_scores(value:Array<User_Score>):Void
     {
-        validateScoreObjects(value);
+        //validateScoreObjects(value);
 
         saveToSharedObject(value);
         loadSharedObject();
@@ -110,7 +110,7 @@ class FScoreboard
          * @param value score value
          * @return returns true if it would be saved or false if it was not high enough.
          */
-    public function canSubmitScore(value:Int):Bool
+    public function canSubmitScore(value:User_Score):Bool
     {
         var result:Int;
 
@@ -120,7 +120,7 @@ class FScoreboard
         //for (i = 0; i < total; i++)
         for (i in 0...total)
         {
-            result = sortOnValue({score:value}, get_scores()[i]);
+            result = sortOnValue(value, get_scores()[i]);
 
             if (result == -1 || result == 0)
                 return true;
@@ -143,7 +143,7 @@ class FScoreboard
          * @param i the index of the score you are trying to retrieve.
          * @return the score object.
          */
-    public function getScore(i:Int):Dynamic
+    public function getScore(i:Int):User_Score
     {
         return _scores[i];
     }
@@ -180,7 +180,7 @@ class FScoreboard
              *
              * @param value
              */
-    private function saveToSharedObject(value:Array<Dynamic>):Void
+    private function saveToSharedObject(value:Array<User_Score>):Void
     {
         //so.data.localScoreboard = value;
         //so.flush();
@@ -194,7 +194,7 @@ class FScoreboard
          * @param val2
          * @return
          */
-    private function sortOnValue(val1:Dynamic, val2:Dynamic):Int
+    private function sortOnValue(val1:User_Score, val2:User_Score):Int
     {
 
         var score1:Int = val1.score;
@@ -219,15 +219,15 @@ class FScoreboard
          *
          * @param values
          */
-    private function validateScoreObjects(values:Array<Dynamic>):Void
+    private function validateScoreObjects(values:Array<User_Score>):Void
     {
         //for each(var score:Object in values)
         for(value in values)
         {
         //if (!score.hasOwnProperty("score"))
         //throw new Error(ERROR_MESSAGE_NO_SCORE_PROP);
-            if(!Reflect.hasField(value, "score"))
-                trace(ERROR_MESSAGE_NO_SCORE_PROP);
+            //if(!Reflect.hasField(value, "score"))
+            //    trace(ERROR_MESSAGE_NO_SCORE_PROP);
         }
     }
 
