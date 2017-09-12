@@ -6,6 +6,8 @@ import flixel.FlxState;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
+import extension.admob.AdMob;
+import extension.admob.GravityMode;
 
 /**
  * ...
@@ -40,6 +42,10 @@ class MenuState extends BaseState
         #if desktop
         FlxG.mouse.visible = false;
         #end
+        AdMob.enableTestingAds();
+        AdMob.onInterstitialEvent = onInterstitialEvent;
+        AdMob.initAndroid("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
+        AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
         FlxG.state.bgColor = 0x000000;
 
         timer = new FlxTimer().start(1.0, myCallback, 1);
@@ -69,10 +75,15 @@ class MenuState extends BaseState
 //        _pointer.x = _text3.x - _pointer.width - 10;
 //        add(_pointer);
     }
+    function onInterstitialEvent(event:String)
+    {
+        trace("The interstitial is " + event);
+    }
     private function myCallback(Timer:FlxTimer):Void
     {
         add(new FlxText(0, 200, FlxG.width, "START").setFormat(null, 18, 0xffffffff, "center"));
         add(new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
+        AdMob.showBanner();
 
         //var activateText:FlxText = add(new FlxText(0, 400, FlxG.width, "PRESS ENTER TO START").setFormat(null, 18, 0xd33bd1, "center")) as FlxText;
 
