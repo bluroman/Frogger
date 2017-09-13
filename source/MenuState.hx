@@ -40,7 +40,7 @@ class MenuState extends BaseState
     {
         super.create();
         #if desktop
-        FlxG.mouse.visible = false;
+        FlxG.mouse.visible = true;
         #end
         AdMob.enableTestingAds();
         AdMob.onInterstitialEvent = onInterstitialEvent;

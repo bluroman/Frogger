@@ -48,5 +48,49 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/extension-admob/1,6,4">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/extension-admob/1,6,4" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/extension-admob/1,6,4" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/extension-googleplayservices-basement/1,1,0">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/extension-googleplayservices-basement/1,1,0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/extension-googleplayservices-basement/1,1,0" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/flixel-addons/2,5,0">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-addons/2,5,0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-addons/2,5,0" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/flixel-ui/2,2,0">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-ui/2,2,0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/flixel-ui/2,2,0" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

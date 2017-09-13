@@ -1,15 +1,18 @@
 package;
 
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxObject;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.ui.FlxUIInputText;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+import openfl.text.TextFieldType;
 
 class PlayState extends BaseState
 {
@@ -223,8 +226,48 @@ class PlayState extends BaseState
     {
         return calculateColumn(value);
     }
+    function displayTextField():Void
+    {
+        //var inputText = new FlxUIInputText();
+        //inputText.screenCenter();
+        //add(inputText);
+
+        //FlxG.addChildBelowMouse(textfield);
+        var textfield = new TextField();
+        textfield.x = 10;
+        textfield.y = calculateRow(8);
+        textfield.type = TextFieldType.INPUT;
+        textfield.textColor = 0x000000;
+        textfield.border = true;
+        textfield.borderColor = 0xFFFF00;
+        textfield.background = true;
+        textfield.backgroundColor = 0xFFFFFF;
+        textfield.width = 200;
+        textfield.height = 40;
+        textfield.setTextFormat(new TextFormat(null, 32));
+
+        //Mobile stuff
+        #if (android || ios)
+        textfield.needsSoftKeyboard = true;
+                //This should work in "next" i think, but causes a compiler error legacy
+        //textfield.softKeyboardInputAreaOfInterest = new Rectangle(540, 440, 200, 40);
+                //This does not have any effect afaik (available on legacy only)
+        textfield.moveForSoftKeyboard = true;
+        #end
+
+        FlxG.addChildBelowMouse(textfield);
+
+        var submitButton = new FlxButton(0, 0, "Submit", function() {
+            //trace("Text is " + inputText.text);
+            trace("TextField is " + textfield.text);
+        });
+        submitButton.x = 220;
+        submitButton.y = calculateRow(8);
+        add(submitButton);
+    }
 
     //var secondsFlag:Bool;
+    var displayFlag:Bool = false;
     override public function update(elapsed:Float):Void
     {
         //TODO these first two condition based on hideGameMessageDelay can be cleaned up.
@@ -234,7 +277,13 @@ class PlayState extends BaseState
             {
                 //FlxG.state = new StartState();
                 //ToDo by hoon
-                FlxG.switchState(new ScoreState());
+                if(!displayFlag)
+                {
+                    displayFlag = true;
+                    displayTextField();
+                }
+                    //displayTextField();
+                //FlxG.switchState(new ScoreState());
                 //FlxG.state = new ScoreState();
             } else
             {
