@@ -4,7 +4,7 @@ import FScoreboard.User_Score;
 class FroggerScoreboard extends FScoreboard
 {
     public static inline var ID:String = "FlxFroggerScoreboard";
-    public static inline var MAX_SCORES:Int = 5;
+    public static inline var MAX_SCORES:Int = 10;
 
     public function new()
     {
@@ -20,7 +20,12 @@ class FroggerScoreboard extends FScoreboard
             {score:10000, name:"PRO"},
             {score:5000, name:"AMA"},
             {score:1500, name:"BLU"},
-            {score:1000, name:"ROM"}
+            {score:1000, name:"ROM1"},
+            {score:1000, name:"ROM2"},
+            {score:1000, name:"ROM3"},
+            {score:1000, name:"ROM4"},
+            {score:1000, name:"ROM5"},
+            {score:1000, name:"ROM6"}
             ];
 
             set_scores(defaultScores);

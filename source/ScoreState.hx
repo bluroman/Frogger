@@ -9,7 +9,7 @@ class ScoreState extends BaseState
 
     private var scores:Array<User_Score>;
     private var highScored:Bool = false;
-    private var newScore:User_Score;
+    private var newScore:User_Score = {score:0, name:""};
     private var newScorePosition:Int = -1;
 
     private var whichInitial:Int = 0;//the index of the initial being input, 0 through 2
@@ -31,7 +31,7 @@ class ScoreState extends BaseState
 
     var textItem:FlxText;
     var score:User_Score;
-    var playerData:User_Score = {score:0, name:""};
+    public var playerData:User_Score = {score:0, name:""};
 
     override public function create():Void
     {
@@ -42,12 +42,12 @@ class ScoreState extends BaseState
         scores = scoreboard.get_scores();
 
         newInitials = [];
-        playerData.score = playerScore;
-        playerData.name = "Hoon";
+        //playerData.score = playerScore;
+        //playerData.name = "Hoon";
 
         highScored = scoreboard.canSubmitScore(playerData);
 
-        textItem = new FlxText(0, FlxG.height / 6, FlxG.width, "SCORE RANKING");
+        textItem = new FlxText(0, FlxG.height / 7, FlxG.width, "SCORE RANKING");
         textItem.setFormat(null, 15, 0xd8d94a, "center", 0);
         add(textItem);
 
@@ -56,7 +56,8 @@ class ScoreState extends BaseState
         //find out if score can be inserted at the beginning
         if (scores[0] == null)
         {
-            score = {score:Reg.score, name:""};
+            //score = {score:Reg.score, name:""};
+            score = playerData;
             scores.push(score);
             newScore = score;
             highScored = true;
@@ -69,11 +70,12 @@ class ScoreState extends BaseState
         {
             score = scores[i];
             trace("score: " + score.score + " name: " + score.name);
-            if (highScored)
+            /*if (highScored)
                 break;
-            else if (score.score <= Reg.score)
+            else */if (score.score <= Reg.score)
             {
-                score = {score:Reg.score, name:""};
+                //score = {score:Reg.score, name:""};
+                score = playerData;
                 newScorePosition = i;
                 //scores.splice(i, 0, score);
                 scores.insert(i, score);
@@ -86,9 +88,10 @@ class ScoreState extends BaseState
         }
 
         //find out if score can be inserted at end
-        if (!highScored && totalScores < 5)
+        if (!highScored && totalScores < FroggerScoreboard.MAX_SCORES)
         {
-            score = {score:Reg.score, name:""};
+            //score = {score:Reg.score, name:""};
+            score = playerData;
             scores.push(score);
             newScorePosition = totalScores - 1;
             highScored = true;
@@ -111,11 +114,11 @@ class ScoreState extends BaseState
             textItem.setFormat(null, 15, color, "left", 0);
             add(textItem);
 
-            xpos = textItem.getPosition().x + 30;
+            xpos = textItem.getPosition().x + 20;
 
                 //initials - loop to position each separately.
             //for (var j:Number = 0; j < 3; j++)
-            for (j in 0...3)
+            for (j in 0...4)
             {
 
                 textItem = new FlxText(xpos, ypos, 15, scoreObj.name.charAt(j));
@@ -140,7 +143,7 @@ class ScoreState extends BaseState
         }
         if (highScored)
         {
-            letterPreview = new FlxText((FlxG.width - 100 ) * .5, 500, 100, "_");
+            /*letterPreview = new FlxText((FlxG.width - 100 ) * .5, 500, 100, "_");
             letterPreview.setFormat(null, 70, 0xc83fbb, "center", 0);
             add(letterPreview);
 
@@ -168,7 +171,7 @@ class ScoreState extends BaseState
 
             textItem = new FlxText(0, downArrow.x + downArrow.height, FlxG.width, "USE JOYSTICK TO SELECT LETTER");
             textItem.setFormat(null, 15, 0xc83fbb, "center", 0);
-            add(textItem);
+            add(textItem);*/
 
         }
         else
@@ -189,7 +192,7 @@ class ScoreState extends BaseState
 
     override public function update(elapsed:Float):Void
     {
-        #if desktop
+        #if (desktop && mobile)
         if (highScored)
         {
             var str:String = newScore.name;
@@ -276,7 +279,8 @@ class ScoreState extends BaseState
 
             //scoreboard.scores = scores;
             scoreboard.set_scores(scores);
-            FlxG.switchState(new MenuState());
+            //For Test by hoon
+            //FlxG.switchState(new MenuState());
             //FlxG.state = new MenuState();
 
         }

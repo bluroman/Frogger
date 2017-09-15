@@ -10,9 +10,15 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIInputText;
+import flixel.util.FlxColor;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFieldType;
+import openfl.text.TextFormatAlign;
+import openfl.text.TextFieldAutoSize;
+import openfl.Lib;
+import FScoreboard.User_Score;
+
 
 class PlayState extends BaseState
 {
@@ -34,6 +40,11 @@ class PlayState extends BaseState
 
     private var gameMessageGroup:FlxTypedSpriteGroup<FlxSprite>;
     private var messageText:FlxText;
+
+    var enterUserNameGroup:FlxTypedSpriteGroup<FlxSprite>;
+    var enterYourName:FlxText;
+    var inputField:TextField;
+    var okButton:FlxButton;
 
     private var bases:Array<Home>;
     private var homeBaseGroup:FlxTypedGroup<Home>;
@@ -103,6 +114,19 @@ class PlayState extends BaseState
         messageText = new FlxText(0, 4, 150, "TIME 99").setFormat(null, 18, 0xffff00, "center");
         gameMessageGroup.visible = false;
         gameMessageGroup.add(messageText);
+
+        enterUserNameGroup = new FlxTypedSpriteGroup<FlxSprite>(0, calculateRow(8));
+        add(enterUserNameGroup);
+
+        var enterUserNameBG:FlxSprite = new FlxSprite(0, 0);
+        enterUserNameBG.makeGraphic(480, 40, 0xff000000);
+        enterUserNameGroup.add(enterUserNameBG);
+
+        enterYourName = new FlxText(0, 4, 240, "ENTER YOUR NAME:").setFormat(null, 18, 0xffff00, "left");
+        enterUserNameGroup.visible = false;
+        enterUserNameGroup.add(enterYourName);
+
+        //displayTextField();
 
         // Create home bases sprites and an array to store references to them
         /*bases = new Array<Home>();
@@ -228,23 +252,46 @@ class PlayState extends BaseState
     }
     function displayTextField():Void
     {
-        //var inputText = new FlxUIInputText();
-        //inputText.screenCenter();
-        //add(inputText);
-
         //FlxG.addChildBelowMouse(textfield);
+        var oflScaleX = Lib.current.stage.stageWidth / FlxG.width;
+        var oflScaleY = Lib.current.stage.stageHeight / FlxG.height;
         var textfield = new TextField();
-        textfield.x = 10;
-        textfield.y = calculateRow(8);
+        var textformat = new TextFormat();
+        var fontName = messageText.font;
+
+        textformat.font = fontName;
+        textformat.align = TextFormatAlign.LEFT;
+        textformat.size = 32 * oflScaleY;
+        textformat.color = 0xffff00;
+
+        textfield.defaultTextFormat = textformat;
+
+        textfield.embedFonts = true;
+        //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
         textfield.type = TextFieldType.INPUT;
-        textfield.textColor = 0x000000;
-        textfield.border = true;
-        textfield.borderColor = 0xFFFF00;
+        textfield.x = 240 * oflScaleX;
+        textfield.y = calculateRow(8) * oflScaleY;
         textfield.background = true;
-        textfield.backgroundColor = 0xFFFFFF;
-        textfield.width = 200;
-        textfield.height = 40;
-        textfield.setTextFormat(new TextFormat(null, 32));
+        textfield.backgroundColor = 0xff0000ff;
+        textfield.width = 240 * oflScaleX;
+        textfield.height = 40 * oflScaleY;
+        textfield.border = true;
+        textfield.borderColor = 0xff000000;
+        
+        textfield.maxChars = 9;
+        textfield.autoSize = TextFieldAutoSize.LEFT;
+        textfield.text = " ";
+        
+        //textfield.type = TextFieldType.INPUT;
+        //textfield.textColor = 0x000000;
+        //textfield.border = true;
+        //textfield.borderColor = 0xFFFF00;
+        //textfield.background = true;
+        //textfield.backgroundColor = 0xFFFFFF;
+        //textfield.width = 200;
+        //textfield.height = 40;
+        //textfield.setTextFormat(new TextFormat(null, 32));
+        trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
 
         //Mobile stuff
         #if (android || ios)
@@ -256,14 +303,32 @@ class PlayState extends BaseState
         #end
 
         FlxG.addChildBelowMouse(textfield);
+        FlxG.stage.focus = textfield;
+        textfield.setSelection(0, textfield.text.length);
+        textfield.visible = true;
+        
 
-        var submitButton = new FlxButton(0, 0, "Submit", function() {
+        //add(textfield);
+
+        var submitButton = new FlxButton(0, 0, "OK", function() {
             //trace("Text is " + inputText.text);
             trace("TextField is " + textfield.text);
+            FlxG.removeChild(textfield);
+            var scoreState:ScoreState = new ScoreState();
+            scoreState.playerData.name = textfield.text;
+            scoreState.playerData.score = Reg.score = 1100;
+            FlxG.switchState(scoreState);
         });
-        submitButton.x = 220;
-        submitButton.y = calculateRow(8);
-        add(submitButton);
+        submitButton.makeGraphic(Std.int(40.0 * oflScaleX), Std.int(40.0 * oflScaleY), FlxColor.BLACK);
+        //submitButton.color = 0x0000ff;
+        submitButton.label.color = 0xffffff;
+        submitButton.label.setFormat(null, 18, 0xffffff, "center");
+        //submitButton.width = 40;
+        //submitButton.height = 40;
+        //submitButton.setSize(40 * oflScaleY, 40 * oflScaleY);
+        submitButton.x = 400 * oflScaleX;
+        //submitButton.y = calculateRow(8);
+        enterUserNameGroup.add(submitButton);
     }
 
     //var secondsFlag:Bool;
@@ -280,6 +345,7 @@ class PlayState extends BaseState
                 if(!displayFlag)
                 {
                     displayFlag = true;
+                    enterUserNameGroup.visible = true;
                     displayTextField();
                 }
                     //displayTextField();
