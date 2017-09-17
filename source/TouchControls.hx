@@ -41,36 +41,36 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
 
             //spriteButtons[0] = new FlxSprite(x, y)
         ButtonsUp = new FlxSprite(0, 0);
-        ButtonsUp.color = 0x999999;
-        ButtonsUp.makeGraphic(100, 100);
+        //ButtonsUp.color = 0x999999;
+        //ButtonsUp.makeGraphic(100, 100);
+        ButtonsUp.loadGraphic(AssetPaths.touchUp__png, 100, 100);
         add(ButtonsUp);
-        //spriteButtons.push(ButtonsUp);
-        txt = new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center");
-        add(txt);
+        //txt = new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center");
+        //add(txt);
 
-        ButtonsDown = new FlxSprite(ButtonsUp.width + padding, 0);
-        ButtonsDown.color = 0x999999;
-        ButtonsDown.makeGraphic(100, 100);
+        ButtonsDown = new FlxSprite(100, 0);
+        //ButtonsDown.color = 0x999999;
+        //ButtonsDown.makeGraphic(100, 100);
+        ButtonsDown.loadGraphic(AssetPaths.touchDown__png, 100, 100);
         add(ButtonsDown);
-        //spriteButtons.push(ButtonsDown);
-        txt = new FlxText(ButtonsDown.x, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center");
-        add(txt);
+        //txt = new FlxText(ButtonsDown.x, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center");
+        //add(txt);
 
-        ButtonsLeft = new FlxSprite(ButtonsDown.x + ButtonsDown.width + padding, 0);
-        ButtonsLeft.color = 0x999999;
-        ButtonsLeft.makeGraphic(100, 100);
+        ButtonsLeft = new FlxSprite(480 - 200, 0);
+        //ButtonsLeft.color = 0x999999;
+        //ButtonsLeft.makeGraphic(100, 100);
+        ButtonsLeft.loadGraphic(AssetPaths.touchLeft__png, 100, 100);
         add(ButtonsLeft);
-        //spriteButtons.push(ButtonsLeft);
-        txt = new FlxText(ButtonsLeft.x, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center");
-        add(txt);
+        //txt = new FlxText(ButtonsLeft.x, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center");
+        //add(txt);
 
-        ButtonsRight = new FlxSprite(ButtonsLeft.x + ButtonsLeft.width + padding, 0);
-        ButtonsRight.color = 0x999999;
-        ButtonsRight.makeGraphic(100, 100);
+        ButtonsRight = new FlxSprite(480 - 100, 0);
+        //ButtonsRight.color = 0x999999;
+        //ButtonsRight.makeGraphic(100, 100);
+        ButtonsRight.loadGraphic(AssetPaths.touchRight__png, 100, 100);
         add(ButtonsRight);
-        //spriteButtons.push(ButtonsRight);
-        txt = new FlxText(ButtonsRight.x, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center");
-        add(txt);
+        //txt = new FlxText(ButtonsRight.x, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center");
+        //add(txt);
 
 
     }
@@ -156,10 +156,10 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         }
         else if (FlxG.mouse.justReleased)
         {
-            ButtonsUp.color = 0x999999;
-            ButtonsDown.color = 0x999999;
-            ButtonsLeft.color = 0x999999;
-            ButtonsRight.color = 0x999999;
+            ButtonsUp.color = 0xffffff;
+            ButtonsDown.color = 0xffffff;
+            ButtonsLeft.color = 0xffffff;
+            ButtonsRight.color = 0xffffff;
         }
 #end
 #if FLX_TOUCH
@@ -190,10 +190,10 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         }
         else if (touch.justReleased)
         {
-            ButtonsUp.color = 0x999999;
-            ButtonsDown.color = 0x999999;
-            ButtonsLeft.color = 0x999999;
-            ButtonsRight.color = 0x999999;
+            ButtonsUp.color = 0xffffff;
+            ButtonsDown.color = 0xffffff;
+            ButtonsLeft.color = 0xffffff;
+            ButtonsRight.color = 0xffffff;
         }
     }
 #end

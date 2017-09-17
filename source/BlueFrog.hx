@@ -18,6 +18,8 @@ class BlueFrog extends FlxSprite
 	 */
     private var _originalX:Int;
     private var _log:Log;
+    var _moveRight:Bool;
+    var _moveLeft:Bool;
 
     /**
 	 * This is the constructor for the blue froggy.
@@ -34,12 +36,16 @@ class BlueFrog extends FlxSprite
         _originalX = Std.int(log.x);
         _log = log;
         //resetShotClock();
+        x = _log.x;
+        y = _log.y;
+        _moveRight = true;
+        _moveLeft = false;
 
         // Time to create a simple animation! "alien.png" has 3 frames of animation in it.
         // We want to play them in the order 1, 2, 3, 1 (but of course this stuff is 0-index).
         // To avoid a weird, annoying appearance the framerate is randomized a little bit
         // to a value between 6 and 10 (6+4) frames per second.
-        this.animation.add("Default", [0, 1], 15, true);
+        this.animation.add("Default", [0, 1], 10, true);
 
         // Now that the animation is set up, it's very easy to play it back!
         this.animation.play("Default");
@@ -53,18 +59,46 @@ class BlueFrog extends FlxSprite
 	 */
     override public function update(elapsed:Float):Void
     {
-        //x = _log.x;
-        y = _log.y;
-
-        if (x < _log.x)
+        super.update(elapsed);
+        if(!_log.isOnScreen())
             x = _log.x;
-        else
-            x += 3;
+        //x = _log.x;
+        //y = _log.y;
+        if(_moveRight)
+        {
+            facing = FlxObject.RIGHT;
+            angle = 90;
+            x += 2;
+            if(x > _log.x + _log.width - width)
+            {
+                x = _log.x + _log.width - width;
+                _moveRight = false;
+                _moveLeft = true;
+            }
+        }
+        if(_moveLeft)
+        {
+            facing = FlxObject.LEFT;
+            angle = -90;
+            x -= 1;
+            if(x < _log.x)
+            {
+                x = _log.x;
+                _moveLeft = false;
+                _moveRight = true;
+            }
+        }
 
-        if ( x > _log.x + _log.width - width)
-            x = _log.x + _log.width - width;
-        else
-            x -= 3;
+
+//        if (x < _log.x)
+//            x = _log.x;
+//        else
+//            x += 3;
+//
+//        if ( x > _log.x + _log.width - width)
+//            x = _log.x + _log.width - width;
+//        else
+//            x -= 3;
 
 
 
@@ -101,7 +135,7 @@ class BlueFrog extends FlxSprite
 //            bullet.velocity.y = 65;
 //        }
 
-        super.update(elapsed);
+
     }
 
     /**

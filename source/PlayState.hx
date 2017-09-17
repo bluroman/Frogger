@@ -46,9 +46,9 @@ class PlayState extends BaseState
     var inputField:TextField;
     var okButton:FlxButton;
 
-    private var bases:Array<Home>;
+    //private var bases:Array<Home>;
     private var homeBaseGroup:FlxTypedGroup<Home>;
-    private var logGroup:FlxTypedGroup<Log>;
+    private var logGroup:FlxGroup;
     private var turtleGroup:FlxGroup;
     private var player:Frog;
     private var carGroup:FlxGroup;
@@ -69,6 +69,7 @@ class PlayState extends BaseState
     private var totalElapsed:Float = 0;
     private var snake:Snake;
     private var blueFrog:BlueFrog;
+    var alligator:Alligator;
 	override public function create():Void
 	{
 		super.create();
@@ -149,7 +150,7 @@ class PlayState extends BaseState
         homeBaseGroup.add(new Home(28 + 96 * 4, 59 + 22, 200, 200, 10, this));
 
         // Create logs and turtles
-        logGroup = new FlxTypedGroup<Log>();
+        logGroup = new FlxGroup();
         add(logGroup);
         turtleGroup = new FlxGroup();
         add(turtleGroup);
@@ -158,7 +159,7 @@ class PlayState extends BaseState
 
         logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
         logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
-        logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
+        //logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
 
         turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxObject.LEFT, actorSpeed, this));
@@ -171,12 +172,15 @@ class PlayState extends BaseState
         logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
         logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
 
-        //blueFrog = new BlueFrog(100, 100, 0xffffff, logGroup.getRandom(0, logGroup.length));
-        //add(blueFrog);
+        blueFrog = new BlueFrog(100, 100, 0xffffff,cast(logGroup.getFirstAlive(), Log));
+        logGroup.add(blueFrog);
 
         turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
         turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
+
+        alligator = new Alligator((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), FlxObject.RIGHT, actorSpeed, this);
+        logGroup.add(alligator);
 
         snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed, this);
         add(snake);
@@ -230,6 +234,9 @@ class PlayState extends BaseState
 
         gameState = GameStates.PLAYING;
         FlxG.sound.play("Theme");
+        trace("Log Group: " + logGroup.length);
+        trace("Turtle Group: " + turtleGroup.length);
+        trace("Car Group: " + carGroup.length);
 	}
     /**
          * Helper function to find the X position of a column on the game's grid
@@ -353,7 +360,8 @@ class PlayState extends BaseState
                 //FlxG.state = new ScoreState();
             } else
             {
-                hideGameMessageDelay -= 1;//FlxG.elapsed;
+                hideGameMessageDelay -= 1;
+                trace("HideGameMessageDelay: " + hideGameMessageDelay);
             }
         } else if (gameState == GameStates.LEVEL_OVER)
         {
@@ -397,7 +405,7 @@ class PlayState extends BaseState
                 timeUp();
             } else
             {
-                timer -= 1;//FlxG.elapsed;
+                timer -= Std.int(100 * elapsed);
                 timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
 
                 if (timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
@@ -427,7 +435,14 @@ class PlayState extends BaseState
             //scoreTxt.text = FlxG.score.toString();
         } else if (gameState == GameStates.DEATH_OVER)
         {
-            restart();
+            //restart();
+            if (hideGameMessageDelay == 0)
+            {
+                restart();
+            } else
+            {
+                hideGameMessageDelay -= 1;//FlxG.elapsed;
+            }
         }
 
         if (lastLifeScore != Reg.score && Reg.score % nextLife == 0)
@@ -476,7 +491,7 @@ class PlayState extends BaseState
     private function baseCollision(target:Home, player:Frog):Void
     {
         var timeLeftOver:Int = Math.round(timer / FlxG.updateFramerate);
-        trace("Base Collision Mode:" + target.mode + "TimeLeftOver:" + timeLeftOver);
+        trace("Base Collision Mode:" + target.mode + "TimeLeftOver: " + timeLeftOver);
 
         switch (target.mode)
         {
@@ -579,6 +594,7 @@ class PlayState extends BaseState
                 resetBases();
             //FlxG.level ++;
             Reg.level++;
+            levelTxt.text = Std.string(Reg.level);
             // Change game state to Playing so animation can continue.
             gameState = GameStates.PLAYING;
             timer = gameTime;
@@ -615,6 +631,7 @@ class PlayState extends BaseState
         gameState = GameStates.COLLISION;
         removeLife();
         player.death(isWater);
+        hideGameMessageDelay = 30;
     }
     private function gameOver():Void
     {
