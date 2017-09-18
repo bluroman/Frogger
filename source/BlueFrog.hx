@@ -68,7 +68,7 @@ class BlueFrog extends FlxSprite
         {
             facing = FlxObject.RIGHT;
             angle = 90;
-            x += 2;
+            x += 3;
             if(x > _log.x + _log.width - width)
             {
                 x = _log.x + _log.width - width;

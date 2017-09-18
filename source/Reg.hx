@@ -20,4 +20,8 @@ class Reg
 	public static var score:Int = 0;
     public static var level:Int = 0;
     public static var PS:PlayState;
+    /**
+    * default game time (sec)
+**/
+    public static var defaultTime:Int = 45;
 }

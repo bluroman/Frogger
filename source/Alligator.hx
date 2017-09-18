@@ -1,4 +1,5 @@
 package ;
+import flixel.math.FlxPoint;
 class Alligator extends WrappingSprite{
     public static inline var SPRITE_WIDTH = 130;
     public static inline var SPRITE_HEIGHT = 40;
@@ -17,8 +18,11 @@ class Alligator extends WrappingSprite{
 
         loadGraphic(AssetPaths.alligator1_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
-        animation.add("idle", [0, 1], 1, true);
+        animation.add("idle", [0, 0, 0, 0, 1, 1], 2, true);
 
         animation.play("idle");
+        //set_width(150);
+        //scale = new FlxPoint(150.0/130.0, 1.0);
+        //updateHitbox();
     }
 }

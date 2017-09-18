@@ -50,11 +50,11 @@ class PlayState extends BaseState
     var okButton:FlxButton;
 
     //private var bases:Array<Home>;
-    private var homeBaseGroup:FlxTypedGroup<Home>;
-    private var logGroup:FlxGroup;
-    private var turtleGroup:FlxGroup;
+    private var homeBaseGroup:HomeBaseGroup;
+    private var logGroup:LogGroup;
+    private var turtleGroup:TurtleGroup;
     private var player:Frog;
-    private var carGroup:FlxGroup;
+    private var carGroup:CarGroup;
 
     private var timeTxt:FlxText;
     private var timerBarBackground:FlxSprite;
@@ -73,19 +73,18 @@ class PlayState extends BaseState
     private var snake:Snake;
     private var blueFrog:BlueFrog;
     var alligator:Alligator;
+    var backgroundGroup:BackgroundGroup;
 	override public function create():Void
 	{
 		super.create();
+        FlxG.debugger.drawDebug = true;
         Reg.PS = this;
 
         lifeSprites = new Array();
 
         // Create the BG sprites
-        add(new FlxSprite(0, calculateRow(1) + 19 + 20, AssetPaths.water_background1__png));
-
-        add(new FlxSprite(0, calculateRow(14), AssetPaths.bottom_ground__png));
-        add(new FlxSprite(0, calculateRow(8), AssetPaths.shore_sprite__png));
-        add(new FlxSprite(0, calculateRow(1) + 19, AssetPaths.top_ground1__png));
+        backgroundGroup = new BackgroundGroup();
+        add(backgroundGroup);
 
         //CONFIG::mobile
         //{
@@ -96,7 +95,7 @@ class PlayState extends BaseState
         //TODO Need to simplify level
 
         // Set up main variable properties
-        gameTime = (30 - Reg.level) * FlxG.updateFramerate;//FlxG.framerate;
+        gameTime = Reg.defaultTime * FlxG.updateFramerate;//FlxG.framerate;
         trace("gameTime: "+ gameTime);
         timer = gameTime;
         timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
@@ -132,46 +131,15 @@ class PlayState extends BaseState
         enterUserNameGroup.visible = false;
         enterUserNameGroup.add(enterYourName);
 
-        homeBaseGroup = new FlxTypedGroup<Home>();
+        homeBaseGroup = new HomeBaseGroup();
         add(homeBaseGroup);
-        homeBaseGroup.add(new Home(28, 59 + 22, 200, 200,10));
-        homeBaseGroup.add(new Home(28 + 96, 59 + 22, 200, 200,10));
-        homeBaseGroup.add(new Home(28 + 96 * 2, 59 + 22, 200, 200, 10));
-        homeBaseGroup.add(new Home(28 + 96 * 3, 59 + 22, 200, 200, 10));
-        homeBaseGroup.add(new Home(28 + 96 * 4, 59 + 22, 200, 200, 10));
 
         // Create logs and turtles
-        logGroup = new FlxGroup();
+        logGroup = new LogGroup(actorSpeed);
         add(logGroup);
-        turtleGroup = new FlxGroup();
+
+        turtleGroup = new TurtleGroup(actorSpeed);
         add(turtleGroup);
-        //logGroup = add(new FlxGroup()) as FlxGroup;
-        //turtleGroup = add(new FlxGroup()) as FlxGroup;
-
-        logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed));
-        logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed));
-        //logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
-
-        turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed));
-        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxObject.LEFT, actorSpeed));
-        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed));
-
-        logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2));
-        logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2));
-
-        logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
-        logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
-        logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
-
-        blueFrog = new BlueFrog(100, 100, 0xffffff,cast(logGroup.getFirstAlive(), Log));
-        logGroup.add(blueFrog);
-
-        turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed));
-        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed));
-        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed));
-
-        alligator = new Alligator((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), FlxObject.RIGHT, actorSpeed);
-        logGroup.add(alligator);
 
         snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
         add(snake);
@@ -181,26 +149,8 @@ class PlayState extends BaseState
         add(player);
 
         // Create Cars
-        carGroup = new FlxGroup();
+        carGroup = new CarGroup(actorSpeed);
         add(carGroup);
-
-        carGroup.add(new Truck(0, calculateRow(9), FlxObject.LEFT, actorSpeed));
-        carGroup.add(new Truck(270, calculateRow(9), FlxObject.LEFT, actorSpeed));
-
-        carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2));
-        carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2));
-
-        carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed));
-        carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed));
-
-
-        carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
-
-        carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
 
         //var spotlights = new ZSpotLight(0xe0000000);
         //spotlights.add_to_state();
@@ -309,7 +259,7 @@ class PlayState extends BaseState
 
         FlxG.addChildBelowMouse(textfield);
         FlxG.stage.focus = textfield;
-        textfield.setSelection(0, textfield.text.length);
+        //textfield.setSelection(0, textfield.text.length);
         textfield.visible = true;
         
 
@@ -403,7 +353,7 @@ class PlayState extends BaseState
                 timeUp();
             } else
             {
-                timer -= Std.int(100 * elapsed);
+                timer -= 1;
                 timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
 
                 if (timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
@@ -489,7 +439,7 @@ class PlayState extends BaseState
     private function baseCollision(target:Home, player:Frog):Void
     {
         var timeLeftOver:Int = Math.round(timer / FlxG.updateFramerate);
-        trace("Base Collision Mode:" + target.mode + "TimeLeftOver: " + timeLeftOver);
+        trace("Base Collision Mode:" + target.mode + " TimeLeftOver: " + timeLeftOver);
 
         switch (target.mode)
         {
@@ -589,9 +539,10 @@ class PlayState extends BaseState
         {
             // Test to see if Level is over, if so reset all the bases.
             if (gameState == GameStates.LEVEL_OVER)
+            {
                 resetBases();
-            //FlxG.level ++;
-            Reg.level++;
+                Reg.level++;
+            }
             levelTxt.text = Std.string(Reg.level);
             // Change game state to Playing so animation can continue.
             gameState = GameStates.PLAYING;
