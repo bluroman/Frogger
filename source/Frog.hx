@@ -28,7 +28,7 @@ class Frog extends FlxSprite
          * @param X start X
          * @param Y start Y
          */
-    public function new(X:Float, Y:Float, parentState:PlayState)
+    public function new(X:Float, Y:Float)
     {
         super(X, Y);
 
@@ -64,7 +64,7 @@ class Frog extends FlxSprite
         set_facing(FlxObject.UP);
 
             // Save an instance of the PlayState to help with collision detection and movement
-        state = parentState;
+        state = Reg.PS;
     }
 
     /**

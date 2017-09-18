@@ -11,9 +11,9 @@ class Alligator extends WrappingSprite{
          * @param dir direction the sprite will move in
          * @param speed speed in pixels the sprite will move on update
          */
-    public function new(x:Float, y:Float, direction:UInt, speed:Int, parentState:PlayState)
+    public function new(x:Float, y:Float, direction:UInt, speed:Int)
     {
-        super(x, y, null, direction, speed, parentState);
+        super(x, y, null, direction, speed);
 
         loadGraphic(AssetPaths.alligator1_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
 

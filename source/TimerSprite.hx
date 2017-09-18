@@ -23,10 +23,10 @@ class TimerSprite extends WrappingSprite
          * @param dir This represents the direction the sprite will be facing
          * @param speed This is the speed in pixels the sprite will move on update
          */
-    public function new(x:Float, y:Float, ?SimpleGraphic:FlxGraphicAsset = null, delay:Int = 400, startTime:Int = 400, dir:Int = 1, speed:Int = 1, parentState:PlayState)
+    public function new(x:Float, y:Float, ?SimpleGraphic:FlxGraphicAsset = null, delay:Int = 400, startTime:Int = 400, dir:Int = 1, speed:Int = 1)
     {
 
-        super(x, y, SimpleGraphic, dir, speed, parentState);
+        super(x, y, SimpleGraphic, dir, speed);
 
         this.hideTimer = delay;
         timer = startTime;

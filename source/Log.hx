@@ -21,7 +21,7 @@ class Log extends WrappingSprite
          * @param direction the direction the sprite will move in
          * @param speed the speed in pixels in which the sprite will move on update
          */
-    public function new(x:Float, y:Float, type:Int, dir:Int, velocity:Int, parentState:PlayState)
+    public function new(x:Float, y:Float, type:Int, dir:Int, velocity:Int)
     {
 
         var simpleGraphic:FlxGraphicAsset = null;
@@ -39,7 +39,7 @@ class Log extends WrappingSprite
             simpleGraphic = AssetPaths.log_mid__png;
         }
 
-        super(x, y, simpleGraphic, dir, velocity, parentState);
+        super(x, y, simpleGraphic, dir, velocity);
 
         //blueFroggy = new BlueFrog(0, 0, 0xffffff);
 

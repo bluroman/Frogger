@@ -25,7 +25,7 @@ class WrappingSprite extends FlxSprite
              * @param dir Direction, supports Right (1) and Left (0)
              * @param speed how many pixel sprite will move each update.
              */
-    public function new(X:Float = 0, Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset = null, dir:Int , speed:Int = 1, parentState:PlayState)
+    public function new(X:Float = 0, Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset = null, dir:Int , speed:Int = 1)
     {
         super(X, Y, SimpleGraphic);
         this.leftBounds = 0;
@@ -35,7 +35,7 @@ class WrappingSprite extends FlxSprite
 
         facing = dir;
 
-        state = parentState;
+        state = Reg.PS;
     }
 
         /**
@@ -43,6 +43,7 @@ class WrappingSprite extends FlxSprite
              * be repositioned to the opposite side of the screen. If instance is facing right, it will restart
              * on the left of the screen. The opposite will happen for anything facing left.
              */
+
     override public function update(elapsed:Float):Void
     {
 

@@ -92,5 +92,27 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/hscript/2,1,1">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/hscript/2,1,1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/hscript/2,1,1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|C:/HaxeToolkit/haxe/lib/zerolib/git">
+        <CLASSES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/zerolib/git" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/HaxeToolkit/haxe/lib/zerolib/git" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

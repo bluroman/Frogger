@@ -23,9 +23,9 @@ class Home extends TimerSprite
          * @param startTime where the timer should start. Pass in -1 to disable the timer.
          * @param odds the randomness that one of the 3 states will be reached (empty, bonus, or no bonus)
          */
-    public function new(x:Float, y:Float, delay:Int = 400, startTime:Int = 400, odds:Int = 10, parentState:PlayState)
+    public function new(x:Float, y:Float, delay:Int = 400, startTime:Int = 400, odds:Int = 10)
     {
-        super(x, y, null, delay, startTime, 0, 0, parentState);
+        super(x, y, null, delay, startTime, 0, 0);
 
         this.odds = odds;
 

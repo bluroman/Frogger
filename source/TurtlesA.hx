@@ -15,9 +15,9 @@ class TurtlesA extends TimerSprite
          * @param startTime where the timer should start. Pass in -1 to disable the timer.
          * @param speed speed in pixels the turtle will move in
          */
-    public function new(x:Float, y:Float, delay:Int = 300, startTime:Int = 300, dir:Int = 0x10, speed:Int = 1, parentState:PlayState)
+    public function new(x:Float, y:Float, delay:Int = 300, startTime:Int = 300, dir:Int = 0x10, speed:Int = 1)
     {
-        super(x, y, null, delay, startTime, dir, speed, parentState);
+        super(x, y, null, delay, startTime, dir, speed);
 
         loadGraphic(AssetPaths.turtle2_sprite__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
 

@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxPoint;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxObject;
@@ -18,6 +19,8 @@ import openfl.text.TextFormatAlign;
 import openfl.text.TextFieldAutoSize;
 import openfl.Lib;
 import FScoreboard.User_Score;
+import zerolib.ZSpotLight;
+import zerolib.ZCountDown;
 
 
 class PlayState extends BaseState
@@ -73,6 +76,8 @@ class PlayState extends BaseState
 	override public function create():Void
 	{
 		super.create();
+        Reg.PS = this;
+
         lifeSprites = new Array();
 
         // Create the BG sprites
@@ -127,27 +132,13 @@ class PlayState extends BaseState
         enterUserNameGroup.visible = false;
         enterUserNameGroup.add(enterYourName);
 
-        //displayTextField();
-
-        // Create home bases sprites and an array to store references to them
-        /*bases = new Array<Home>();
-        bases.push(new Home(calculateColumn(0) + 15, calculateRow(2), 200, 200, this));
-        bases.push(new Home(calculateColumn(3) - 5, calculateRow(2), 200, 200, this));
-        bases.push(new Home(calculateColumn(5) + 20, calculateRow(2), 200, 200, this));
-        bases.push(new Home(calculateColumn(8), calculateRow(2), 200, 200, this));
-        bases.push(new Home(calculateColumn(11) - 15, calculateRow(2), 200, 200, this));
-        for (base in bases)
-        {
-            trace("base", base);
-            add(base);
-        }*/
         homeBaseGroup = new FlxTypedGroup<Home>();
         add(homeBaseGroup);
-        homeBaseGroup.add(new Home(28, 59 + 22, 200, 200,10, this));
-        homeBaseGroup.add(new Home(28 + 96, 59 + 22, 200, 200,10, this));
-        homeBaseGroup.add(new Home(28 + 96 * 2, 59 + 22, 200, 200, 10, this));
-        homeBaseGroup.add(new Home(28 + 96 * 3, 59 + 22, 200, 200, 10, this));
-        homeBaseGroup.add(new Home(28 + 96 * 4, 59 + 22, 200, 200, 10, this));
+        homeBaseGroup.add(new Home(28, 59 + 22, 200, 200,10));
+        homeBaseGroup.add(new Home(28 + 96, 59 + 22, 200, 200,10));
+        homeBaseGroup.add(new Home(28 + 96 * 2, 59 + 22, 200, 200, 10));
+        homeBaseGroup.add(new Home(28 + 96 * 3, 59 + 22, 200, 200, 10));
+        homeBaseGroup.add(new Home(28 + 96 * 4, 59 + 22, 200, 200, 10));
 
         // Create logs and turtles
         logGroup = new FlxGroup();
@@ -157,59 +148,63 @@ class PlayState extends BaseState
         //logGroup = add(new FlxGroup()) as FlxGroup;
         //turtleGroup = add(new FlxGroup()) as FlxGroup;
 
-        logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
-        logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
+        logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed));
+        logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed));
         //logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed, this));
 
-        turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed, this));
-        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxObject.LEFT, actorSpeed, this));
-        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed, this));
+        turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed));
+        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxObject.LEFT, actorSpeed));
+        turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxObject.LEFT, actorSpeed));
 
-        logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2, this));
-        logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2, this));
+        logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2));
+        logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2));
 
-        logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed,this));
-        logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
-        logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed, this));
+        logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
+        logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
+        logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed));
 
         blueFrog = new BlueFrog(100, 100, 0xffffff,cast(logGroup.getFirstAlive(), Log));
         logGroup.add(blueFrog);
 
-        turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed, this));
-        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
-        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed, this));
+        turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxObject.LEFT, actorSpeed));
+        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed));
+        turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxObject.LEFT, actorSpeed));
 
-        alligator = new Alligator((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), FlxObject.RIGHT, actorSpeed, this);
+        alligator = new Alligator((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), FlxObject.RIGHT, actorSpeed);
         logGroup.add(alligator);
 
-        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed, this);
+        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
         add(snake);
 
         // Create Player
-        player = new Frog(calculateColumn(6), calculateRow(14) + 6, this);
+        player = new Frog(calculateColumn(6), calculateRow(14) + 6);
         add(player);
 
         // Create Cars
         carGroup = new FlxGroup();
         add(carGroup);
 
-        carGroup.add(new Truck(0, calculateRow(9), FlxObject.LEFT, actorSpeed, this));
-        carGroup.add(new Truck(270, calculateRow(9), FlxObject.LEFT, actorSpeed, this));
+        carGroup.add(new Truck(0, calculateRow(9), FlxObject.LEFT, actorSpeed));
+        carGroup.add(new Truck(270, calculateRow(9), FlxObject.LEFT, actorSpeed));
 
-        carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2, this));
-        carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2, this));
+        carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2));
+        carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxObject.RIGHT, actorSpeed* 2));
 
-        carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed, this));
-        carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed, this));
+        carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed));
+        carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxObject.LEFT, actorSpeed));
 
 
-        carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed, this));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed, this));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed, this));
+        carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
+        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
+        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxObject.RIGHT, actorSpeed));
 
-        carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed, this));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed, this));
-        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed, this));
+        carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
+        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
+        carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxObject.LEFT, actorSpeed));
+
+        //var spotlights = new ZSpotLight(0xe0000000);
+        //spotlights.add_to_state();
+        //spotlights.add_light_target(player, 100);
 
         // Create Time text
         timeTxt = new FlxText(FlxG.width - 70, LIFE_Y, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
@@ -232,6 +227,9 @@ class PlayState extends BaseState
         player.touchControls = touchControls;
         add(touchControls);
 
+        var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
+        add(_timer);
+
         gameState = GameStates.PLAYING;
         FlxG.sound.play("Theme");
         trace("Log Group: " + logGroup.length);
@@ -239,10 +237,10 @@ class PlayState extends BaseState
         trace("Car Group: " + carGroup.length);
 	}
     /**
-         * Helper function to find the X position of a column on the game's grid
-         * @param value column number
-         * @return returns number based on the value * TILE_SIZE
-         */
+    * Helper function to find the X position of a columm on the game's grid
+    * @param value colum number
+    * @return returns number based on the value * TILE_SIZE
+**/
     public function calculateColumn(value:Int):Int
     {
         return value * TILE_SIZE;

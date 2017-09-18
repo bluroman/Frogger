@@ -19,9 +19,9 @@ class Car extends WrappingSprite
          * @param direction the direction the sprite will move in
          * @param speed the speed in pixels in which the sprite will move on update
          */
-    public function new(x:Float, y:Float, type:Int, direction:Int, speed:Int, parentState:PlayState)
+    public function new(x:Float, y:Float, type:Int, direction:Int, speed:Int)
     {
-        super(x, y, null, direction, speed, parentState);
+        super(x, y, null, direction, speed);
 
         loadGraphic(AssetPaths.car_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
