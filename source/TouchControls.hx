@@ -71,6 +71,11 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         add(ButtonsRight);
         //txt = new FlxText(ButtonsRight.x, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center");
         //add(txt);
+        // HUD elements shouldn't move with the camera
+        forEach(function(spr:FlxSprite)
+        {
+            spr.scrollFactor.set(0, 0);
+        });
 
 
     }
@@ -92,7 +97,7 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         }
         //var pt:FlxPoint = new FlxPoint(FlxG.mouse.x, FlxG.mouse.y);
         #if FLX_MOUSE
-        tmpBool = FlxG.mouse.justPressed && pressedButton.overlapsPoint(FlxG.mouse.getPosition());
+        tmpBool = FlxG.mouse.justPressed && pressedButton.overlapsPoint(FlxG.mouse.getScreenPosition());
         #end
         #if FLX_TOUCH
         for (touch in FlxG.touches.list)
@@ -121,7 +126,7 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
                 pressedButton = ButtonsRight;
         }
         #if FLX_MOUSE
-        tmpBool = FlxG.mouse.justReleased && pressedButton.overlapsPoint(FlxG.mouse.getPosition());
+        tmpBool = FlxG.mouse.justReleased && pressedButton.overlapsPoint(FlxG.mouse.getScreenPosition());
         #end
         #if FLX_TOUCH
         for (touch in FlxG.touches.list)
@@ -138,16 +143,16 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
 #if FLX_MOUSE
         if (FlxG.mouse.justPressed)
         {
-            if (ButtonsUp.overlapsPoint(FlxG.mouse.getPosition()))
+            if (ButtonsUp.overlapsPoint(FlxG.mouse.getScreenPosition()))
             {
                 ButtonsUp.color = 0xff0000;
-            } else if (ButtonsDown.overlapsPoint(FlxG.mouse.getPosition()))
+            } else if (ButtonsDown.overlapsPoint(FlxG.mouse.getScreenPosition()))
             {
                 ButtonsDown.color = 0xff0000;
-            } else if (ButtonsLeft.overlapsPoint(FlxG.mouse.getPosition()))
+            } else if (ButtonsLeft.overlapsPoint(FlxG.mouse.getScreenPosition()))
             {
                 ButtonsLeft.color = 0xff0000;
-            } else if (ButtonsRight.overlapsPoint(FlxG.mouse.getPosition()))
+            } else if (ButtonsRight.overlapsPoint(FlxG.mouse.getScreenPosition()))
             {
                 ButtonsRight.color = 0xff0000;
             }

@@ -14,20 +14,20 @@ class LogGroup extends FlxTypedSpriteGroup<FlxSprite>
     var log3_3:Log;
     var blueFrog:BlueFrog;
 
-    public function new(actorSpeed:Int)
+    public function new(Row:Int, actorSpeed:Int)
     {
         super();
 
-        log1_1 = new Log(0, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
-        log1_2 = new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
-        log1_3 = new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
+        log1_1 = new Log(0, calculateRow(Row), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
+        log1_2 = new Log(Log.TYPE_C_WIDTH + 77, calculateRow(Row), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
+        log1_3 = new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(Row), Log.TYPE_C, FlxObject.RIGHT, actorSpeed);
 
-        log2_1 = new Log(30, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2);
-        log2_2 = new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2);
+        log2_1 = new Log(30, calculateRow(Row + 2), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2);
+        log2_2 = new Log(Log.TYPE_B_WIDTH + 130, calculateRow(Row + 2), Log.TYPE_B, FlxObject.RIGHT, actorSpeed* 2);
 
-        log3_1 = new Log(0, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
-        log3_2 = new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
-        log3_3 = new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
+        log3_1 = new Log(0, calculateRow(Row + 3), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
+        log3_2 = new Log(Log.TYPE_A_WIDTH + 77, calculateRow(Row + 3), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
+        log3_3 = new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(Row + 3), Log.TYPE_A, FlxObject.RIGHT, actorSpeed);
 
         blueFrog = new BlueFrog(100, 100, 0xffffff, log2_1);
 

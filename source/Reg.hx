@@ -24,4 +24,5 @@ class Reg
     * default game time (sec)
 **/
     public static var defaultTime:Int = 45;
+    public static inline var TIMER_BAR_WIDTH = 300;
 }

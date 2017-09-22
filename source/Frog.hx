@@ -137,7 +137,7 @@ class Frog extends FlxSprite
                     //facing = FlxObject.RIGHT;
                 }
                 #if desktop
-                else if ((FlxG.keys.justPressed.UP || (touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
+                else if ((FlxG.keys.justPressed.UP || (touchControls != null && touchControls.justPressed(0))) /*&& y > frameHeight*/)
                 #end
                 #if mobile
                 else if (((touchControls != null && touchControls.justPressed(0))) && y > frameHeight)

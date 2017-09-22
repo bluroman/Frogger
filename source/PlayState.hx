@@ -25,9 +25,6 @@ import zerolib.ZCountDown;
 
 class PlayState extends BaseState
 {
-    public static inline var LIFE_X = 20;
-    public static inline var LIFE_Y = 610;
-    public static inline var TIMER_BAR_WIDTH = 300;
     public static inline var TILE_SIZE = 40;
     public var gameState:GameStates;
 
@@ -36,29 +33,19 @@ class PlayState extends BaseState
     private var timer:Int;
     private var timeAlmostOverWarning:Float;
     private var waterY:Int;
-    private var lifeSprites = [];
-
-    //public var _score = 0;
-    //private var _currentLevel = 1;
-
-    private var gameMessageGroup:FlxTypedSpriteGroup<FlxSprite>;
-    private var messageText:FlxText;
-
-    var enterUserNameGroup:FlxTypedSpriteGroup<FlxSprite>;
-    var enterYourName:FlxText;
     var inputField:TextField;
     var okButton:FlxButton;
 
     //private var bases:Array<Home>;
     private var homeBaseGroup:HomeBaseGroup;
     private var logGroup:LogGroup;
+    var logGroup1:LogGroup;
     private var turtleGroup:TurtleGroup;
+    var turtleGroup1:TurtleGroup;
     private var player:Frog;
     private var carGroup:CarGroup;
-
-    private var timeTxt:FlxText;
-    private var timerBarBackground:FlxSprite;
-    private var timerBar:FlxSprite;
+    private var carGroup1:CarGroup;
+    private var carGroup2:CarGroup;
 
     private var touchControls:TouchControls;
 
@@ -74,13 +61,12 @@ class PlayState extends BaseState
     private var blueFrog:BlueFrog;
     var alligator:Alligator;
     var backgroundGroup:BackgroundGroup;
+    var hud:Hud;
 	override public function create():Void
 	{
-		super.create();
-        FlxG.debugger.drawDebug = true;
-        Reg.PS = this;
 
-        lifeSprites = new Array();
+        FlxG.debugger.drawDebug = false;
+        Reg.PS = this;
 
         // Create the BG sprites
         backgroundGroup = new BackgroundGroup();
@@ -98,48 +84,23 @@ class PlayState extends BaseState
         gameTime = Reg.defaultTime * FlxG.updateFramerate;//FlxG.framerate;
         trace("gameTime: "+ gameTime);
         timer = gameTime;
-        timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
+        timeAlmostOverWarning = Reg.TIMER_BAR_WIDTH * .7;
         waterY = TILE_SIZE * 8;
         Reg.score = 0;
-        //_score = 0;
-        createLives(3);
-
-        // Create game message, this handles game over, time, and start message for player
-        gameMessageGroup = new FlxTypedSpriteGroup<FlxSprite>((480 * .5) - (150 * .5), calculateRow(8) + 5 );
-        //gameMessageGroup.x = (480 * .5) - (150 * .5);
-        //gameMessageGroup.y = calculateRow(8) + 5;
-        add(gameMessageGroup);
-
-        // Black background for message
-        var messageBG:FlxSprite = new FlxSprite(0, 0);
-        messageBG.makeGraphic(150, 30, 0xff000000);
-        gameMessageGroup.add(messageBG);
-
-        // Message text
-        messageText = new FlxText(0, 4, 150, "TIME 99").setFormat(null, 18, 0xffff00, "center");
-        gameMessageGroup.visible = false;
-        gameMessageGroup.add(messageText);
-
-        enterUserNameGroup = new FlxTypedSpriteGroup<FlxSprite>(0, calculateRow(8));
-        add(enterUserNameGroup);
-
-        var enterUserNameBG:FlxSprite = new FlxSprite(0, 0);
-        enterUserNameBG.makeGraphic(480, 40, 0xff000000);
-        enterUserNameGroup.add(enterUserNameBG);
-
-        enterYourName = new FlxText(0, 4, 240, "ENTER YOUR NAME:").setFormat(null, 18, 0xffff00, "left");
-        enterUserNameGroup.visible = false;
-        enterUserNameGroup.add(enterYourName);
 
         homeBaseGroup = new HomeBaseGroup();
         add(homeBaseGroup);
 
         // Create logs and turtles
-        logGroup = new LogGroup(actorSpeed);
+        logGroup = new LogGroup(3, actorSpeed);
         add(logGroup);
+        logGroup1 = new LogGroup(-10, actorSpeed);
+        add(logGroup1);
 
-        turtleGroup = new TurtleGroup(actorSpeed);
+        turtleGroup = new TurtleGroup(2, actorSpeed);
         add(turtleGroup);
+        turtleGroup1 = new TurtleGroup(-11, actorSpeed);
+        add(turtleGroup1);
 
         snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
         add(snake);
@@ -148,30 +109,27 @@ class PlayState extends BaseState
         player = new Frog(calculateColumn(6), calculateRow(14) + 6);
         add(player);
 
+        FlxG.camera.setScrollBoundsRect(0, -FlxG.height, FlxG.width, FlxG.height * 2, true);
+        FlxG.camera.follow(player, LOCKON, 1);
+
         // Create Cars
-        carGroup = new CarGroup(actorSpeed);
+        carGroup = new CarGroup(0, calculateRow(9), actorSpeed);
         add(carGroup);
+
+        // Create Cars
+        carGroup1 = new CarGroup(0, -calculateRow(4), actorSpeed);
+        add(carGroup1);
+
+        carGroup2 = new CarGroup(0, calculateRow(-17), actorSpeed);
+        add(carGroup2);
 
         //var spotlights = new ZSpotLight(0xe0000000);
         //spotlights.add_to_state();
         //spotlights.add_light_target(player, 100);
 
-        // Create Time text
-        timeTxt = new FlxText(FlxG.width - 70, LIFE_Y, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
-        add(timeTxt);
 
-        // Create timer graphic
-        //TODO this is hacky and needs to be cleaned up
-        timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y + 2);
-        timerBarBackground.makeGraphic(TIMER_BAR_WIDTH, 16, 0xff21de00);
-        add(timerBarBackground);
-
-        timerBar = new FlxSprite(timerBarBackground.x, timerBarBackground.y);
-        timerBar.makeGraphic(1, 16, 0xFF000000);
-        timerBar.scrollFactor.x = timerBar.scrollFactor.y = 0;
-        timerBar.origin.x = timerBar.origin.y = 0;
-        timerBar.scale.x = 0;
-        add(timerBar);
+        hud = new Hud();
+        add(hud);
 
         touchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
         player.touchControls = touchControls;
@@ -179,6 +137,8 @@ class PlayState extends BaseState
 
         var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
         add(_timer);
+
+        super.create();
 
         gameState = GameStates.PLAYING;
         FlxG.sound.play("Theme");
@@ -205,86 +165,6 @@ class PlayState extends BaseState
     {
         return calculateColumn(value);
     }
-    function displayTextField():Void
-    {
-        //FlxG.addChildBelowMouse(textfield);
-        var oflScaleX = Lib.current.stage.stageWidth / FlxG.width;
-        var oflScaleY = Lib.current.stage.stageHeight / FlxG.height;
-        var textfield = new TextField();
-        var textformat = new TextFormat();
-        var fontName = messageText.font;
-
-        textformat.font = fontName;
-        textformat.align = TextFormatAlign.LEFT;
-        textformat.size = 32 * oflScaleY;
-        textformat.color = 0xffff00;
-
-        textfield.defaultTextFormat = textformat;
-
-        textfield.embedFonts = true;
-        //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
-        textfield.type = TextFieldType.INPUT;
-        textfield.x = 240 * oflScaleX;
-        textfield.y = calculateRow(8) * oflScaleY;
-        textfield.background = true;
-        textfield.backgroundColor = 0xff0000ff;
-        textfield.width = 240 * oflScaleX;
-        textfield.height = 40 * oflScaleY;
-        textfield.border = true;
-        textfield.borderColor = 0xff000000;
-        
-        textfield.maxChars = 9;
-        textfield.autoSize = TextFieldAutoSize.LEFT;
-        textfield.text = " ";
-        
-        //textfield.type = TextFieldType.INPUT;
-        //textfield.textColor = 0x000000;
-        //textfield.border = true;
-        //textfield.borderColor = 0xFFFF00;
-        //textfield.background = true;
-        //textfield.backgroundColor = 0xFFFFFF;
-        //textfield.width = 200;
-        //textfield.height = 40;
-        //textfield.setTextFormat(new TextFormat(null, 32));
-        trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
-
-        //Mobile stuff
-        #if (android || ios)
-        textfield.needsSoftKeyboard = true;
-                //This should work in "next" i think, but causes a compiler error legacy
-        //textfield.softKeyboardInputAreaOfInterest = new Rectangle(540, 440, 200, 40);
-                //This does not have any effect afaik (available on legacy only)
-        textfield.moveForSoftKeyboard = true;
-        #end
-
-        FlxG.addChildBelowMouse(textfield);
-        FlxG.stage.focus = textfield;
-        //textfield.setSelection(0, textfield.text.length);
-        textfield.visible = true;
-        
-
-        //add(textfield);
-
-        var submitButton = new FlxButton(0, 0, "OK", function() {
-            //trace("Text is " + inputText.text);
-            trace("TextField is " + textfield.text);
-            FlxG.removeChild(textfield);
-            var scoreState:ScoreState = new ScoreState();
-            scoreState.playerData.name = textfield.text;
-            scoreState.playerData.score = Reg.score = 1100;
-            FlxG.switchState(scoreState);
-        });
-        submitButton.makeGraphic(Std.int(40.0 * oflScaleX), Std.int(40.0 * oflScaleY), FlxColor.BLACK);
-        //submitButton.color = 0x0000ff;
-        submitButton.label.color = 0xffffff;
-        submitButton.label.setFormat(null, 18, 0xffffff, "center");
-        //submitButton.width = 40;
-        //submitButton.height = 40;
-        //submitButton.setSize(40 * oflScaleY, 40 * oflScaleY);
-        submitButton.x = 400 * oflScaleX;
-        //submitButton.y = calculateRow(8);
-        enterUserNameGroup.add(submitButton);
-    }
 
     //var secondsFlag:Bool;
     var displayFlag:Bool = false;
@@ -300,12 +180,9 @@ class PlayState extends BaseState
                 if(!displayFlag)
                 {
                     displayFlag = true;
-                    enterUserNameGroup.visible = true;
-                    displayTextField();
+                    hud.showEnterUserNameField(true);
+                    hud.displayTextField();
                 }
-                    //displayTextField();
-                //FlxG.switchState(new ScoreState());
-                //FlxG.state = new ScoreState();
             } else
             {
                 hideGameMessageDelay -= 1;
@@ -327,14 +204,16 @@ class PlayState extends BaseState
 
             // Do collision detections
             FlxG.overlap(carGroup, player, carCollision);
+            FlxG.overlap(carGroup1, player, carCollision);
             FlxG.overlap(logGroup, player, float);
             FlxG.overlap(turtleGroup, player, turtleFloat);
             FlxG.overlap(homeBaseGroup, player, baseCollision);
             FlxG.overlap(snake, player, carCollision);
 
             // If nothing has collided with the player, test to see if they are out of bounds when in the water zone
-            if (player.y < waterY)
+            if (FlxG.overlap(backgroundGroup.waterSprite, player))//player.y < waterY)
             {
+                trace("Water Overlap!!!!!!!!!!!!");
                 //TODO this can be cleaned up better
                 if (!player.isMoving && !playerIsFloating)
                     waterCollision();
@@ -346,17 +225,15 @@ class PlayState extends BaseState
 
             }
 
-            // This checks to see if time has run out. If not we decrease time based on what has elapsed
-            // sine the last update.
             if (timer == 0 && gameState == GameStates.PLAYING)
             {
                 timeUp();
             } else
             {
                 timer -= 1;
-                timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
+                hud.timerBar.scale.x = Reg.TIMER_BAR_WIDTH - Math.round((timer / gameTime * Reg.TIMER_BAR_WIDTH));
 
-                if (timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
+                if (hud.timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
                 {
                     //FlxG.play(GameAssets.FroggerTimeSound);
                     FlxG.sound.play("Time");
@@ -374,7 +251,8 @@ class PlayState extends BaseState
             else if (hideGameMessageDelay == 0)
             {
                 hideGameMessageDelay = -1;
-                gameMessageGroup.visible = false;
+                hud.hideGameMessage();
+                //gameMessageGroup.visible = false;
             }
 
             // Update the score text
@@ -396,13 +274,12 @@ class PlayState extends BaseState
         if (lastLifeScore != Reg.score && Reg.score % nextLife == 0)
         {
 
-            if(lifeSprites.length < 5)
+            if(hud.get_totalLives() < 5)
             {
-                addLife();
+                hud.addLife();
                 lastLifeScore = Reg.score;
 
-                messageText.text = "1-UP";
-                gameMessageGroup.visible = true;
+                hud.showGameMessage("1-UP");
                 hideGameMessageDelay = 200;
             }
         }
@@ -481,8 +358,7 @@ class PlayState extends BaseState
 
 
         // Reguardless if the base was empty or occupied we still display the time it took to get there
-        messageText.text = "TIME " + Std.string(gameTime / FlxG.updateFramerate - timeLeftOver);
-        gameMessageGroup.visible = true;
+        hud.showGameMessage("TIME " + Std.string(gameTime / FlxG.updateFramerate - timeLeftOver));
         hideGameMessageDelay = 200;
 
         // Test to see if we have all the frogs, if so then level has been completed. If not restart.
@@ -532,7 +408,7 @@ class PlayState extends BaseState
     private function restart():Void
     {
         // Make sure the player still has lives to restart
-        if (get_totalLives() == 0 && gameState != GameStates.GAME_OVER)
+        if (hud.get_totalLives() == 0 && gameState != GameStates.GAME_OVER)
         {
             gameOver();
         } else
@@ -554,13 +430,6 @@ class PlayState extends BaseState
     }
     private function resetBases():Void
     {
-        // Loop though bases and empty them
-        //var base:Home;
-        /*for (base in bases)
-        {
-            trace("base", base);
-            base.empty();
-        }*/
         homeBaseGroup.forEach(function(base:Home)
         {
             trace("base:", base);
@@ -570,15 +439,14 @@ class PlayState extends BaseState
         safeFrogs = 0;
 
             // Set message to tell player they can restart
-        messageText.text = "START";
-        gameMessageGroup.visible = true;
+        hud.showGameMessage("START");
         hideGameMessageDelay = 200;
     }
     private function killPlayer(isWater:Bool):Void
     {
         //commented just test home collision
         gameState = GameStates.COLLISION;
-        removeLife();
+        hud.removeLife();
         player.death(isWater);
         hideGameMessageDelay = 30;
     }
@@ -586,47 +454,11 @@ class PlayState extends BaseState
     {
         gameState = GameStates.GAME_OVER;
 
-        gameMessageGroup.visible = true;
-
-        messageText.text = "GAME OVER";
+        hud.showGameMessage("GAME OVER");
 
         hideGameMessageDelay = 100;
 
         //TODO there is a Game Over sound I need to play here
     }
-    /**
-         * This loop creates X number of lives.
-         * @param value number of lives to create
-         */
-    private function createLives(value:Int):Void
-    {
-        var i:Int;
-        for (i in 0...value)
-            addLife();
-    }
-    /**
-         * This adds a life sprite to the display and pushes it to teh lifeSprites array.
-         * @param value
-         */
-    private function addLife():Void
-    {
-        var flxLife:FlxSprite = new FlxSprite(LIFE_X * get_totalLives() + 10, LIFE_Y, AssetPaths.lives__png);
-        add(flxLife);
-        lifeSprites.push(flxLife);
-    }
-    private function removeLife():Void
-    {
-        var id:Int = get_totalLives() - 1;
-        var sprite:FlxSprite = lifeSprites[id];
-        sprite.kill();
-        lifeSprites.splice(id, 1);
-    }
-    /**
-         * A simple getter for Total Lives based on life sprite instances in lifeSprites array.
-         * @return
-         */
-    private function get_totalLives():Int
-    {
-        return lifeSprites.length;
-    }
+
 }

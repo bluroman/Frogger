@@ -1,4 +1,5 @@
 package ;
+import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 class HomeBaseGroup extends FlxTypedGroup<Home>{
     var home1:Home;
@@ -9,11 +10,11 @@ class HomeBaseGroup extends FlxTypedGroup<Home>{
     public function new()
     {
         super();
-        home1 = new Home(28, 59 + 22, 200, 200,10);
-        home2 = new Home(28 + 96, 59 + 22, 200, 200,10);
-        home3 = new Home(28 + 96 * 2, 59 + 22, 200, 200, 10);
-        home4 = new Home(28 + 96 * 3, 59 + 22, 200, 200, 10);
-        home5 = new Home(28 + 96 * 4, 59 + 22, 200, 200, 10);
+        home1 = new Home(28, -FlxG.height + 59 + 22, 200, 200,10);
+        home2 = new Home(28 + 96, -FlxG.height + 59 + 22, 200, 200,10);
+        home3 = new Home(28 + 96 * 2, -FlxG.height + 59 + 22, 200, 200, 10);
+        home4 = new Home(28 + 96 * 3, -FlxG.height + 59 + 22, 200, 200, 10);
+        home5 = new Home(28 + 96 * 4, -FlxG.height + 59 + 22, 200, 200, 10);
         add(home1);
         add(home2);
         add(home3);

@@ -1,4 +1,6 @@
 package ;
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -13,10 +15,13 @@ class BaseState extends FlxState
     var levelLabel:FlxText;
     var levelTxt:FlxText;
     var background:FlxSprite;
+    var _topScoreBoard:FlxTypedSpriteGroup<FlxSprite>;
 
     public function new()
     {
         super();
+        _topScoreBoard = new FlxTypedSpriteGroup<FlxSprite>();
+
     }
 
     override public function create():Void
@@ -26,8 +31,8 @@ class BaseState extends FlxState
         scoreboard = new FroggerScoreboard();
 
         background = new FlxSprite();
-        background.makeGraphic(FlxG.width, 350, 0xff000047);
-        add(background);
+        background.makeGraphic(FlxG.width, 80, 0x80000047);
+        _topScoreBoard.add(background);
 
         trace("0th score:"+ scoreboard.getScore(0).score);
 
@@ -39,12 +44,20 @@ class BaseState extends FlxState
         levelLabel = new FlxText(480 - 170, 0, 100, "Level").setFormat(null, 18, 0xffffff, "right");
         levelTxt = new FlxText(levelLabel.x - 50 , levelLabel.height, 150, Std.string(Reg.level)).setFormat(null, 18, 0xffe00000, "right");
 
-        add(highscoreLabel);
-        add(highscoreTxt);
-        add(scoreLabel);
-        add(scoreTxt);
-        add(levelLabel);
-        add(levelTxt);
+        _topScoreBoard.add(highscoreLabel);
+        _topScoreBoard.add(highscoreTxt);
+        _topScoreBoard.add(scoreLabel);
+        _topScoreBoard.add(scoreTxt);
+        _topScoreBoard.add(levelLabel);
+        _topScoreBoard.add(levelTxt);
+
+        add(_topScoreBoard);
+
+        _topScoreBoard.forEach(function(spr:FlxSprite)
+        {
+            spr.scrollFactor.set(0, 0);
+        });
+
     }
 
 }
