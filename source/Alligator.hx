@@ -1,7 +1,8 @@
 package ;
+import flixel.FlxObject;
 import flixel.math.FlxPoint;
 class Alligator extends WrappingSprite{
-    public static inline var SPRITE_WIDTH = 130;
+    public static inline var SPRITE_WIDTH = 120;
     public static inline var SPRITE_HEIGHT = 40;
 
     /**
@@ -16,7 +17,12 @@ class Alligator extends WrappingSprite{
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.alligator1_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic(AssetPaths.crocodile__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+
+        setFacingFlip(FlxObject.LEFT, false, false);
+        setFacingFlip(FlxObject.RIGHT, true, false);
+
+        facing = direction;
 
         animation.add("idle", [0, 0, 0, 0, 1, 1], 2, true);
 

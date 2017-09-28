@@ -1,8 +1,8 @@
 package ;
 class Snake extends WrappingSprite
 {
-    public static inline var SPRITE_WIDTH = 98;
-    public static inline var SPRITE_HEIGHT = 40;
+    public static inline var SPRITE_WIDTH = 80;
+    public static inline var SPRITE_HEIGHT = 80;
 
     /**
          * This is a simple sprite which represents Snake.
@@ -16,9 +16,10 @@ class Snake extends WrappingSprite
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.snake_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic(AssetPaths.snake__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        angle = -90;
 
-        animation.add("idle", [0, 1, 2, 3], 3, true);
+        animation.add("idle", [0, 1, 2, 3, 4, 5], 3, true);
 
         animation.play("idle");
     }

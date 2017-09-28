@@ -46,21 +46,23 @@ class Frog extends FlxSprite
         targetY = Y;
 
             // Set up sprite graphics and animations
-        loadGraphic(AssetPaths.frog1_sprites__png, true, 40, 40);
+        loadGraphic(AssetPaths.frog_sprite_new__png, true, 40, 40);
+        //loadRotatedGraphic(AssetPaths.frog_sprite_new__png, 4, 0);
 
-        animation.add("idle" + FlxObject.UP, [0], 0, false);
-        animation.add("idle" + FlxObject.RIGHT, [2], 0, false);
-        animation.add("idle" + FlxObject.DOWN, [4], 0, false);
-        animation.add("idle" + FlxObject.LEFT, [6], 0, false);
-        animation.add("walk" + FlxObject.UP, [0,1], 15, true);
-        animation.add("walk" + FlxObject.RIGHT, [2,3], 15, true);
-        animation.add("walk" + FlxObject.DOWN, [4,5], 15, true);
-        animation.add("walk" + FlxObject.LEFT, [6,7], 15, true);
-        animation.add("die_water", [8, 9, 10, 11], 3, false);
-        animation.add("die_road", [12, 13, 14, 15], 3, false);
+        //animation.add("idle" + FlxObject.UP, [0], 0, false, true, false);
+        //animation.add("idle" + FlxObject.RIGHT, [0], 0, false);
+        animation.add("idle", [0], 0, false);
+        //animation.add("idle" + FlxObject.LEFT, [0], 0, false);
+        //animation.add("walk" + FlxObject.UP, [0,1], 15, true);
+        //animation.add("walk" + FlxObject.RIGHT, [2,3], 15, true);
+        animation.add("walk", [1, 2, 3, 3,  4, 4, 4, 5,5,  2, 1], 15, true);
+        //animation.add("walk" + FlxObject.LEFT, [6,7], 15, true);
+        animation.add("die_water", [6, 6, 6, 6], 3, false);
+        animation.add("die_road", [6, 6, 6, 6], 3, false);
 
             // Set facing direction
         //facing = FlxObject.UP;
+        //angle = 180;
         set_facing(FlxObject.UP);
 
             // Save an instance of the PlayState to help with collision detection and movement
@@ -82,9 +84,17 @@ class Frog extends FlxSprite
             height = 25;
             offset.x = 4;
             offset.y = 6;
+            if (value == FlxObject.UP)
+                angle = 180;
+            else
+                angle = 0;
         }
         else
         {
+            if(value == FlxObject.LEFT)
+                angle = 90;
+            else
+                angle = 270;
             width = 25;
             height = 32;
             offset.x = 6;
@@ -102,10 +112,15 @@ class Frog extends FlxSprite
             // Test to see if the frog is dead and at the last death frame
         //if(state.gameState == GameStates.COLLISION)
         //    trace("Frame:" + animation.frameIndex);
-        if (state.gameState == GameStates.COLLISION && ((animation.frameIndex == 11) || (animation.frameIndex ==15)))
+        if (state.gameState == GameStates.COLLISION)
         {
+            if(animation.curAnim.name == "die_water" || animation.curAnim.name == "die_road")
+            {
+                if(animation.curAnim.finished)
+                    state.gameState = GameStates.DEATH_OVER;
+            }
             // Flag game state that death animation is over and game can perform a restart
-            state.gameState = GameStates.DEATH_OVER;
+            //state.gameState = GameStates.DEATH_OVER;
         }
         else if (state.gameState == GameStates.PLAYING)
         {
@@ -201,13 +216,15 @@ class Frog extends FlxSprite
                 }
 
                 // Play the walking animation
-                animation.play("walk" + facing);
+                //trace("walking animation");
+                //trace("frame height:" + + " width:" + frameWidth);
+                animation.play("walk");
 
             }
             else
             {
                 // nothing is happening so go back to idle animation
-                animation.play("idle" + facing);
+                animation.play("idle");
             }
 
         }
@@ -222,6 +239,7 @@ class Frog extends FlxSprite
     public function death(isWater:Bool):Void
     {
         //TODO this should probably contain the logic for playing the death sound. Will need to know if it water or car
+        angle = 0;
         if(isWater)
             animation.play("die_water");
         else
@@ -240,7 +258,7 @@ class Frog extends FlxSprite
         targetY = startPosition.y;
         set_facing(FlxObject.UP);
         //facing = FlxObject.UP;
-        animation.play("idle" + facing);
+        animation.play("idle");
         if (!visible) visible = true;
 
     }

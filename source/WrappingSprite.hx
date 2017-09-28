@@ -1,4 +1,5 @@
 package ;
+import Car1;
 import flixel.FlxObject;
 import flixel.FlxObject;
 import flixel.system.FlxAssets.FlxGraphicAsset;

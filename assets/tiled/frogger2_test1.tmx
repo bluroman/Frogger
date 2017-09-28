@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="40" tilewidth="40" tileheight="40" nextobjectid="69">
+ <tileset firstgid="1" name="frogger_atlas_01" tilewidth="40" tileheight="40" tilecount="625" columns="25">
+  <image source="frogger_atlas_01.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="background0" width="12" height="40">
+  <properties>
+   <property name="animated" type="bool" value="false"/>
+   <property name="nocollide" value="true"/>
+   <property name="tileset" value="frogger_atlas_01"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+508,508,508,508,508,508,508,508,508,508,508,508,
+508,508,508,508,508,508,508,508,508,508,508,508,
+508,508,508,508,508,508,508,508,508,508,557,559,
+508,557,558,508,508,557,559,508,508,558,508,508,
+508,508,508,508,508,559,558,508,508,508,508,508,
+508,508,557,559,508,508,508,508,558,559,508,508,
+508,508,508,508,508,557,559,508,508,508,508,508,
+508,508,508,508,508,508,508,557,508,508,508,508,
+6,6,6,6,6,6,6,6,6,6,6,6,
+9,34,34,34,34,34,34,34,34,34,34,85,
+60,35,35,35,35,35,35,35,35,35,35,59,
+60,35,35,35,35,35,35,35,35,35,35,59,
+60,35,35,35,35,35,35,35,35,35,35,59,
+60,35,35,35,35,35,35,35,35,35,35,59,
+60,35,35,35,35,35,35,35,35,35,35,59,
+60,35,35,35,35,35,35,35,35,35,35,59,
+134,109,109,109,109,109,109,109,109,109,109,110,
+1,1,1,1,1,1,1,1,1,1,1,2,
+26,26,26,26,26,26,26,26,26,26,26,27,
+43,43,43,43,43,43,43,43,43,43,43,43,
+43,89,43,89,43,92,89,43,43,91,43,43,
+43,43,43,43,43,90,43,43,43,43,43,43,
+43,43,92,91,43,43,43,43,43,43,43,43,
+43,89,43,43,43,43,43,43,91,43,43,43,
+43,43,43,43,43,43,43,43,43,43,89,43,
+413,412,338,412,412,413,412,338,413,413,412,338,
+8,8,8,8,8,8,8,8,8,8,8,8,
+33,33,33,33,33,33,33,33,33,33,33,33,
+8,8,8,8,8,8,8,8,8,8,8,8,
+33,33,33,33,33,33,33,33,33,33,33,33,
+7,7,7,7,7,7,7,7,7,7,7,7,
+32,32,32,32,32,32,32,32,32,32,32,32,
+337,337,338,337,334,338,334,338,337,334,337,337,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="background1" width="12" height="40">
+  <properties>
+   <property name="animated" type="bool" value="false"/>
+   <property name="nocollide" value="true"/>
+   <property name="tileset" value="frogger_atlas_01"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,20,21,20,21,20,21,20,21,20,21,0,
+0,45,46,45,46,45,46,45,46,45,46,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="1" name="start" type="player_start" x="200" y="1360" width="40" height="40"/>
+  <object id="3" name="car" type="0" x="218" y="1320" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="4" name="car" type="0" x="0" y="1320" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="5" name="car" type="0" x="436" y="1320" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="6" name="car" type="1" x="0" y="1280" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="7" name="car" type="1" x="218" y="1280" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="8" name="car" type="1" x="438" y="1280" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="9" name="car" type="3" x="0" y="1240" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="10" name="car" type="3" x="270" y="1240" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="11" name="car" type="2" x="0" y="1200" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="12" name="car" type="2" x="270" y="1200" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="13" name="car" type="4" x="0" y="1160" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="car" type="4" x="270" y="1160" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="15" name="truck" type="5" x="80" y="1120" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="16" name="truck" type="5" x="390" y="1120" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="17" name="turtle" type="B" x="0" y="1040" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="18" name="turtle" type="B" x="266" y="1040" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="19" name="turtle" type="B" x="532" y="1040" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="20" name="turtle" type="A" x="0" y="920" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="21" name="turtle" type="A" x="236" y="920" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="22" name="turtle" type="A" x="472" y="920" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="23" name="turtle" type="A" x="0" y="840" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="24" name="turtle" type="A" x="223" y="840" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="250"/>
+   </properties>
+  </object>
+  <object id="25" name="turtle" type="A" x="446" y="840" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="hideTimer" type="int" value="-1"/>
+    <property name="startTime" type="int" value="-1"/>
+   </properties>
+  </object>
+  <object id="26" name="log" type="0" x="0" y="1000" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="27" name="log" type="0" x="177" y="1000" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="28" name="log" type="0" x="354" y="1000" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="29" name="log" type="1" x="30" y="960" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="30" name="log" type="1" x="330" y="960" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="31" name="log" type="2" x="0" y="880" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="32" name="log" type="2" x="227" y="880" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="33" name="log" type="2" x="454" y="880" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="34" name="alligator" type="0" x="0" y="360" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="35" name="alligator" type="0" x="240" y="360" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="36" name="alligator" type="0" x="320" y="320" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="37" name="alligator" type="0" x="40" y="320" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="38" name="snake" type="A" x="0" y="760" width="80" height="80">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="39" name="start1" type="player_start" x="200" y="1080" width="40" height="40"/>
+  <object id="40" name="Stone" type="A" x="120" y="720" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="41" name="Stone" type="A" x="120" y="680" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="42" name="Stone" type="A" x="160" y="680" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="43" name="Stone" type="A" x="160" y="640" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="44" name="Stone" type="A" x="160" y="600" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="45" name="Stone" type="A" x="200" y="600" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="46" name="Stone" type="A" x="200" y="560" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="47" name="Stone" type="A" x="240" y="560" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="48" name="Stone" type="A" x="240" y="520" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="49" name="Stone" type="A" x="280" y="520" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="50" name="Stone" type="A" x="280" y="480" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="51" name="Stone" type="A" x="280" y="440" width="40" height="40">
+   <properties>
+    <property name="hideTimer" type="int" value="300"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="52" name="alligator" type="0" x="280" y="280" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="53" name="alligator" type="0" x="0" y="280" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="54" name="alligator" type="0" x="40" y="240" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="55" name="alligator" type="0" x="240" y="240" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="56" name="alligator" type="0" x="440" y="240" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="57" name="alligator" type="0" x="0" y="200" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="58" name="alligator" type="0" x="200" y="200" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="59" name="alligator" type="0" x="400" y="200" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="60" name="alligator" type="0" x="40" y="160" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="61" name="alligator" type="0" x="320" y="160" width="40" height="40">
+   <properties>
+    <property name="direction" type="int" value="16"/>
+   </properties>
+  </object>
+  <object id="62" name="home" type="A" x="40" y="80" width="80" height="80">
+   <properties>
+    <property name="hideTimer" type="int" value="200"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="63" name="home" type="A" x="120" y="80" width="80" height="80">
+   <properties>
+    <property name="hideTimer" type="int" value="200"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="64" name="home" type="A" x="200" y="80" width="80" height="80">
+   <properties>
+    <property name="hideTimer" type="int" value="200"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="66" name="home" type="A" x="280" y="80" width="80" height="80">
+   <properties>
+    <property name="hideTimer" type="int" value="200"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+  <object id="68" name="home" type="A" x="360" y="80" width="80" height="80">
+   <properties>
+    <property name="hideTimer" type="int" value="200"/>
+    <property name="startTime" type="int" value="200"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

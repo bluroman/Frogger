@@ -3,8 +3,8 @@ import flixel.math.FlxRandom;
 class Home extends TimerSprite
 {
 
-    public static inline var SPRITE_WIDTH = 40;
-    public static inline var SPRITE_HEIGHT = 40;
+    public static inline var SPRITE_WIDTH = 80;
+    public static inline var SPRITE_HEIGHT = 80;
     public static inline var BONUS = 0;
     public static inline var NO_BONUS = 1;
     public static inline var SUCCESS = 2;
@@ -29,11 +29,11 @@ class Home extends TimerSprite
 
         this.odds = odds;
 
-        loadGraphic(AssetPaths.home_sprites1__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
-        animation.add("empty", [0], 0, false);
-        animation.add("bonus", [6], 0, false);
-        animation.add("noBonus", [7], 0, false);
-        animation.add("success", [1, 2, 3, 4, 5], 10, false);
+        loadGraphic(AssetPaths.home__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        animation.add("empty", [3], 0, false);
+        animation.add("bonus", [1], 0, false);
+        animation.add("noBonus", [0], 0, false);
+        animation.add("success", [2], 0, false);
 
         animation.play("empty");
 

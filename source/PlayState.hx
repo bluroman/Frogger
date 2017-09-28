@@ -42,9 +42,9 @@ class PlayState extends BaseState
     var logGroup1:LogGroup;
     private var turtleGroup:TurtleGroup;
     var turtleGroup1:TurtleGroup;
-    private var player:Frog;
+    public var player:Frog;
     private var carGroup:CarGroup;
-    private var carGroup1:CarGroup;
+    private var carGroup1:Car1Group;
     private var carGroup2:CarGroup;
 
     private var touchControls:TouchControls;
@@ -57,11 +57,18 @@ class PlayState extends BaseState
     private var lastLifeScore:Int = 0;
     private var nextLife:Int = 5000;
     private var totalElapsed:Float = 0;
-    private var snake:Snake;
+    public var snake:Snake;
     private var blueFrog:BlueFrog;
     var alligator:Alligator;
     var backgroundGroup:BackgroundGroup;
     var hud:Hud;
+    public var level:TiledLevel1;
+    public var carGroupNew:FlxTypedSpriteGroup<FlxSprite>;
+    public var turtleGroupNew:FlxTypedSpriteGroup<FlxSprite>;
+    public var logGroupNew:FlxTypedSpriteGroup<FlxSprite>;
+    public var alligatorGroup:FlxTypedSpriteGroup<FlxSprite>;
+    public var safeStoneGroup:FlxTypedSpriteGroup<FlxSprite>;
+    public var homeGroup:FlxTypedSpriteGroup<FlxSprite>;
 	override public function create():Void
 	{
 
@@ -69,9 +76,31 @@ class PlayState extends BaseState
         Reg.PS = this;
 
         // Create the BG sprites
-        backgroundGroup = new BackgroundGroup();
-        add(backgroundGroup);
+        //backgroundGroup = new BackgroundGroup();
+        //add(backgroundGroup);
+        carGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
+        turtleGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
+        logGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
+        alligatorGroup = new FlxTypedSpriteGroup<FlxSprite>();
+        safeStoneGroup = new FlxTypedSpriteGroup<FlxSprite>();
+        homeGroup = new FlxTypedSpriteGroup<FlxSprite>();
+        level = new TiledLevel1("assets/tiled/frogger2_test1.tmx", this);
 
+        // Add backgrounds
+        add(level.backgroundLayer);
+
+
+
+        add(carGroupNew);
+        add(turtleGroupNew);
+        add(logGroupNew);
+        add(alligatorGroup);
+        add(safeStoneGroup);
+        add(homeGroup);
+
+        // Load player objects
+        add(level.objectsLayer);
+        add(snake);
         //CONFIG::mobile
         //{
         actorSpeed = 1;
@@ -88,45 +117,46 @@ class PlayState extends BaseState
         waterY = TILE_SIZE * 8;
         Reg.score = 0;
 
-        homeBaseGroup = new HomeBaseGroup();
-        add(homeBaseGroup);
-
-        // Create logs and turtles
-        logGroup = new LogGroup(3, actorSpeed);
-        add(logGroup);
-        logGroup1 = new LogGroup(-10, actorSpeed);
-        add(logGroup1);
-
-        turtleGroup = new TurtleGroup(2, actorSpeed);
-        add(turtleGroup);
-        turtleGroup1 = new TurtleGroup(-11, actorSpeed);
-        add(turtleGroup1);
-
-        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
-        add(snake);
-
-        // Create Player
-        player = new Frog(calculateColumn(6), calculateRow(14) + 6);
-        add(player);
-
-        FlxG.camera.setScrollBoundsRect(0, -FlxG.height, FlxG.width, FlxG.height * 2, true);
-        FlxG.camera.follow(player, LOCKON, 1);
-
-        // Create Cars
-        carGroup = new CarGroup(0, calculateRow(9), actorSpeed);
-        add(carGroup);
-
-        // Create Cars
-        carGroup1 = new CarGroup(0, -calculateRow(4), actorSpeed);
-        add(carGroup1);
-
-        carGroup2 = new CarGroup(0, calculateRow(-17), actorSpeed);
-        add(carGroup2);
+//        homeBaseGroup = new HomeBaseGroup();
+//        add(homeBaseGroup);
+//
+//        // Create logs and turtles
+//        logGroup = new LogGroup(3, actorSpeed);
+//        add(logGroup);
+//        logGroup1 = new LogGroup(-10, actorSpeed);
+//        add(logGroup1);
+//
+//        turtleGroup = new TurtleGroup(2, actorSpeed);
+//        add(turtleGroup);
+//        turtleGroup1 = new TurtleGroup(-11, actorSpeed);
+//        add(turtleGroup1);
+//
+//        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
+//        add(snake);
+//
+//
+//
+//        // Create Cars
+//        carGroup = new CarGroup(0, calculateRow(-4), actorSpeed);
+//        add(carGroup);
+//
+//        // Create Cars
+//        carGroup1 = new Car1Group(0, calculateRow(9), actorSpeed);
+//        add(carGroup1);
+//
+//        carGroup2 = new CarGroup(0, calculateRow(-17), actorSpeed);
+//        add(carGroup2);
 
         //var spotlights = new ZSpotLight(0xe0000000);
         //spotlights.add_to_state();
         //spotlights.add_light_target(player, 100);
 
+        // Create Player
+        //player = new Frog(calculateColumn(6), calculateRow(14) + 6);
+        //add(player);
+
+        //FlxG.camera.setScrollBoundsRect(0, -FlxG.height, FlxG.width, FlxG.height * 2, true);
+        //FlxG.camera.follow(player, LOCKON, 1);
 
         hud = new Hud();
         add(hud);
@@ -142,9 +172,9 @@ class PlayState extends BaseState
 
         gameState = GameStates.PLAYING;
         FlxG.sound.play("Theme");
-        trace("Log Group: " + logGroup.length);
-        trace("Turtle Group: " + turtleGroup.length);
-        trace("Car Group: " + carGroup.length);
+        trace("Log Group: " + logGroupNew.length);
+        trace("Turtle Group: " + turtleGroupNew.length);
+        trace("Car Group: " + carGroupNew.length);
 	}
     /**
     * Helper function to find the X position of a columm on the game's grid
@@ -203,15 +233,16 @@ class PlayState extends BaseState
             playerIsFloating = false;
 
             // Do collision detections
-            FlxG.overlap(carGroup, player, carCollision);
-            FlxG.overlap(carGroup1, player, carCollision);
-            FlxG.overlap(logGroup, player, float);
-            FlxG.overlap(turtleGroup, player, turtleFloat);
-            FlxG.overlap(homeBaseGroup, player, baseCollision);
-            FlxG.overlap(snake, player, carCollision);
+            //FlxG.overlap(carGroup, player, carCollision);
+            //FlxG.overlap(carGroup1, player, carCollision);
+            FlxG.overlap(carGroupNew, player, carCollision);
+            FlxG.overlap(logGroupNew, player, float);
+            FlxG.overlap(turtleGroupNew, player, turtleFloat);
+            //FlxG.overlap(homeBaseGroup, player, baseCollision);
+            //FlxG.overlap(snake, player, carCollision);
 
             // If nothing has collided with the player, test to see if they are out of bounds when in the water zone
-            if (FlxG.overlap(backgroundGroup.waterSprite, player))//player.y < waterY)
+            /*if (FlxG.overlap(backgroundGroup.waterSprite, player))//player.y < waterY)
             {
                 trace("Water Overlap!!!!!!!!!!!!");
                 //TODO this can be cleaned up better
@@ -223,7 +254,7 @@ class PlayState extends BaseState
                     waterCollision();
                 }
 
-            }
+            }*/
 
             if (timer == 0 && gameState == GameStates.PLAYING)
             {
@@ -309,8 +340,17 @@ class PlayState extends BaseState
         if (gameState != GameStates.COLLISION)
         {
             //FlxG.play(GameAssets.FroggerSquashSound);
-            FlxG.sound.play("Squash");
-            killPlayer(false);
+            if(Std.is(target, Car) || Std.is(target, Car1) || Std.is(target, Truck))
+            {
+                FlxG.sound.play("Squash");
+                killPlayer(false);
+            }
+            else
+            {
+                trace("Player Position Y: " + player.y);
+                trace("Target Position Y: " + target.y);
+                trace("Target Bottom Y: " + Std.string(target.y + target.height));
+            }
         }
     }
     private function baseCollision(target:Home, player:Frog):Void
