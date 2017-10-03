@@ -17,6 +17,8 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import haxe.io.Path;
+import flixel.math.FlxPoint;
+import flixel.graphics.frames.FlxTileFrames;
 
 /**
  * @author Samuel Batista
@@ -77,11 +79,18 @@ class TiledLevel1 extends TiledMap
 				
 			var imagePath 		= new Path(tileSet.imageSource);
 			var processedPath 	= c_PATH_LEVEL_TILESHEETS + imagePath.file + "." + imagePath.ext;
+
+			var tileSize = FlxPoint.get(tileWidth, tileHeight);
+			var tileFrames:FlxTileFrames = FlxTileFrames.fromBitmapAddSpacesAndBorders(processedPath, tileSize, FlxPoint.get(0, 0), FlxPoint.get(2, 2));
+			//var tileFrames:FlxTileFrames = FlxTileFrames.fromRectangle(processedPath, tileSize);
+			tileSize.put();
 			
 			// could be a regular FlxTilemap if there are no animated tiles
 			var tilemap = new FlxTilemapExt();
-			tilemap.loadMapFromArray(tileLayer.tileArray, width, height, processedPath,
-				tileSet.tileWidth, tileSet.tileHeight, OFF, tileSet.firstGID, 1, 1);
+			//tilemap.loadMapFromArray(tileLayer.tileArray, width, height, tileFrames, 16, 16, 1);
+			tilemap.loadMapFromArray(tileLayer.tileArray, width, height, tileFrames, tileSet.tileWidth, tileSet.tileHeight, OFF, tileSet.firstGID, 1, 1);
+			//tilemap.loadMapFromArray(tileLayer.tileArray, width, height, processedPath,
+			//	tileSet.tileWidth, tileSet.tileHeight, OFF, tileSet.firstGID, 1, 1);
 			
 			if (tileLayer.properties.contains("animated"))
 			{
