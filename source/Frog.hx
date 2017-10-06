@@ -46,24 +46,32 @@ class Frog extends FlxSprite
         targetY = Y;
 
             // Set up sprite graphics and animations
-        loadGraphic(AssetPaths.frog_sprite_new__png, true, 40, 40);
+        loadGraphic(AssetPaths.frog_sprite_new5__png, true, 40, 40);
         //loadRotatedGraphic(AssetPaths.frog_sprite_new__png, 4, 0);
 
         //animation.add("idle" + FlxObject.UP, [0], 0, false, true, false);
         //animation.add("idle" + FlxObject.RIGHT, [0], 0, false);
-        animation.add("idle", [0], 0, false);
+        animation.add("idle" + FlxObject.DOWN, [0], 0, false);
+        animation.add("idle" + FlxObject.LEFT, [2], 0, false);
+        animation.add("walk" + FlxObject.DOWN, [0, 1], 15, true);
+        animation.add("walk" + FlxObject.LEFT, [2, 3], 15, true);
+        animation.add("idle" + FlxObject.UP, [0], 0, false, false, true);
+        animation.add("idle" + FlxObject.RIGHT, [2], 0, false, true, false);
+        animation.add("walk" + FlxObject.UP, [0, 1], 15, true, false, true);
+        animation.add("walk" + FlxObject.RIGHT, [2, 3], 15, true, true, false);
         //animation.add("idle" + FlxObject.LEFT, [0], 0, false);
         //animation.add("walk" + FlxObject.UP, [0,1], 15, true);
         //animation.add("walk" + FlxObject.RIGHT, [2,3], 15, true);
-        animation.add("walk", [1, 2, 3, 3,  4, 4, 4, 5,5,  2, 1], 15, true);
+        //animation.add("walk", [1, 2, 3, 3,  4, 4, 4, 5,5,  2, 1], 15, true);
         //animation.add("walk" + FlxObject.LEFT, [6,7], 15, true);
-        animation.add("die_water", [6, 6, 6, 6], 3, false);
-        animation.add("die_road", [6, 6, 6, 6], 3, false);
+        animation.add("die_water", [5, 6, 7, 8, 9, 4, 4], 3, false);
+        animation.add("die_road", [10, 10, 10, 4], 3, false);
 
             // Set facing direction
         //facing = FlxObject.UP;
         //angle = 180;
         set_facing(FlxObject.UP);
+        animation.play("idle" + facing);
 
             // Save an instance of the PlayState to help with collision detection and movement
         state = Reg.PS;
@@ -84,17 +92,17 @@ class Frog extends FlxSprite
             height = 25;
             offset.x = 4;
             offset.y = 6;
-            if (value == FlxObject.UP)
-                angle = 180;
-            else
-                angle = 0;
+            //if (value == FlxObject.UP)
+            //    angle = 180;
+            //else
+            //    angle = 0;
         }
         else
         {
-            if(value == FlxObject.LEFT)
-                angle = 90;
-            else
-                angle = 270;
+            //if(value == FlxObject.LEFT)
+             //   angle = 90;
+            //else
+            //    angle = 270;
             width = 25;
             height = 32;
             offset.x = 6;
@@ -163,10 +171,10 @@ class Frog extends FlxSprite
                     //facing = FlxObject.UP;
                 }
                 #if desktop
-                else if ((FlxG.keys.justPressed.DOWN || (touchControls != null && touchControls.justPressed(1))) && y < 560)
+                else if ((FlxG.keys.justPressed.DOWN || (touchControls != null && touchControls.justPressed(1))) && y < 1360)
                 #end
                 #if mobile
-                else if (((touchControls != null && touchControls.justPressed(1))) && y < 560)
+                else if (((touchControls != null && touchControls.justPressed(1))) && y < 1360)
                 #end
                 {
                     targetY = y + maxMoveY;
@@ -218,13 +226,13 @@ class Frog extends FlxSprite
                 // Play the walking animation
                 //trace("walking animation");
                 //trace("frame height:" + + " width:" + frameWidth);
-                animation.play("walk");
+                animation.play("walk" + facing);
 
             }
             else
             {
                 // nothing is happening so go back to idle animation
-                animation.play("idle");
+                animation.play("idle" + facing);
             }
 
         }
@@ -258,7 +266,7 @@ class Frog extends FlxSprite
         targetY = startPosition.y;
         set_facing(FlxObject.UP);
         //facing = FlxObject.UP;
-        animation.play("idle");
+        animation.play("idle" + facing);
         if (!visible) visible = true;
 
     }

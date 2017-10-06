@@ -69,10 +69,13 @@ class PlayState extends BaseState
     public var alligatorGroup:FlxTypedSpriteGroup<FlxSprite>;
     public var safeStoneGroup:FlxTypedSpriteGroup<FlxSprite>;
     public var homeGroup:FlxTypedSpriteGroup<FlxSprite>;
+    public var water:FlxObject;
+    public var swamp:FlxObject;
+    public var lava:FlxObject;
 	override public function create():Void
 	{
 
-        FlxG.debugger.drawDebug = false;
+        FlxG.debugger.drawDebug = true;
         Reg.PS = this;
 
         // Create the BG sprites
@@ -238,20 +241,28 @@ class PlayState extends BaseState
             FlxG.overlap(carGroupNew, player, carCollision);
             FlxG.overlap(logGroupNew, player, float);
             FlxG.overlap(turtleGroupNew, player, turtleFloat);
-            //FlxG.overlap(homeBaseGroup, player, baseCollision);
-            //FlxG.overlap(snake, player, carCollision);
+            FlxG.overlap(homeGroup, player, baseCollision);
+            FlxG.overlap(snake, player, carCollision);
+            FlxG.overlap(alligatorGroup, player, float);
+            FlxG.overlap(safeStoneGroup, player, stoneCollision);
+            FlxG.overlap(water, player, liquidCollision);
+            FlxG.overlap(swamp, player, liquidCollision);
+            FlxG.overlap(lava, player, liquidCollision);
 
             // If nothing has collided with the player, test to see if they are out of bounds when in the water zone
-            /*if (FlxG.overlap(backgroundGroup.waterSprite, player))//player.y < waterY)
+           /* if (FlxG.overlap(water, player) || FlxG.overlap(swamp, player) || FlxG.overlap(lava, player))//player.y < waterY)
             {
                 trace("Water Overlap!!!!!!!!!!!!");
+                trace("Player Position: " + player.y);
                 //TODO this can be cleaned up better
                 if (!player.isMoving && !playerIsFloating)
                     waterCollision();
 
-                if ((player.x > FlxG.width) || (player.x < -TILE_SIZE ))
+                if ((player.x > FlxG.width - player.frameWidth/2) || (player.x < -player.frameWidth/2 ))
+                    //if(!player.isOnScreen())
                 {
                     waterCollision();
+
                 }
 
             }*/
@@ -317,6 +328,32 @@ class PlayState extends BaseState
         // Update the entire game
         super.update(elapsed);
     }
+    private function liquidCollision(target:FlxObject, player:Frog):Void
+    {
+        trace("###############Liquid Collisions#############");
+        trace("Player Position: " + player.y);
+        //TODO this can be cleaned up better
+        if (!player.isMoving && !playerIsFloating)
+            waterCollision();
+
+        if ((player.x > FlxG.width - player.frameWidth/2) || (player.x < -player.frameWidth/2 ))
+            //if(!player.isOnScreen())
+        {
+            waterCollision();
+
+        }
+    }
+    private function stoneCollision(target:TimerSprite, player:Frog):Void
+    {
+        trace("##############Stone Collision###########");
+        if (target.get_isActive())
+        {
+            float(target, player);
+        } else if (!player.isMoving)
+        {
+            waterCollision();
+        }
+    }
     private function timeUp():Void
     {
         if (gameState != GameStates.COLLISION)
@@ -340,7 +377,7 @@ class PlayState extends BaseState
         if (gameState != GameStates.COLLISION)
         {
             //FlxG.play(GameAssets.FroggerSquashSound);
-            if(Std.is(target, Car) || Std.is(target, Car1) || Std.is(target, Truck))
+            if(Std.is(target, Car) || Std.is(target, Car1) || Std.is(target, Truck) || Std.is(target, Snake))
             {
                 FlxG.sound.play("Squash");
                 killPlayer(false);
@@ -394,7 +431,7 @@ class PlayState extends BaseState
                 //break;
 
         }
-        trace("Safe frogs:" + safeFrogs + "Group:" + homeBaseGroup.length);
+        trace("Safe frogs:" + safeFrogs + "Group:" + homeGroup.length);
 
 
         // Reguardless if the base was empty or occupied we still display the time it took to get there
@@ -402,7 +439,7 @@ class PlayState extends BaseState
         hideGameMessageDelay = 200;
 
         // Test to see if we have all the frogs, if so then level has been completed. If not restart.
-        if (safeFrogs == homeBaseGroup.length)
+        if (safeFrogs == homeGroup.length)
         {
             levelComplete();
         } else
@@ -438,6 +475,12 @@ class PlayState extends BaseState
     private function float(target:WrappingSprite, player:Frog):Void
     {
         playerIsFloating = true;
+        if(Std.is(target, Alligator))
+        {
+            target.color = 0xff0000;
+            trace("Alligator X:" + target.x);
+            trace("Player X:" + player.x);
+        }
 #if desktop
         if (!(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT))
 #end
@@ -470,10 +513,11 @@ class PlayState extends BaseState
     }
     private function resetBases():Void
     {
-        homeBaseGroup.forEach(function(base:Home)
+        homeGroup.forEach(function(base:FlxSprite)
         {
-            trace("base:", base);
-            base.empty();
+            var here = cast base;
+            trace("base:", here);
+            here.empty();
         });
             // Reset safe frogs
         safeFrogs = 0;

@@ -262,6 +262,15 @@ class TiledLevel1 extends TiledMap
             case "home":
                 var home = new Home(x, y, Std.parseInt(o.properties.get("hideTimer")), Std.parseInt(o.properties.get("startTime")), 10);
                 state.homeGroup.add(home);
+            case "water":
+                var water = new FlxObject(x, y, o.width, o.height);
+                state.water = water;
+            case "swamp":
+                var swamp = new FlxObject(x, y, o.width, o.height);
+                state.swamp = swamp;
+            case "lava":
+                var lava = new FlxObject(x, y, o.width, o.height);
+                state.lava = lava;
 
         }
 		

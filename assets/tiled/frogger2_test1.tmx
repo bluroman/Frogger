@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="40" tilewidth="40" tileheight="40" nextobjectid="69">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="40" tilewidth="40" tileheight="40" nextobjectid="72">
  <tileset firstgid="1" name="frogger_atlas_01" tilewidth="40" tileheight="40" tilecount="625" columns="25">
   <image source="frogger_atlas_01.png" width="1024" height="1024"/>
  </tileset>
@@ -301,7 +301,7 @@
     <property name="direction" type="int" value="16"/>
    </properties>
   </object>
-  <object id="39" name="start1" type="player_start" x="200" y="1080" width="40" height="40"/>
+  <object id="39" name="start1" type="player_start" x="160" y="400" width="40" height="40"/>
   <object id="40" name="Stone" type="A" x="120" y="720" width="40" height="40">
    <properties>
     <property name="hideTimer" type="int" value="300"/>
@@ -454,5 +454,8 @@
     <property name="startTime" type="int" value="200"/>
    </properties>
   </object>
+  <object id="69" name="water" type="water" x="0" y="840" width="480" height="240"/>
+  <object id="70" name="lava" type="lava" x="0" y="440" width="480" height="320"/>
+  <object id="71" name="swamp" type="swamp" x="0" y="80" width="480" height="320"/>
  </objectgroup>
 </map>
