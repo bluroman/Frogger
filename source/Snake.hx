@@ -1,4 +1,5 @@
 package ;
+import flixel.FlxObject;
 class Snake extends WrappingSprite
 {
     public static inline var SPRITE_WIDTH = 80;
@@ -22,5 +23,19 @@ class Snake extends WrappingSprite
         animation.add("idle", [0, 1, 2, 3, 4, 5], 3, true);
 
         animation.play("idle");
+        if(direction == FlxObject.LEFT)
+        {
+            offset.x = 0;
+            offset.y = 24;
+            width = 32;
+            height = 32;
+        }
+        else if(direction == FlxObject.RIGHT)
+        {
+            offset.x = 48;
+            offset.y = 24;
+            width = 32;
+            height = 32;
+        }
     }
 }

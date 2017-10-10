@@ -88,10 +88,15 @@ class Frog extends FlxSprite
 
         if (value == FlxObject.UP || value == FlxObject.DOWN)
         {
-            width = 32;
-            height = 25;
-            offset.x = 4;
-            offset.y = 6;
+            width = 38;
+           height = 26;
+            //centerOffsets(true);
+            //centerOffsets();
+            //setGraphicSize(38, 26);
+            //updateHitbox();
+            //offset.set(20, 20);
+            //offset.x = 1;
+            //offset.y = 7;
             //if (value == FlxObject.UP)
             //    angle = 180;
             //else
@@ -103,10 +108,15 @@ class Frog extends FlxSprite
              //   angle = 90;
             //else
             //    angle = 270;
-            width = 25;
-            height = 32;
-            offset.x = 6;
-            offset.y = 4;
+            width = 26;
+            height = 38;
+            //centerOffsets(true);
+            //centerOffsets();
+            //setGraphicSize(26, 38);
+            //updateHitbox();
+            //offset.set(20, 20);
+            //offset.x = 7;
+            //offset.y = 1;
         }
         return value;
     }

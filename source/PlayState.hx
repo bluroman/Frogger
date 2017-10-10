@@ -75,7 +75,7 @@ class PlayState extends BaseState
 	override public function create():Void
 	{
 
-        FlxG.debugger.drawDebug = true;
+        FlxG.debugger.drawDebug = false;
         Reg.PS = this;
 
         // Create the BG sprites
@@ -219,7 +219,7 @@ class PlayState extends BaseState
             } else
             {
                 hideGameMessageDelay -= 1;
-                trace("HideGameMessageDelay: " + hideGameMessageDelay);
+                //trace("HideGameMessageDelay: " + hideGameMessageDelay);
             }
         } else if (gameState == GameStates.LEVEL_OVER)
         {
@@ -232,6 +232,7 @@ class PlayState extends BaseState
             }
         } else if (gameState == GameStates.PLAYING)
         {
+            trace("Player Position Y:" + player.y);
             // Reset floating flag for the player.
             playerIsFloating = false;
 

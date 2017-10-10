@@ -11,6 +11,9 @@ class Car1 extends WrappingSprite
     public static inline var TYPE_D = 3;
     public static inline var TYPE_E = 4;
 
+    var originalSpeed:Int = 0;
+    var speedUp:Bool = false;
+
     /**
          * Simple sprite to represent a car. There are 4 types of cars, represented by TYPE_A, _B,
          * _C, and _D constant.
@@ -32,6 +35,7 @@ class Car1 extends WrappingSprite
         setFacingFlip(FlxObject.RIGHT, false, false);
 
         facing = direction;
+        originalSpeed = speed;
 
         animation.add("0", [TYPE_A], 0, false);
         animation.add("1", [TYPE_B], 0, false);
@@ -43,6 +47,17 @@ class Car1 extends WrappingSprite
     }
     override public function update(elapsed:Float):Void
     {
+        if(!speedUp && Reg.PS.player.y == y)
+        {
+            speed += 1;
+            speedUp = true;
+        }
+        else
+        {
+            speed = originalSpeed;
+            speedUp = false;
+        }
+
         super.update(elapsed);
     }
 }

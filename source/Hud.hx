@@ -23,9 +23,15 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
     var messageText:FlxText;
     var enterUserNameBG:FlxSprite;
     var enterYourName:FlxText;
+    var bottomBackground:FlxSprite;
+    var submitButton:FlxButton;
+    var textfield:TextField;
     public function new()
     {
         super();
+        bottomBackground = new FlxSprite(0, 600);
+        bottomBackground.makeGraphic(FlxG.width, 200, 0x80000047);
+        add(bottomBackground);
         lifeSprites = new Array();
         createLives(3);
         // Black background for message
@@ -65,6 +71,8 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         timerBar.origin.x = timerBar.origin.y = 0;
         timerBar.scale.x = 0;
         add(timerBar);
+
+        setupTextField();
 
         forEach(function(spr:FlxSprite)
         {
@@ -112,7 +120,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
          */
     public function addLife():Void
     {
-        var flxLife:FlxSprite = new FlxSprite(LIFE_X * get_totalLives() + 10, LIFE_Y, AssetPaths.lives__png);
+        var flxLife:FlxSprite = new FlxSprite(LIFE_X * get_totalLives() + 10, LIFE_Y, AssetPaths.lives1__png);
         add(flxLife);
         lifeSprites.push(flxLife);
     }
@@ -133,10 +141,17 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
     }
     public function displayTextField():Void
     {
+        FlxG.stage.focus = textfield;
+        //textfield.setSelection(0, textfield.text.length);
+        textfield.visible = true;
+        submitButton.visible =true;
+    }
+    public function setupTextField():Void
+    {
         //FlxG.addChildBelowMouse(textfield);
         var oflScaleX = Lib.current.stage.stageWidth / FlxG.width;
         var oflScaleY = Lib.current.stage.stageHeight / FlxG.height;
-        var textfield = new TextField();
+        textfield = new TextField();
         var textformat = new TextFormat();
         var fontName = messageText.font;
 
@@ -162,16 +177,6 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         textfield.maxChars = 9;
         textfield.autoSize = TextFieldAutoSize.LEFT;
         textfield.text = " ";
-
-        //textfield.type = TextFieldType.INPUT;
-        //textfield.textColor = 0x000000;
-        //textfield.border = true;
-        //textfield.borderColor = 0xFFFF00;
-        //textfield.background = true;
-        //textfield.backgroundColor = 0xFFFFFF;
-        //textfield.width = 200;
-        //textfield.height = 40;
-        //textfield.setTextFormat(new TextFormat(null, 32));
         trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
 
         //Mobile stuff
@@ -186,12 +191,12 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         FlxG.addChildBelowMouse(textfield);
         FlxG.stage.focus = textfield;
         //textfield.setSelection(0, textfield.text.length);
-        textfield.visible = true;
+        textfield.visible = false;
 
 
         //add(textfield);
 
-        var submitButton = new FlxButton(0, calculateRow(8), "OK", function() {
+        submitButton = new FlxButton(0, calculateRow(8), "OK", function() {
             //trace("Text is " + inputText.text);
             trace("TextField is " + textfield.text);
             FlxG.removeChild(textfield);
@@ -204,12 +209,15 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         //submitButton.color = 0x0000ff;
         submitButton.label.color = 0xffffff;
         submitButton.label.setFormat(null, 18, 0xffffff, "center");
+        submitButton.y = calculateRow(8) * oflScaleY;
         //submitButton.width = 40;
         //submitButton.height = 40;
         //submitButton.setSize(40 * oflScaleY, 40 * oflScaleY);
         submitButton.x = 400 * oflScaleX;
-        submitButton.scrollFactor.set();
+        trace("submit button x:" + submitButton.x + " y:" + submitButton.y);
+        //submitButton.scrollFactor.set(0, 0);
         //submitButton.y = calculateRow(8);
         add(submitButton);
+        submitButton.visible = false;
     }
 }

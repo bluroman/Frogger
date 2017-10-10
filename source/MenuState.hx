@@ -22,6 +22,7 @@ class MenuState extends BaseState
 
     private var _title:FlxSprite;
     private var timer:FlxTimer;
+    private var _background:FlxSprite;
 
     override public function create():Void
     {
@@ -36,6 +37,10 @@ class MenuState extends BaseState
         AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
         #end
         FlxG.state.bgColor = 0x000000;
+
+        _background = new FlxSprite(0, 80);
+        _background.loadGraphic(AssetPaths.arcade_froggy2__png);
+        add(_background);
 
         timer = new FlxTimer().start(1.0, myCallback, 1);
 

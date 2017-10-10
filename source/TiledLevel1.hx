@@ -219,7 +219,7 @@ class TiledLevel1 extends TiledMap
 			y -= g.map.getGidOwner(o.gid).tileHeight;
         switch(o.name.toLowerCase())
         {
-            case "start1":
+            case "start":
                 var frog = new Frog(x, y);
                 state.player = frog;
                 FlxG.camera.follow(frog);
