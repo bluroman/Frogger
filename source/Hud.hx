@@ -11,6 +11,7 @@ import openfl.text.TextFieldType;
 import openfl.text.TextFormatAlign;
 import openfl.text.TextFieldAutoSize;
 import openfl.Lib;
+import flixel.addons.ui.FlxInputText;
 class Hud extends FlxTypedSpriteGroup<FlxSprite>
 {
     public static inline var LIFE_X = 20;
@@ -72,12 +73,37 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         timerBar.scale.x = 0;
         add(timerBar);
 
+        submitButton = new FlxButton(0, calculateRow(8), "OK", onOK);
+        submitButton.makeGraphic(40, 40, FlxColor.BLACK);
+        //submitButton.color = 0x0000ff;
+        submitButton.label.color = 0xffffff;
+        submitButton.label.setFormat(null, 18, 0xffffff, "center");
+        //submitButton.y = calculateRow(8) * oflScaleY;
+        //submitButton.width = 40;
+        //submitButton.height = 40;
+        //submitButton.setSize(40 * oflScaleY, 40 * oflScaleY);
+        submitButton.x = 400;//400 * oflScaleX;
+        trace("submit button x:" + submitButton.x + " y:" + submitButton.y);
+        //submitButton.scrollFactor.set(0, 0);
+        //submitButton.y = calculateRow(8);
+        add(submitButton);
+        submitButton.visible = false;
+
         setupTextField();
 
         forEach(function(spr:FlxSprite)
         {
             spr.scrollFactor.set(0, 0);
         });
+    }
+    function onOK()
+    {
+        trace("TextField is " + textfield.text);
+            FlxG.removeChild(textfield);
+            var scoreState:ScoreState = new ScoreState();
+            scoreState.playerData.name = textfield.text;
+            scoreState.playerData.score = Reg.score = 1100;
+            FlxG.switchState(scoreState);
     }
     public function showEnterUserNameField(value:Bool):Void
     {
@@ -145,6 +171,14 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         //textfield.setSelection(0, textfield.text.length);
         textfield.visible = true;
         submitButton.visible =true;
+        //Mobile stuff
+        #if (android || ios)
+        textfield.needsSoftKeyboard = true;
+                //This should work in "next" i think, but causes a compiler error legacy
+        //textfield.softKeyboardInputAreaOfInterest = new Rectangle(540, 440, 200, 40);
+                //This does not have any effect afaik (available on legacy only)
+        textfield.moveForSoftKeyboard = true;
+        #end
     }
     public function setupTextField():Void
     {
@@ -157,7 +191,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
 
         textformat.font = fontName;
         textformat.align = TextFormatAlign.LEFT;
-        textformat.size = 32 * oflScaleY;
+        textformat.size = 30 * oflScaleY;
         textformat.color = 0xffff00;
 
         textfield.defaultTextFormat = textformat;
@@ -165,59 +199,35 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         textfield.embedFonts = true;
         //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
         textfield.type = TextFieldType.INPUT;
-        textfield.x = 240 * oflScaleX;
+        textfield.x = (FlxG.width - 150) * 0.5 * oflScaleX;
         textfield.y = calculateRow(8) * oflScaleY;
         textfield.background = true;
         textfield.backgroundColor = 0xff0000ff;
-        textfield.width = 240 * oflScaleX;
+        textfield.width = 150 * oflScaleX;
         textfield.height = 40 * oflScaleY;
         textfield.border = true;
         textfield.borderColor = 0xff000000;
 
-        textfield.maxChars = 9;
-        textfield.autoSize = TextFieldAutoSize.LEFT;
-        textfield.text = " ";
+        textfield.maxChars = 5;
+        //textfield.autoSize = TextFieldAutoSize.LEFT;
+        //textfield.text = " ";
+        //TextField.needsSoftKeyboard = false;
         trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
+        trace("Game width:" + FlxG.game.width + " height:" + FlxG.game.height);
+        trace("Scale X:" + oflScaleX +" Y:" + oflScaleY);
+        trace("TextField x:" + textfield.x + " y:" + textfield.y);
 
-        //Mobile stuff
-        #if (android || ios)
-        textfield.needsSoftKeyboard = true;
-                //This should work in "next" i think, but causes a compiler error legacy
-        //textfield.softKeyboardInputAreaOfInterest = new Rectangle(540, 440, 200, 40);
-                //This does not have any effect afaik (available on legacy only)
-        textfield.moveForSoftKeyboard = true;
-        #end
+        
 
         FlxG.addChildBelowMouse(textfield);
-        FlxG.stage.focus = textfield;
+        FlxG.stage.__dismissSoftKeyboard();
+        //FlxG.stage.focus = textfield;
         //textfield.setSelection(0, textfield.text.length);
         textfield.visible = false;
 
 
         //add(textfield);
 
-        submitButton = new FlxButton(0, calculateRow(8), "OK", function() {
-            //trace("Text is " + inputText.text);
-            trace("TextField is " + textfield.text);
-            FlxG.removeChild(textfield);
-            var scoreState:ScoreState = new ScoreState();
-            scoreState.playerData.name = textfield.text;
-            scoreState.playerData.score = Reg.score = 1100;
-            FlxG.switchState(scoreState);
-        });
-        submitButton.makeGraphic(Std.int(40.0 * oflScaleX), Std.int(40.0 * oflScaleY), FlxColor.BLACK);
-        //submitButton.color = 0x0000ff;
-        submitButton.label.color = 0xffffff;
-        submitButton.label.setFormat(null, 18, 0xffffff, "center");
-        submitButton.y = calculateRow(8) * oflScaleY;
-        //submitButton.width = 40;
-        //submitButton.height = 40;
-        //submitButton.setSize(40 * oflScaleY, 40 * oflScaleY);
-        submitButton.x = 400 * oflScaleX;
-        trace("submit button x:" + submitButton.x + " y:" + submitButton.y);
-        //submitButton.scrollFactor.set(0, 0);
-        //submitButton.y = calculateRow(8);
-        add(submitButton);
-        submitButton.visible = false;
+        
     }
 }
