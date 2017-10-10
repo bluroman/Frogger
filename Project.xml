@@ -87,6 +87,20 @@
     <icon path="Icon@2x.png" size="114" if="ios" />
     <icon path="Icon-72.png" size="72" if="ios" />
     <icon path="Icon-72@2x.png" size="144" if="ios" />
+    <icon path="Icon-20.png" size="20" if="ios" />
+    <icon path="Icon-29.png" size="29" if="ios" />
+    <icon path="Icon-40.png" size="40" if="ios" />
+    <icon path="Icon-50.png" size="50" if="ios" />
+    <icon path="Icon-58.png" size="58" if="ios" />
+    <icon path="Icon-76.png" size="76" if="ios" />
+    <icon path="Icon-80.png" size="80" if="ios" />
+    <icon path="Icon-87.png" size="87" if="ios" />
+    <icon path="Icon-100.png" size="100" if="ios" />
+    <icon path="Icon-120.png" size="120" if="ios" />
+    <icon path="Icon-152.png" size="152" if="ios" />
+    <icon path="Icon-167.png" size="167" if="ios" />
+    <icon path="Icon-180.png" size="180" if="ios" />
+    <icon path="Icon-1024.png" size="1024" if="ios" />
 
     <launchImage path="Default.png" width="320" height="480" if="ios" />
     <launchImage path="Default@2x.png" width="640" height="960" />
