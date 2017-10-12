@@ -8,6 +8,13 @@ import flixel.text.FlxText;
 import flixel.util.FlxTimer;
 import extension.admob.AdMob;
 import extension.admob.GravityMode;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+import openfl.text.TextFieldType;
+import openfl.text.TextFormatAlign;
+import openfl.text.TextFieldAutoSize;
+import openfl.Lib;
+import flixel.system.scaleModes.FillScaleMode;
 
 /**
  * ...
@@ -30,6 +37,7 @@ class MenuState extends BaseState
         #if desktop
         FlxG.mouse.visible = true;
         #end
+        FlxG.scaleMode = new FillScaleMode();
         #if ADS
         AdMob.enableTestingAds();
         AdMob.onInterstitialEvent = onInterstitialEvent;
@@ -50,6 +58,7 @@ class MenuState extends BaseState
         _title.moves = true;
         _title.velocity.y = TEXT_SPEED;
         add(_title);
+        //openflTextFieldTest();
 
         //add(new FlxText(20, FlxG.height - 30, FlxG.width - 40, "Original Frogger graphics and images by Konami. \nThis was created only for demonstration purposes").setFormat(null, 8, 0xffffffff, "center"));
     }
@@ -57,12 +66,49 @@ class MenuState extends BaseState
     {
         trace("The interstitial is " + event);
     }
+    function openflTextFieldTest()
+    {
+        trace("MenuState display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
+        var oflScaleX = Lib.current.stage.stageWidth / FlxG.width;
+        var oflScaleY = Lib.current.stage.stageHeight / FlxG.height;
+        var testField:TextField = new TextField();
+        var testFormat:TextFormat = new TextFormat();
+
+        testFormat.font = startLabel.font;
+        testFormat.align = TextFormatAlign.CENTER;
+        testFormat.size = 30;
+        testFormat.color = 0xffffff;
+
+        testField.defaultTextFormat = testFormat;
+        testField.embedFonts = true;
+        //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
+        testField.type = TextFieldType.INPUT;
+        
+        testField.background = true;
+        testField.backgroundColor = 0xff0000ff;
+        testField.width = 300;
+        testField.height = 80;
+
+        testField.x = Lib.current.stage.stageWidth / 2.0 - testField.width / 2.0;
+        testField.y = Lib.current.stage.stageHeight / 2.0 - testField.height / 2.0;
+        //testField.x = 471;
+        //testField.y = 1064;
+        //testField.border = true;
+        //testField.borderColor = 0xff000000;
+
+        testField.maxChars = 5;
+
+        FlxG.addChildBelowMouse(testField);
+        FlxG.stage.__dismissSoftKeyboard();
+        trace("TextField x:" + testField.x + " y:" + testField.y);
+    }
     private function myCallback(Timer:FlxTimer):Void
     {
         startLabel = new FlxText(0, 200, FlxG.width, "START").setFormat(null, 18, 0xffffffff, "center");
         pressLabel = new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center");
         add(startLabel);
         add(pressLabel);
+        //openflTextFieldTest();
     #if ADS
         AdMob.showBanner();
     #end

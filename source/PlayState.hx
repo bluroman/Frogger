@@ -178,6 +178,7 @@ class PlayState extends BaseState
         trace("Log Group: " + logGroupNew.length);
         trace("Turtle Group: " + turtleGroupNew.length);
         trace("Car Group: " + carGroupNew.length);
+        trace("PlayState display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
 	}
     /**
     * Helper function to find the X position of a columm on the game's grid

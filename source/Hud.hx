@@ -183,14 +183,14 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
     public function setupTextField():Void
     {
         //FlxG.addChildBelowMouse(textfield);
-        var oflScaleX = Lib.current.stage.stageWidth / FlxG.width;
-        var oflScaleY = Lib.current.stage.stageHeight / FlxG.height;
+        var oflScaleX:Float = Lib.current.stage.stageWidth / FlxG.width;
+        var oflScaleY:Float = Lib.current.stage.stageHeight / FlxG.height;
         textfield = new TextField();
         var textformat = new TextFormat();
         var fontName = messageText.font;
 
         textformat.font = fontName;
-        textformat.align = TextFormatAlign.LEFT;
+        textformat.align = TextFormatAlign.CENTER;
         textformat.size = 30 * oflScaleY;
         textformat.color = 0xffff00;
 
@@ -199,22 +199,28 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         textfield.embedFonts = true;
         //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
         textfield.type = TextFieldType.INPUT;
-        textfield.x = (FlxG.width - 150) * 0.5 * oflScaleX;
-        textfield.y = calculateRow(8) * oflScaleY;
+        //textfield.x = (FlxG.width - 150) * 0.5 * oflScaleX;
+        //textfield.y = calculateRow(8) * oflScaleY;
         textfield.background = true;
         textfield.backgroundColor = 0xff0000ff;
         textfield.width = 150 * oflScaleX;
-        textfield.height = 40 * oflScaleY;
+        textfield.height = 36 * oflScaleY;
         textfield.border = true;
         textfield.borderColor = 0xff000000;
 
         textfield.maxChars = 5;
+        textfield.x = Lib.current.stage.stageWidth / 2.0;// - textfield.width / 2.0;
+        textfield.y = calculateRow(8) * oflScaleY;// - textfield.height * 0.5;
+        //textfield.y = Lib.current.stage.stageHeight / 2.0 - textfield.height / 2.0;
         //textfield.autoSize = TextFieldAutoSize.LEFT;
         //textfield.text = " ";
         //TextField.needsSoftKeyboard = false;
+        trace("Enter Your name x:" + enterYourName.getScreenPosition().x + " y:" + enterYourName.getScreenPosition().y + " width:" + enterYourName.frameWidth + " height:" + enterYourName.frameHeight);
         trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
+        //trace("OpenFl application width: " + Lib.current.application.width + " application height: " + Lib.current.application.height);
         trace("Game width:" + FlxG.game.width + " height:" + FlxG.game.height);
         trace("Scale X:" + oflScaleX +" Y:" + oflScaleY);
+        trace("Camera scale X:" + FlxG.camera.scaleX + " scale Y:" + FlxG.camera.scaleY + " Scalemode:" + FlxG.scaleMode);
         trace("TextField x:" + textfield.x + " y:" + textfield.y);
 
         
