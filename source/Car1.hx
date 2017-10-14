@@ -1,4 +1,6 @@
 package ;
+import flixel.system.FlxSound;
+import flixel.FlxG;
 import flixel.FlxObject;
 class Car1 extends WrappingSprite
 {
@@ -13,6 +15,8 @@ class Car1 extends WrappingSprite
 
     var originalSpeed:Int = 0;
     var speedUp:Bool = false;
+    var _type:Int = 0;
+    var _sndCar:FlxSound;
 
     /**
          * Simple sprite to represent a car. There are 4 types of cars, represented by TYPE_A, _B,
@@ -36,6 +40,7 @@ class Car1 extends WrappingSprite
 
         facing = direction;
         originalSpeed = speed;
+        _type = type;
 
         animation.add("0", [TYPE_A], 0, false);
         animation.add("1", [TYPE_B], 0, false);
@@ -44,18 +49,37 @@ class Car1 extends WrappingSprite
         animation.add("4", [TYPE_E], 0, false);
 
         animation.play(Std.string(type));
+        _sndCar = FlxG.sound.load("Car" + _type,.4);
+        _sndCar.proximity(x,y,FlxG.camera.target, FlxG.width *.4);
+        //_sndCar = null;
+        //_sndCar = FlxG.sound.load("Car" + _type);
     }
     override public function update(elapsed:Float):Void
     {
+
         if(!speedUp && Reg.PS.player.y == y)
         {
             speed += 1;
             speedUp = true;
+            _sndCar.setPosition(x + frameWidth / 2, y + height);
+            _sndCar.play();
+            //if(!Reg.PS.sndCar0.playing)
+            //    Reg.PS.sndCar0.play(true);
+//            if(FlxG.sound != null)
+//            {
+//                //if(FlxG.sound.name != "Car"+ _type)
+//                    _sndCar = FlxG.sound.play("Car" + _type);
+//            }
+//                //FlxG.sound.play("Car" + FlxG.random.int(1,5));
         }
         else
         {
             speed = originalSpeed;
             speedUp = false;
+            //if(Reg.PS.sndCar0.playing)
+            //    Reg.PS.sndCar0.stop();
+            //if(_sndCar != null && _sndCar.playing)
+            //    _sndCar.stop();
         }
 
         super.update(elapsed);

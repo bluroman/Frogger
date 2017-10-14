@@ -102,7 +102,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
             FlxG.removeChild(textfield);
             var scoreState:ScoreState = new ScoreState();
             scoreState.playerData.name = textfield.text;
-            scoreState.playerData.score = Reg.score = 1100;
+            scoreState.playerData.score = Reg.score;
             FlxG.switchState(scoreState);
     }
     public function showEnterUserNameField(value:Bool):Void
@@ -168,7 +168,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
     public function displayTextField():Void
     {
         FlxG.stage.focus = textfield;
-        //textfield.setSelection(0, textfield.text.length);
+        textfield.setSelection(0, textfield.text.length);
         textfield.visible = true;
         submitButton.visible =true;
         //Mobile stuff
@@ -213,7 +213,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         textfield.y = calculateRow(8) * oflScaleY;// - textfield.height * 0.5;
         //textfield.y = Lib.current.stage.stageHeight / 2.0 - textfield.height / 2.0;
         //textfield.autoSize = TextFieldAutoSize.LEFT;
-        //textfield.text = " ";
+        textfield.text = "AAAAA";
         //TextField.needsSoftKeyboard = false;
         trace("Enter Your name x:" + enterYourName.getScreenPosition().x + " y:" + enterYourName.getScreenPosition().y + " width:" + enterYourName.frameWidth + " height:" + enterYourName.frameHeight);
         trace("OpenFl display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);

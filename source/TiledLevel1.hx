@@ -265,12 +265,18 @@ class TiledLevel1 extends TiledMap
             case "water":
                 var water = new FlxObject(x, y, o.width, o.height);
                 state.water = water;
+                state.water.ID = 0;
             case "swamp":
                 var swamp = new FlxObject(x, y, o.width, o.height);
                 state.swamp = swamp;
+                state.swamp.ID = 1;
             case "lava":
                 var lava = new FlxObject(x, y, o.width, o.height);
                 state.lava = lava;
+                state.lava.ID = 2;
+            case "road":
+                var road = new FlxObject(x, y, o.width, o.height);
+                state.road = road;
 
         }
 		

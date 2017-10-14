@@ -11,15 +11,15 @@ class FroggerScoreboard extends FScoreboard
         super(ID, MAX_SCORES);
 
         //TODO need to remove this is just for testing
-        clearScoreboard();
+        //clearScoreboard();
 
         if (_scores == null)
         {
             var defaultScores:Array<User_Score> = [
-            {score:860630, name:"GLC"},
-            {score:10000, name:"PRO"},
-            {score:5000, name:"AMA"},
-            {score:1500, name:"BLU"},
+            {score:5000, name:"COM1"},
+            {score:4000, name:"COM2"},
+            {score:3000, name:"COM3"},
+            {score:1500, name:"COM4"},
             {score:1000, name:"ROM1"},
             {score:1000, name:"ROM2"},
             {score:1000, name:"ROM3"},

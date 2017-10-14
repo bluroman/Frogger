@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.FlxSound;
 import flixel.math.FlxPoint;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -72,11 +73,21 @@ class PlayState extends BaseState
     public var water:FlxObject;
     public var swamp:FlxObject;
     public var lava:FlxObject;
+    public var road:FlxObject;
+    var sndWave:FlxSound;
+    var sndAlligator:FlxSound;
+    var sndLava:FlxSound;
+    var sndSnake:FlxSound;
 	override public function create():Void
 	{
 
         FlxG.debugger.drawDebug = false;
         Reg.PS = this;
+
+        sndWave = FlxG.sound.load("Wave");
+        sndAlligator = FlxG.sound.load("Alligator");
+        sndLava = FlxG.sound.load("Lava");
+        sndSnake = FlxG.sound.load("Snake");
 
         // Create the BG sprites
         //backgroundGroup = new BackgroundGroup();
@@ -120,36 +131,6 @@ class PlayState extends BaseState
         waterY = TILE_SIZE * 8;
         Reg.score = 0;
 
-//        homeBaseGroup = new HomeBaseGroup();
-//        add(homeBaseGroup);
-//
-//        // Create logs and turtles
-//        logGroup = new LogGroup(3, actorSpeed);
-//        add(logGroup);
-//        logGroup1 = new LogGroup(-10, actorSpeed);
-//        add(logGroup1);
-//
-//        turtleGroup = new TurtleGroup(2, actorSpeed);
-//        add(turtleGroup);
-//        turtleGroup1 = new TurtleGroup(-11, actorSpeed);
-//        add(turtleGroup1);
-//
-//        snake = new Snake(0, calculateRow(8), FlxObject.LEFT, actorSpeed);
-//        add(snake);
-//
-//
-//
-//        // Create Cars
-//        carGroup = new CarGroup(0, calculateRow(-4), actorSpeed);
-//        add(carGroup);
-//
-//        // Create Cars
-//        carGroup1 = new Car1Group(0, calculateRow(9), actorSpeed);
-//        add(carGroup1);
-//
-//        carGroup2 = new CarGroup(0, calculateRow(-17), actorSpeed);
-//        add(carGroup2);
-
         //var spotlights = new ZSpotLight(0xe0000000);
         //spotlights.add_to_state();
         //spotlights.add_light_target(player, 100);
@@ -168,8 +149,8 @@ class PlayState extends BaseState
         player.touchControls = touchControls;
         add(touchControls);
 
-        var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
-        add(_timer);
+        //var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
+        //add(_timer);
 
         super.create();
 
@@ -233,14 +214,16 @@ class PlayState extends BaseState
             }
         } else if (gameState == GameStates.PLAYING)
         {
-            trace("Player Position Y:" + player.y);
+            //trace("Player Position Y:" + player.y);
             // Reset floating flag for the player.
             playerIsFloating = false;
 
             // Do collision detections
             //FlxG.overlap(carGroup, player, carCollision);
             //FlxG.overlap(carGroup1, player, carCollision);
+            //FlxG.overlap(road, player, roadCollision);
             FlxG.overlap(carGroupNew, player, carCollision);
+
             FlxG.overlap(logGroupNew, player, float);
             FlxG.overlap(turtleGroupNew, player, turtleFloat);
             FlxG.overlap(homeGroup, player, baseCollision);
@@ -250,24 +233,6 @@ class PlayState extends BaseState
             FlxG.overlap(water, player, liquidCollision);
             FlxG.overlap(swamp, player, liquidCollision);
             FlxG.overlap(lava, player, liquidCollision);
-
-            // If nothing has collided with the player, test to see if they are out of bounds when in the water zone
-           /* if (FlxG.overlap(water, player) || FlxG.overlap(swamp, player) || FlxG.overlap(lava, player))//player.y < waterY)
-            {
-                trace("Water Overlap!!!!!!!!!!!!");
-                trace("Player Position: " + player.y);
-                //TODO this can be cleaned up better
-                if (!player.isMoving && !playerIsFloating)
-                    waterCollision();
-
-                if ((player.x > FlxG.width - player.frameWidth/2) || (player.x < -player.frameWidth/2 ))
-                    //if(!player.isOnScreen())
-                {
-                    waterCollision();
-
-                }
-
-            }*/
 
             if (timer == 0 && gameState == GameStates.PLAYING)
             {
@@ -332,8 +297,24 @@ class PlayState extends BaseState
     }
     private function liquidCollision(target:FlxObject, player:Frog):Void
     {
-        trace("###############Liquid Collisions#############");
-        trace("Player Position: " + player.y);
+        //trace("###############Liquid Collisions#############");
+        //trace("Player Position: " + player.y + " ID: " + target.ID);
+        if(target.ID == 0)//water
+        {
+            if(!sndWave.playing)
+                sndWave.play(true);
+        }
+        else if(target.ID == 1)//swamp
+        {
+            if(!sndAlligator.playing)
+                sndAlligator.play(true);
+        }
+        else if(target.ID == 2)//lava
+        {
+            if(!sndLava.playing)
+                sndLava.play(true);
+        }
+
         //TODO this can be cleaned up better
         if (!player.isMoving && !playerIsFloating)
             waterCollision();
@@ -347,7 +328,7 @@ class PlayState extends BaseState
     }
     private function stoneCollision(target:TimerSprite, player:Frog):Void
     {
-        trace("##############Stone Collision###########");
+        //trace("##############Stone Collision###########");
         if (target.get_isActive())
         {
             float(target, player);
@@ -374,10 +355,21 @@ class PlayState extends BaseState
             killPlayer(true);
         }
     }
-    private function carCollision(target:FlxSprite, player:Frog):Void
+    function roadCollision(target:FlxObject, player:Frog):Void
+    {
+        if(gameState != GameStates.COLLISION)
+        {
+            trace("############Road#####################");
+            //if(!sndCarGroup.getFirstAlive().playing)
+            //    sndCarGroup.getFirstAlive().play();
+
+        }
+    }
+    private function carCollision(target:FlxObject, player:Frog):Void
     {
         if (gameState != GameStates.COLLISION)
         {
+                //sndCarGroup.getRandom().play();
             //FlxG.play(GameAssets.FroggerSquashSound);
             if(Std.is(target, Car) || Std.is(target, Car1) || Std.is(target, Truck) || Std.is(target, Snake))
             {
@@ -386,9 +378,9 @@ class PlayState extends BaseState
             }
             else
             {
-                trace("Player Position Y: " + player.y);
-                trace("Target Position Y: " + target.y);
-                trace("Target Bottom Y: " + Std.string(target.y + target.height));
+                //trace("Player Position Y: " + player.y);
+                //trace("Target Position Y: " + target.y);
+                //trace("Target Bottom Y: " + Std.string(target.y + target.height));
             }
         }
     }
@@ -411,6 +403,8 @@ class PlayState extends BaseState
 
                 // Increment the score based on the time left
                 Reg.score += timeLeftOver * ScoreValues.TIME_BONUS;
+                FlxG.sound.play("Bonus");
+                //break;
             case Home.BONUS:
                 // Increment number of frogs saved
                 safeFrogs ++;
@@ -425,6 +419,9 @@ class PlayState extends BaseState
 
                 if (target.mode == Home.BONUS)
                     Reg.score += ScoreValues.HOME_BONUS;
+
+                FlxG.sound.play("Bonus");
+                //break;
             case Home.NO_BONUS:
                 waterCollision();
                 return;
@@ -545,6 +542,7 @@ class PlayState extends BaseState
         hideGameMessageDelay = 100;
 
         //TODO there is a Game Over sound I need to play here
+        FlxG.sound.playMusic("GameOver", 1, false);
     }
 
 }

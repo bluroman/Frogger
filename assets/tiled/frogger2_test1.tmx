@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="40" tilewidth="40" tileheight="40" nextobjectid="72">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="40" tilewidth="40" tileheight="40" nextobjectid="73">
  <tileset firstgid="1" name="frogger_atlas_01" tilewidth="40" tileheight="40" tilecount="625" columns="25">
   <image source="frogger_atlas_01.png" width="1024" height="1024"/>
  </tileset>
@@ -457,5 +457,6 @@
   <object id="69" name="water" type="water" x="0" y="840" width="480" height="240"/>
   <object id="70" name="lava" type="lava" x="0" y="440" width="480" height="320"/>
   <object id="71" name="swamp" type="swamp" x="0" y="80" width="480" height="320"/>
+  <object id="72" name="road" type="road" x="0" y="1120" width="480" height="240"/>
  </objectgroup>
 </map>

@@ -1,4 +1,7 @@
 package ;
+import flixel.util.FlxColor;
+import flixel.util.FlxAxes;
+import flixel.ui.FlxButton;
 import FScoreboard.User_Score;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
@@ -32,12 +35,17 @@ class ScoreState extends BaseState
     var textItem:FlxText;
     var score:User_Score;
     public var playerData:User_Score = {score:0, name:""};
+    private var _btnMainMenu:FlxButton;	// button to go to main menu
 
     override public function create():Void
     {
         super.create();
 
         //FlxG.mouse.show();
+        //if (FlxG.sound.music == null) // don't restart the music if it's alredy playing
+        //{
+            FlxG.sound.playMusic("Score", 1, true);
+        //}
 
         scores = scoreboard.get_scores();
 
@@ -141,6 +149,10 @@ class ScoreState extends BaseState
             add(textItem);
             ypos += 20;
         }
+        _btnMainMenu = new FlxButton(0, FlxG.height - 32, "Main Menu", goMainMenu);
+        _btnMainMenu.screenCenter();
+        _btnMainMenu.onUp.sound = FlxG.sound.load("Click");
+        add(_btnMainMenu);
         if (highScored)
         {
             /*letterPreview = new FlxText((FlxG.width - 100 ) * .5, 500, 100, "_");
@@ -188,6 +200,13 @@ class ScoreState extends BaseState
     {
         //FlxG.state = new MenuState();
         FlxG.switchState(new MenuState());
+    }
+    private function goMainMenu():Void
+    {
+        FlxG.camera.fade(FlxColor.BLACK, .33, false, function()
+        {
+            FlxG.switchState(new MenuState());
+        });
     }
 
     override public function update(elapsed:Float):Void

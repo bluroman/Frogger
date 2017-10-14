@@ -1,9 +1,12 @@
 package ;
+import flixel.FlxG;
+import flixel.system.FlxSound;
 import flixel.FlxObject;
 class Snake extends WrappingSprite
 {
     public static inline var SPRITE_WIDTH = 80;
     public static inline var SPRITE_HEIGHT = 80;
+    var _sndSnake:FlxSound;
 
     /**
          * This is a simple sprite which represents Snake.
@@ -37,5 +40,13 @@ class Snake extends WrappingSprite
             width = 32;
             height = 32;
         }
+        _sndSnake = FlxG.sound.load("Snake",.4);
+        _sndSnake.proximity(x,y,FlxG.camera.target, FlxG.width *.4);
+    }
+    override public function update(elapsed:Float):Void
+    {
+        super.update(elapsed);
+        _sndSnake.setPosition(x + frameWidth / 2, y + height);
+        _sndSnake.play();
     }
 }

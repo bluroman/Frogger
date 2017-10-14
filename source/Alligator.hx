@@ -53,6 +53,8 @@ class Alligator extends WrappingSprite{
     override public function update(elapsed:Float):Void
     {
         super.update(elapsed);
+        if(color == 0xff0000 && y != Reg.PS.player.y)
+            color = 0xffffff;
         //mouth.x = x;
         //mouth.y = y;
 

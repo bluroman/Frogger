@@ -34,6 +34,12 @@ class MenuState extends BaseState
     override public function create():Void
     {
         super.create();
+        if(FlxG.sound.music != null && FlxG.sound.music.playing )
+            FlxG.sound.music.stop();
+        //if (FlxG.sound.music == null) // don't restart the music if it's alredy playing
+        //{
+            FlxG.sound.playMusic("Menu", 1, true);
+        //}
         #if desktop
         FlxG.mouse.visible = true;
         #end
@@ -142,6 +148,7 @@ class MenuState extends BaseState
     private function startGame():Void
     {
         FlxG.switchState(new PlayState());
+        FlxG.sound.music.stop();
 
     }
 }
