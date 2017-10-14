@@ -111,7 +111,7 @@
     <launchImage path="Default-568h@2x.png" width="640" height="1136" if="ios" />
     <launchImage path="Default-414w-736h@3x.png" width="1242" height="2208" if="ios" />
 
-    <haxedef name="ADS" if="ios" />
+    <!--<haxedef name="ADS" if="ios" />-->
     <assets path="assets" exclude="*.ogg|*.mp3" />
     <!--<icon path="assets/images/bot.png" />-->
 
@@ -123,7 +123,7 @@
         <music path="FroggerSquashSound.wav" id="Squash" />
         <music path="FroggerThemeSound.mp3" id="Theme" />
         <music path="FroggerTimeSound.mp3" id="Time" />
-        <music path="8bitDanceMenu001.mp3" id="Menu" />
+        <music path="EightBitDanceMenu001.mp3" id="Menu" />
         <music path="CarHorn1.wav" id="Car0" />
         <music path="CarHorn2.wav" id="Car1" />
         <music path="CarHorn3.wav" id="Car2" />
@@ -133,10 +133,10 @@
         <music path="LavaLoop.wav" id="Lava" />
         <music path="Alligator.wav" id="Alligator" />
         <music path="Snake.WAV" id="Snake" />
-        <music path="8bitDanceGameOver001.mp3" id="GameOver" />
+        <music path="EightBitDanceGameOver001.mp3" id="GameOver" />
         <music path="BONUS3.WAV" id="Bonus" />
         <music path="C64game.mp3" id="Score" />
-        <music path="8bitClick.mp3" id="Click" />
+        <music path="EightBitClick.mp3" id="Click" />
     </assets>
 
     <assets path="assets/sounds" unless="flash">
@@ -147,7 +147,7 @@
         <sound path="FroggerSquashSound.ogg" id="Squash" />
         <sound path="FroggerThemeSound.ogg" id="Theme" />
         <sound path="FroggerTimeSound.ogg" id="Time" />
-        <sound path="8bitDanceMenu001.ogg" id="Menu" />
+        <sound path="EightBitDanceMenu001.ogg" id="Menu" />
         <sound path="CarHorn1.ogg" id="Car0" />
         <sound path="CarHorn2.ogg" id="Car1" />
         <sound path="CarHorn3.ogg" id="Car2" />
@@ -157,9 +157,9 @@
         <sound path="LavaLoop.ogg" id="Lava" />
         <sound path="Alligator.ogg" id="Alligator" />
         <sound path="Snake.ogg" id="Snake" />
-        <sound path="8bitDanceGameOver001.ogg" id="GameOver" />
+        <sound path="EightBitDanceGameOver001.ogg" id="GameOver" />
         <sound path="BONUS3.ogg" id="Bonus" />
         <sound path="C64game.ogg" id="Score" />
-        <sound path="8bitClick.ogg" id="Click" />
+        <sound path="EightBitClick.ogg" id="Click" />
     </assets>
 </project>
