@@ -19,7 +19,7 @@ class Alligator extends WrappingSprite{
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.crocodile__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/crocodile.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         setFacingFlip(FlxObject.LEFT, false, false);
         setFacingFlip(FlxObject.RIGHT, true, false);

@@ -13,7 +13,7 @@ class Car1 extends WrappingSprite
     public static inline var TYPE_D = 3;
     public static inline var TYPE_E = 4;
 
-    var originalSpeed:Int = 0;
+    var originalSpeed:Float = 0;
     var speedUp:Bool = false;
     var _type:Int = 0;
     var _sndCar:FlxSound;
@@ -28,11 +28,11 @@ class Car1 extends WrappingSprite
          * @param direction the direction the sprite will move in
          * @param speed the speed in pixels in which the sprite will move on update
          */
-    public function new(x:Float, y:Float, type:Int, direction:Int, speed:Int)
+    public function new(x:Float, y:Float, type:Int, direction:Int, speed:Float)
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.car_sprite_new__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/car_sprite_new.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         //frame = type;
         setFacingFlip(FlxObject.LEFT, true, false);
@@ -57,29 +57,21 @@ class Car1 extends WrappingSprite
     override public function update(elapsed:Float):Void
     {
 
-        if(!speedUp && Reg.PS.player.y == y)
+        if(!speedUp)
         {
-            speed += 1;
-            speedUp = true;
-            _sndCar.setPosition(x + frameWidth / 2, y + height);
-            _sndCar.play();
-            //if(!Reg.PS.sndCar0.playing)
-            //    Reg.PS.sndCar0.play(true);
-//            if(FlxG.sound != null)
-//            {
-//                //if(FlxG.sound.name != "Car"+ _type)
-//                    _sndCar = FlxG.sound.play("Car" + _type);
-//            }
-//                //FlxG.sound.play("Car" + FlxG.random.int(1,5));
+            if(Reg.PS.player.y == y)
+            {
+                originalSpeed = speed;
+                speed += 1;
+                speedUp = true;
+                _sndCar.setPosition(x + frameWidth / 2, y + height);
+                _sndCar.play();
+            }
         }
         else
         {
             speed = originalSpeed;
             speedUp = false;
-            //if(Reg.PS.sndCar0.playing)
-            //    Reg.PS.sndCar0.stop();
-            //if(_sndCar != null && _sndCar.playing)
-            //    _sndCar.stop();
         }
 
         super.update(elapsed);

@@ -15,12 +15,12 @@ class BackgroundGroup extends FlxTypedSpriteGroup<FlxSprite>{
     public function new()
     {
         super();
-        shoreSprite2 = new FlxSprite(0, calculateRow(-5), AssetPaths.shore_sprite__png);
-        shoreSprite1 = new FlxSprite(0, calculateRow(1), AssetPaths.shore_sprite__png);
-        waterSprite = new FlxSprite(0, calculateRow(2), AssetPaths.water_background1__png);
-        bottomGround = new FlxSprite(0, calculateRow(14), AssetPaths.bottom_ground__png);
-        shoreSprite = new FlxSprite(0, calculateRow(8), AssetPaths.shore_sprite__png);
-        topGround = new FlxSprite(0, -FlxG.height + calculateRow(1) + 19, AssetPaths.top_ground1__png);
+        shoreSprite2 = new FlxSprite(0, calculateRow(-5), "assets/images/shore_sprite.png");
+        shoreSprite1 = new FlxSprite(0, calculateRow(1), "assets/images/shore_sprite.png");
+        waterSprite = new FlxSprite(0, calculateRow(2), "assets/images/water_background1.png");
+        bottomGround = new FlxSprite(0, calculateRow(14), "assets/images/bottom_ground.png");
+        shoreSprite = new FlxSprite(0, calculateRow(8), "assets/images/shore_sprite.png");
+        topGround = new FlxSprite(0, -FlxG.height + calculateRow(1) + 19, "assets/images/top_ground1.png");
         shoreSprite3 = shoreSprite2.clone();
         shoreSprite3.y = calculateRow(-12);
         waterSprite1 = waterSprite.clone();

@@ -149,9 +149,11 @@ class ScoreState extends BaseState
             add(textItem);
             ypos += 20;
         }
-        _btnMainMenu = new FlxButton(0, FlxG.height - 32, "Main Menu", goMainMenu);
+        _btnMainMenu = new FlxButton(0, 0, "Main Menu", goMainMenu);
+        _btnMainMenu.loadGraphic("assets/images/button01.png", 120, 36);
         _btnMainMenu.screenCenter();
         _btnMainMenu.onUp.sound = FlxG.sound.load("Click");
+        _btnMainMenu.label.setFormat(null, 15, FlxColor.WHITE, "center");
         add(_btnMainMenu);
         if (highScored)
         {
@@ -192,14 +194,14 @@ class ScoreState extends BaseState
             //timer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
             //timer.start();
 
-            timer = new FlxTimer().start(6.0, onTimerComplete, 1);
+            timer = new FlxTimer().start(10.0, onTimerComplete, 1);
         }
     }
 
     private function onTimerComplete(event:FlxTimer):Void
     {
         //FlxG.state = new MenuState();
-        FlxG.switchState(new MenuState());
+        goMainMenu();
     }
     private function goMainMenu():Void
     {

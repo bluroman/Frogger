@@ -19,7 +19,7 @@ class TurtlesB extends TurtlesA
     {
         super(x, y, hideTimer, startTime, dir, velocity);
 
-        loadGraphic(AssetPaths.turtle3_sprite__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/turtle3_sprite.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
         animation.add("idle", [0, 1, 2], 3, true);
         animation.add("hide", [3, 4, 5, 6], 3, false);
         animation.add("show", [6, 5, 4, 3, 0], 3, false);

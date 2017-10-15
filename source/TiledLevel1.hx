@@ -1,5 +1,6 @@
 package ;
 
+import openfl.filters.BlurFilter;
 import flixel.addons.editors.tiled.TiledImageLayer;
 import flixel.addons.editors.tiled.TiledImageTile;
 import flixel.addons.editors.tiled.TiledLayer.TiledLayerType;
@@ -19,6 +20,18 @@ import flixel.tile.FlxTilemap;
 import haxe.io.Path;
 import flixel.math.FlxPoint;
 import flixel.graphics.frames.FlxTileFrames;
+import openfl.filters.ColorMatrixFilter;
+
+
+#if shaders_supported
+#if (openfl >= "8.0.0")
+import openfl8.*;
+#else
+import openfl3.*;
+#end
+import openfl.filters.ShaderFilter;
+#end
+
 
 /**
  * @author Samuel Batista
@@ -40,6 +53,7 @@ class TiledLevel1 extends TiledMap
 	
 	public function new(tiledLevel:Dynamic, state:PlayState)
 	{
+		//var filters:Array<BitmapFilter> = [];
 		super(tiledLevel);
 		
 		imagesLayer = new FlxGroup();
@@ -48,7 +62,40 @@ class TiledLevel1 extends TiledMap
 		backgroundLayer = new FlxGroup();
 		
 		FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
-        trace("Full Width:" + fullWidth + " Full Height:" + fullHeight);
+		trace("Full Width:" + fullWidth + " Full Height:" + fullHeight);
+		var grayscaleMatrix:Array<Float> = [
+			0.5, 0.5, 0.5, 0, 0,
+			0.5, 0.5, 0.5, 0, 0,
+			0.5, 0.5, 0.5, 0, 0,
+			  0,   0,   0, 1, 0,
+		];
+		var tritanopiaMatrix:Array<Float> = [
+			0.97, 0.11, -.08, 0, 0,
+			0.02, 0.82, 0.16, 0, 0,
+			0.06, 0.88, 0.18, 0, 0,
+			   0,    0,    0, 1, 0,
+		];
+		var invertMatrix:Array<Float> = [
+			-1,  0,  0, 0, 255,
+			 0, -1,  0, 0, 255,
+			 0,  0, -1, 0, 255,
+			 0,  0,  0, 1,   0,
+		];
+		var protanopiaMatrix:Array<Float> = [
+			0.20, 0.99, -.19, 0, 0,
+			0.16, 0.79, 0.04, 0, 0,
+			0.01, -.01,    1, 0, 0,
+			   0,    0,    0, 1, 0,
+		];
+		var deuteranopiaMatrix:Array<Float> = [
+			0.43, 0.72, -.15, 0, 0,
+			0.34, 0.57, 0.09, 0, 0,
+			-.02, 0.03,    1, 0, 0,
+			   0,    0,    0, 1, 0,
+		];
+		var colorFilter = new ColorMatrixFilter(FlxG.random.getObject([grayscaleMatrix, tritanopiaMatrix,protanopiaMatrix,deuteranopiaMatrix]));
+		var scanlineFilter = new ShaderFilter(new Scanline());
+		FlxG.camera.setFilters([colorFilter, scanlineFilter]);
 		
 		loadImages();
 		loadObjects(state);

@@ -19,7 +19,7 @@ class TurtlesA extends TimerSprite
     {
         super(x, y, null, delay, startTime, dir, speed);
 
-        loadGraphic(AssetPaths.turtle2_sprite__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/turtle2_sprite.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         animation.add("idle", [0, 1, 2], 3, true);
         animation.add("hide", [3, 4, 5], 3, false);

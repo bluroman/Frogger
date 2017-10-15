@@ -20,7 +20,7 @@ class Snake extends WrappingSprite
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.snake__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/snake.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
         angle = -90;
 
         animation.add("idle", [0, 1, 2, 3, 4, 5], 3, true);

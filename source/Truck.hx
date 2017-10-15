@@ -13,6 +13,6 @@ class Truck extends WrappingSprite
          */
     public function new(x:Float, y:Float, direction:UInt, velocity:Int)
     {
-        super(x, y, AssetPaths.truck_sprite0__png, direction, velocity);
+        super(x, y, "assets/images/truck_sprite0.png", direction, velocity);
     }
 }

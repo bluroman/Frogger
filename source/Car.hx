@@ -23,7 +23,7 @@ class Car extends WrappingSprite
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.car_sprites__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/car_sprites.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         //frame = type;
 

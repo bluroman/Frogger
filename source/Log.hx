@@ -31,12 +31,12 @@ class Log extends WrappingSprite
         switch (type)
         {
         case TYPE_A:
-            simpleGraphic = AssetPaths.log_short__png;
+            simpleGraphic = "assets/images/log_short.png";
         case TYPE_B:
-            simpleGraphic = AssetPaths.log_long__png;
+            simpleGraphic = "assets/images/log_long.png";
 
         case TYPE_C:
-            simpleGraphic = AssetPaths.log_mid__png;
+            simpleGraphic = "assets/images/log_mid.png";
         }
 
         super(x, y, simpleGraphic, dir, velocity);

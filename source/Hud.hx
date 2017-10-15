@@ -146,7 +146,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
          */
     public function addLife():Void
     {
-        var flxLife:FlxSprite = new FlxSprite(LIFE_X * get_totalLives() + 10, LIFE_Y, AssetPaths.lives1__png);
+        var flxLife:FlxSprite = new FlxSprite(LIFE_X * get_totalLives() + 10, LIFE_Y, "assets/images/lives1.png");
         add(flxLife);
         lifeSprites.push(flxLife);
     }
@@ -177,7 +177,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
                 //This should work in "next" i think, but causes a compiler error legacy
         //textfield.softKeyboardInputAreaOfInterest = new Rectangle(540, 440, 200, 40);
                 //This does not have any effect afaik (available on legacy only)
-        textfield.moveForSoftKeyboard = true;
+        //textfield.moveForSoftKeyboard = true;
         #end
     }
     public function setupTextField():Void
@@ -191,13 +191,13 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
 
         textformat.font = fontName;
         textformat.align = TextFormatAlign.CENTER;
-        textformat.size = 30 * oflScaleY;
+        //textformat.size = 30.0 * oflScaleY;
         textformat.color = 0xffff00;
 
         textfield.defaultTextFormat = textformat;
 
         textfield.embedFonts = true;
-        //textfield.defaultTextFormat = new TextFormat(fontName, 32 * oflScaleY, 0xffffff, TextFormatAlign.CENTER);
+        textfield.defaultTextFormat = new TextFormat(fontName, Std.int(32 * oflScaleY), 0xffffff, TextFormatAlign.CENTER);
         textfield.type = TextFieldType.INPUT;
         //textfield.x = (FlxG.width - 150) * 0.5 * oflScaleX;
         //textfield.y = calculateRow(8) * oflScaleY;
@@ -226,7 +226,7 @@ class Hud extends FlxTypedSpriteGroup<FlxSprite>
         
 
         FlxG.addChildBelowMouse(textfield);
-        FlxG.stage.__dismissSoftKeyboard();
+        //FlxG.stage.__dismissSoftKeyboard();
         //FlxG.stage.focus = textfield;
         //textfield.setSelection(0, textfield.text.length);
         textfield.visible = false;
