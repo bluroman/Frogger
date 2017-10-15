@@ -287,7 +287,7 @@ class Frog extends FlxSprite
          * @param speed the speed in pixels the Frog should move
          * @param facing the direction the frog will float in
          */
-    public function float(speed:Int, facing:UInt):Void
+    public function float(speed:Float, facing:UInt):Void
     {
         if (isMoving != true)
         {

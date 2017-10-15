@@ -13,7 +13,7 @@ class WrappingSprite extends FlxSprite
     var rightBounds:Int;
     var state:PlayState;
 
-    public var speed:Int;
+    public var speed:Float;
 
         /**
              * This is a base class for any sprite that needs to wrap arround the screen when it goes out of
@@ -26,7 +26,7 @@ class WrappingSprite extends FlxSprite
              * @param dir Direction, supports Right (1) and Left (0)
              * @param speed how many pixel sprite will move each update.
              */
-    public function new(X:Float = 0, Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset = null, dir:Int , speed:Int = 1)
+    public function new(X:Float = 0, Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset = null, dir:Int , speed:Float = 1)
     {
         super(X, Y, SimpleGraphic);
         this.leftBounds = 0;

@@ -45,9 +45,9 @@ class MenuState extends BaseState
         #end
         FlxG.scaleMode = new FillScaleMode();
         #if ADS
-        AdMob.enableTestingAds();
-        AdMob.onInterstitialEvent = onInterstitialEvent;
-        AdMob.initAndroid("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
+        //AdMob.enableTestingAds();
+        //AdMob.onInterstitialEvent = onInterstitialEvent;
+        //AdMob.initAndroid("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
         AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
         #end
         FlxG.state.bgColor = 0x000000;

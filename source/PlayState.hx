@@ -20,8 +20,8 @@ import openfl.text.TextFormatAlign;
 import openfl.text.TextFieldAutoSize;
 import openfl.Lib;
 import FScoreboard.User_Score;
-import zerolib.ZSpotLight;
-import zerolib.ZCountDown;
+//import zerolib.ZSpotLight;
+//import zerolib.ZCountDown;
 
 
 class PlayState extends BaseState
@@ -29,7 +29,7 @@ class PlayState extends BaseState
     public static inline var TILE_SIZE = 40;
     public var gameState:GameStates;
 
-    private var actorSpeed:Int = 1;
+    public var actorSpeed:Float = 1.0;
     private var gameTime:Int;
     private var timer:Int;
     private var timeAlmostOverWarning:Float;
@@ -83,6 +83,7 @@ class PlayState extends BaseState
 
         FlxG.debugger.drawDebug = false;
         Reg.PS = this;
+        Reg.level = 1;
 
         sndWave = FlxG.sound.load("Wave");
         sndAlligator = FlxG.sound.load("Alligator");
@@ -117,7 +118,7 @@ class PlayState extends BaseState
         add(snake);
         //CONFIG::mobile
         //{
-        actorSpeed = 1;
+        actorSpeed = 1.0;
 
         //}
 
@@ -500,6 +501,7 @@ class PlayState extends BaseState
             {
                 resetBases();
                 Reg.level++;
+                levelUp();
             }
             levelTxt.text = Std.string(Reg.level);
             // Change game state to Playing so animation can continue.
@@ -509,6 +511,40 @@ class PlayState extends BaseState
             timeAlmostOverFlag = false;
             //totalElapsed = 0;
         }
+    }
+    public function levelUp():Void
+    {
+        actorSpeed += 0.2;
+        if(actorSpeed > 2.0)
+            actorSpeed = 2.0;
+        carGroupNew.forEach(function(_car:FlxSprite)
+        {
+            var car:Car1 = cast _car;
+
+            car.speed = actorSpeed;
+            trace("Car Speed:" + car.speed);
+        });
+        logGroupNew.forEach(function(_log:FlxSprite)
+        {
+            var log:Log = cast _log;
+
+            log.speed = actorSpeed;
+            trace("Log Speed:" + log.speed);
+        });
+        turtleGroupNew.forEach(function(_turtle:FlxSprite)
+        {
+            var turtle:WrappingSprite = cast _turtle;
+
+            turtle.speed = actorSpeed;
+            trace("Turtle Speed:" + turtle.speed);
+        });
+        alligatorGroup.forEach(function(_alligator:FlxSprite)
+        {
+            var alligator:Alligator = cast _alligator;
+
+            alligator.speed = actorSpeed;
+            trace("Alligator Speed:" + alligator.speed);
+        });
     }
     private function resetBases():Void
     {

@@ -1,4 +1,6 @@
 package ;
+import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -19,6 +21,7 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
     var ButtonsLeft:FlxSprite;
     private var spriteButtons = [];
     var tmpBool:Bool;
+    var ButtonsTest:FlxButton;
 
     /**
          * Touch controls are special buttons that allow virtual input for the game on devices without a keyboard.
@@ -71,6 +74,14 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         add(ButtonsRight);
         //txt = new FlxText(ButtonsRight.x, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center");
         //add(txt);
+#if TEST
+        ButtonsTest = new FlxButton(200, 0, "Test", testLevel);
+        ButtonsTest.loadGraphic(AssetPaths.button01__png, 100, 50);
+        //ButtonsTest.screenCenter();
+        ButtonsTest.onUp.sound = FlxG.sound.load("Click");
+        ButtonsTest.label.setFormat(null, 15, FlxColor.WHITE, "center");
+        add(ButtonsTest);
+#end
         // HUD elements shouldn't move with the camera
         forEach(function(spr:FlxSprite)
         {
@@ -78,6 +89,11 @@ class TouchControls extends FlxTypedSpriteGroup<FlxSprite>
         });
 
 
+    }
+    function testLevel():Void
+    {
+        trace("Current Speed: " + Reg.PS.actorSpeed);
+        Reg.PS.levelUp();
     }
 
     public function justPressed(buttonIndex:UInt):Bool

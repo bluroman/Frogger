@@ -41,7 +41,7 @@
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
-    <haxelib name="zerolib" />
+    <!--<haxelib name="zerolib" />-->
 
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape" />-->
@@ -111,7 +111,7 @@
     <launchImage path="Default-568h@2x.png" width="640" height="1136" if="ios" />
     <launchImage path="Default-414w-736h@3x.png" width="1242" height="2208" if="ios" />
 
-    <!--<haxedef name="ADS" if="ios" />-->
+    <haxedef name="ADS" if="ios" />
     <assets path="assets" exclude="*.ogg|*.mp3" />
     <!--<icon path="assets/images/bot.png" />-->
 
