@@ -46,7 +46,7 @@ class Frog extends FlxSprite
         targetY = Y;
 
             // Set up sprite graphics and animations
-        loadGraphic(AssetPaths.frog_sprite_new5__png, true, 40, 40);
+        loadGraphic("assets/images/frog_sprite_new5.png", true, 40, 40);
         //loadRotatedGraphic(AssetPaths.frog_sprite_new__png, 4, 0);
 
         //animation.add("idle" + FlxObject.UP, [0], 0, false, true, false);
@@ -82,7 +82,7 @@ class Frog extends FlxSprite
          *
          * @param value
          */
-    override public function set_facing(value:UInt):Int
+    override public function set_facing(value:Int):Int
     {
         super.facing = value;
 
@@ -287,7 +287,7 @@ class Frog extends FlxSprite
          * @param speed the speed in pixels the Frog should move
          * @param facing the direction the frog will float in
          */
-    public function float(speed:Float, facing:UInt):Void
+    public function float(speed:Float, facing:Int):Void
     {
         if (isMoving != true)
         {

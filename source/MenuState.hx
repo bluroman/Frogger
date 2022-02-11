@@ -6,8 +6,11 @@ import flixel.FlxState;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
+#if ADS
 import extension.admob.AdMob;
 import extension.admob.GravityMode;
+#end
+
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFieldType;
@@ -45,21 +48,41 @@ class MenuState extends BaseState
         #end
         FlxG.scaleMode = new FillScaleMode();
         #if ADS
-        //AdMob.enableTestingAds();
-        //AdMob.onInterstitialEvent = onInterstitialEvent;
-        //AdMob.initAndroid("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
-        AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", GravityMode.BOTTOM);
+		//AdMob.enableTestingAds();
+
+		// if your app is for children and you want to enable the COPPA policy,
+		// you need to call tagForChildDirectedTreatment(), before calling INIT.
+		// AdMob.tagForChildDirectedTreatment();
+
+		// If you want to get instertitial events (LOADING, LOADED, CLOSED, DISPLAYING, ETC), provide
+		// some callback function for this.
+		AdMob.onInterstitialEvent = onInterstitialEvent;
+
+		// then call init with Android and iOS banner IDs in the main method.
+		// parameters are (bannerId:String, interstitialId:String, gravityMode:GravityMode).
+		// if you don't have the bannerId and interstitialId, go to www.google.com/ads/admob to create them.
+
+		AdMob.initAndroid("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", [
+			"ca-app-pub-6964194614288140/4643184958",
+			"ca-app-pub-6964194614288140/4643184958"
+		], GravityMode.BOTTOM); // may also be GravityMode.TOP
+		AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", [
+			"ca-app-pub-6964194614288140/4643184958",
+			"ca-app-pub-6964194614288140/4643184958"
+        ], GravityMode.BOTTOM); // may also be GravityMode.TOP
+        if(Reg.playCount % 2 == 1)
+            AdMob.showInterstitial(0);
         #end
         FlxG.state.bgColor = 0x000000;
 
         _background = new FlxSprite(0, 80);
-        _background.loadGraphic(AssetPaths.arcade_froggy2__png);
+        _background.loadGraphic("assets/images/arcade_froggy2.png");
         add(_background);
 
         timer = new FlxTimer().start(1.0, myCallback, 1);
 
         _title = new FlxSprite(0, -200);
-        _title.loadGraphic(AssetPaths.frogger_title__png);
+        _title.loadGraphic("assets/images/frogger_title.png");
         _title.x = (FlxG.width * .5) - (_title.width * .5);
         _title.moves = true;
         _title.velocity.y = TEXT_SPEED;
@@ -105,7 +128,7 @@ class MenuState extends BaseState
         testField.maxChars = 5;
 
         FlxG.addChildBelowMouse(testField);
-        FlxG.stage.__dismissSoftKeyboard();
+        //FlxG.stage.__dismissSoftKeyboard();
         trace("TextField x:" + testField.x + " y:" + testField.y);
     }
     private function myCallback(Timer:FlxTimer):Void
@@ -149,6 +172,10 @@ class MenuState extends BaseState
     {
         FlxG.switchState(new PlayState());
         FlxG.sound.music.stop();
+        Reg.playCount++;
+    #if ADS
+        AdMob.hideBanner();
+    #end
 
     }
 }

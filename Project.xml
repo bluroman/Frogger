@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Frogger" file="Frogger" main="Main" version="0.0.1" company="BluromanGames" package="com.bluroman.frogger"/>
+	<app title="Frogger" file="Frogger" main="Main" version="1.0.7" company="BluromanGames" package="com.bluroman.frogger"/>
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -10,6 +10,13 @@
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
 	<set name="SWF_VERSION" value="11.8" />
+    <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="android"/>
+    <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="ios"/>
+    <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/>
+
+    <android minimum-sdk-version="23" target-sdk-version="30" />
+    <config:android gradle-plugin="3.5.4" />
+	<set name="playServicesVersion" value="20.2.0" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
@@ -77,6 +84,8 @@
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+    <haxedef name="shaders_supported" unless="flash || openfl-legacy" />
+     <haxedef name="ADS" if="mobile" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
@@ -111,7 +120,7 @@
     <launchImage path="Default-568h@2x.png" width="640" height="1136" if="ios" />
     <launchImage path="Default-414w-736h@3x.png" width="1242" height="2208" if="ios" />
 
-    <haxedef name="ADS" if="ios" />
+   
     <assets path="assets" exclude="*.ogg|*.mp3" />
     <!--<icon path="assets/images/bot.png" />-->
 
@@ -162,4 +171,5 @@
         <sound path="C64game.ogg" id="Score" />
         <sound path="EightBitClick.ogg" id="Click" />
     </assets>
+    <icon path="Icon-1024.svg" />
 </project>

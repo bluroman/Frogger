@@ -30,7 +30,7 @@ class BlueFrog extends FlxSprite
         // Initialize sprite object
         super(X, Y);
         // Load this animated graphic file
-        loadGraphic(AssetPaths.frog2_sprites__png, true, 40, 40);
+        loadGraphic("assets/images/frog2_sprites.png", true, 40, 40);
         // Setting the color tints the plain white alien graphic
         color = Color;
         _originalX = Std.int(log.x);

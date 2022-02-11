@@ -24,7 +24,7 @@ class Car1Group extends FlxTypedSpriteGroup<FlxSprite>
         super();
         //truck1 = new Truck(0, Y, FlxObject.LEFT, actorSpeed);
         //truck2 = new Truck(270, Y, FlxObject.LEFT, actorSpeed);
-        road = new FlxSprite(X, Y, AssetPaths.road1__png);
+        road = new FlxSprite(X, Y, "assets/images/road1.png");
         car1_1 = new Car1(0, Y + PlayState.TILE_SIZE, Car1.TYPE_C, FlxObject.RIGHT, actorSpeed* 2);
         car1_2 = new Car1(270, Y + PlayState.TILE_SIZE, Car1.TYPE_C, FlxObject.RIGHT, actorSpeed* 2);
 

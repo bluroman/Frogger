@@ -150,7 +150,7 @@ class ScoreState extends BaseState
             ypos += 20;
         }
         _btnMainMenu = new FlxButton(0, 0, "Main Menu", goMainMenu);
-        _btnMainMenu.loadGraphic(AssetPaths.button01__png, 120, 36);
+        _btnMainMenu.loadGraphic("assets/images/button01.png", 120, 36);
         _btnMainMenu.screenCenter();
         _btnMainMenu.onUp.sound = FlxG.sound.load("Click");
         _btnMainMenu.label.setFormat(null, 15, FlxColor.WHITE, "center");

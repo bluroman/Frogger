@@ -29,7 +29,7 @@ class Home extends TimerSprite
 
         this.odds = odds;
 
-        loadGraphic(AssetPaths.home64__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/home64.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
         animation.add("empty", [3], 0, false);
         animation.add("bonus", [1], 0, false);
         animation.add("noBonus", [0], 0, false);

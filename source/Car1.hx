@@ -32,7 +32,7 @@ class Car1 extends WrappingSprite
     {
         super(x, y, null, direction, speed);
 
-        loadGraphic(AssetPaths.car_sprite_new__png, true, SPRITE_WIDTH, SPRITE_HEIGHT);
+        loadGraphic("assets/images/car_sprite_new.png", true, SPRITE_WIDTH, SPRITE_HEIGHT);
 
         //frame = type;
         setFacingFlip(FlxObject.LEFT, true, false);

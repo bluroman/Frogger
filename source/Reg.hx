@@ -18,7 +18,8 @@ class Reg
 	 * Example usage: Storing the current score.
 	 */
 	public static var score:Int = 0;
-    public static var level:Int = 0;
+	public static var level:Int = 0;
+	public static var playCount:Int = 0;
     public static var PS:PlayState;
     /**
     * default game time (sec)
