@@ -15,7 +15,7 @@ class TurtlesB extends TurtlesA
          * @param startTime where the timer should start. Pass in -1 to disable the timer.
          * @param speed speed in pixels the turtle will move in
          */
-    public function new(x:Float, y:Float, hideTimer:Int = 300, startTime:Int = 300, dir:UInt = 0x10, velocity:Int = 40)
+    public function new(x:Float, y:Float, hideTimer:Int = 300, startTime:Int = 300, dir:Int = 0x10, velocity:Int = 40)
     {
         super(x, y, hideTimer, startTime, dir, velocity);
 

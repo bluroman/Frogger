@@ -14,6 +14,10 @@
     <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="ios"/>
     <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/>
 
+    <android minimum-sdk-version="23" target-sdk-version="30" />
+    <config:android gradle-plugin="3.5.4" />
+	<set name="playServicesVersion" value="20.2.0" />
+
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
@@ -167,4 +171,5 @@
         <sound path="C64game.ogg" id="Score" />
         <sound path="EightBitClick.ogg" id="Click" />
     </assets>
+    <icon path="Icon-1024.svg" />
 </project>
