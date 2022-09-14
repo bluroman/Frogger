@@ -2,7 +2,7 @@ package;
 
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
-class Log extends WrappingSprite
+class LogMoving extends WrappingSprite
 {
 	public static inline var TYPE_A = 0;
 	public static inline var TYPE_B = 1;
@@ -24,7 +24,7 @@ class Log extends WrappingSprite
 	 * @param direction the direction the sprite will move in
 	 * @param speed the speed in pixels in which the sprite will move on update
 	 */
-	public function new(x:Float, y:Float, type:Int, dir:Int, speed:Int)
+	public function new(x:Float, y:Float, ?SimpleGraphic:FlxGraphicAsset = null, dir:Int, speed:Int)
 	{
 		var simpleGraphic:FlxGraphicAsset = null;
 

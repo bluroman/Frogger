@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Frogger" file="Frogger" main="Main" version="1.0.7" company="BluromanGames" package="com.bluroman.frogger"/>
+	<app title="Frogger" file="Frogger" main="Main" version="1.4.1" company="BluromanGames" build-number="33" package="com.bluroman.frogger"/>
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -10,13 +10,34 @@
 
 	<!--Minimum without FLX_NO_GAMEPAD: 11.8, without FLX_NO_NATIVE_CURSOR: 11.2-->
 	<set name="SWF_VERSION" value="11.8" />
-    <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="android"/>
+    <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~9851716939" if="android"/>
     <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="ios"/>
-    <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/>
+    <!-- <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/> -->
 
-    <android minimum-sdk-version="23" target-sdk-version="30" />
-    <config:android gradle-plugin="3.5.4" />
-	<set name="playServicesVersion" value="20.2.0" />
+    <!-- <android minimum-sdk-version="23" target-sdk-version="30" /> -->
+    <android minimum-sdk-version="23" target-sdk-version="31" if="android" />
+
+    <certificate path="bluromangames.keystore" alias="bluroman" password="nam2363" if="android" />
+    <config:android gradle-version="6.7.1" if="android" />
+    <config:android gradle-plugin="4.2.0" if="android" />
+    <!-- <config:android gradle-plugin="3.5.4" /> -->
+    <!-- <set name="google-play-services-ads-lite" value="20.2.0"/> -->
+    <!-- <set name="google-play-services-basement" value="20.2.0"/> -->
+    <!-- <set name="google-play-services-games" value="17.0.0"/> -->
+    <!-- <set name="google-play-services-plus" value="17.0.0"/> -->
+    <!-- <set name="google-play-services-drive" value="17.0.0"/> -->
+
+
+    <!-- <set name="openfl-legacy" /> -->
+	<set name="playServicesVersionNew" value="+" />
+    <!-- <set name="playServicesVersion" value="17.0.0" /> -->
+    <!-- <set name="play-services-auth" value="19.0.0" />
+    <set name="play-services-base" value="17.1.0" />
+    <set name="play-services-ads-lite" value="19.3.0" />
+    <set name="google-play-game-services" value="17.0.0" /> -->
+    <setenv name="GOOGLE_PLAY_GAMES_ID" value="495045865037" /> <!-- REPLACE THIS WITH YOUR GOOGLE PLAY GAMES ID! -->
+
+    <!-- <setenv name="ANDROID_GRADLE_TASK" value=":app:bundleRelease" /> -->
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
@@ -42,7 +63,7 @@
 
 	<haxelib name="flixel" />
 	<haxelib name="extension-admob" />
-
+    <haxelib name="extension-googleplaygames" />
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
 
@@ -79,13 +100,15 @@
 	<!--Disable the Flixel core focus lost screen-->
 	<!--<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />-->
 
-	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
+	<!--Disable the Flixel core debugger. Automatically gets ]set whenever you compile in release mode!-->
 	<!--<haxedef name="FLX_NO_DEBUG" unless="debug" />-->
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
     <haxedef name="shaders_supported" unless="flash || openfl-legacy" />
      <haxedef name="ADS" if="mobile" />
+     <haxedef name="GPG" if="android" />
+
 
 	<!-- _________________________________ Custom _______________________________ -->
 
