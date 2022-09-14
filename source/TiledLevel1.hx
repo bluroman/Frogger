@@ -17,6 +17,7 @@ import flixel.addons.tile.FlxTilemapExt;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tile.FlxTilemap;
 import haxe.io.Path;
 import openfl.filters.BlurFilter;
@@ -177,7 +178,8 @@ class TiledLevel1 extends TiledMap
 		var n:Int = props.animationFrames.length;
 		var offset = Std.random(n);
 		special.addAnimation([
-			for (i in 0...n) props.animationFrames[(i + offset) % n].tileID + tileset.firstGID
+			for (i in 0...n)
+				props.animationFrames[(i + offset) % n].tileID + tileset.firstGID
 		], (1000 / props.animationFrames[0].duration));
 		return special;
 	}
@@ -294,8 +296,31 @@ class TiledLevel1 extends TiledMap
 					trace("something wrong with turtles");
 				}
 			case "log":
-				var log = new Log(x, y, Std.parseInt(o.type), Std.parseInt(o.properties.get("direction")), 1);
-				state.logGroupNew.add(log);
+				var simpleGraphic:FlxGraphicAsset = null;
+				if (o.type == "0")
+				{
+					simpleGraphic = "assets/images/log_short.png";
+					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
+					state.logGroupNew.add(logMoving);
+				}
+				else if (o.type == "1")
+				{
+					simpleGraphic = "assets/images/log_long.png";
+					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
+					state.logGroupNew.add(logMoving);
+				}
+				else if (o.type == "2")
+				{
+					simpleGraphic = "assets/images/log_mid.png";
+					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
+					state.logGroupNew.add(logMoving);
+				}
+				else
+				{
+					trace("Wrong Log Wrapping sprite type");
+				}
+			// var logMoving = new LogMoving(x, y, Std.parseInt(o.type), Std.parseInt(o.properties.get("direction")), 1);
+			// state.logGroupNew.add(logMoving);
 			case "alligator":
 				var alligator = new Alligator(x, y, Std.parseInt(o.properties.get("direction")), 1);
 				state.alligatorGroup.add(alligator);

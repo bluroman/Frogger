@@ -8,8 +8,12 @@ import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 #if ADS
-import extension.admob.AdMob;
-import extension.admob.GravityMode;
+import extension.admob.Admob;
+import extension.admob.AdmobEvent;
+// import extension.admob.GravityMode;
+#end
+#if GPG
+import extension.gpg.GooglePlayGames;
 #end
 
 // using cpp.Object;
@@ -43,6 +47,7 @@ class ScoreState extends BaseState
 	public var playerData:User_Score = {score: 0, name: ""};
 
 	private var _btnMainMenu:FlxButton; // button to go to main menu
+	private var _btnLeaderboadrdMenu:FlxButton;
 
 	override public function create():Void
 	{
@@ -160,6 +165,15 @@ class ScoreState extends BaseState
 		_btnMainMenu.onUp.sound = FlxG.sound.load("Click");
 		_btnMainMenu.label.setFormat(null, 15, FlxColor.WHITE, "center");
 		add(_btnMainMenu);
+		#if mobile
+		_btnLeaderboadrdMenu = new FlxButton(0, 0, "Leaderboard", goLeaderboard);
+		_btnLeaderboadrdMenu.loadGraphic("assets/images/button02.png", 150, 40);
+		_btnLeaderboadrdMenu.screenCenter();
+		_btnLeaderboadrdMenu.y += 80;
+		_btnLeaderboadrdMenu.onUp.sound = FlxG.sound.load("Click");
+		_btnLeaderboadrdMenu.label.setFormat(null, 18, FlxColor.WHITE, "center");
+		add(_btnLeaderboadrdMenu);
+		#end
 		if (highScored)
 		{
 			/*letterPreview = new FlxText((FlxG.width - 100 ) * .5, 500, 100, "_");
@@ -198,20 +212,23 @@ class ScoreState extends BaseState
 			// timer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
 			// timer.start();
 
-			timer = new FlxTimer().start(10.0, onTimerComplete, 1);
+			// timer = new FlxTimer().start(10.0, onTimerComplete, 1);
 		}
 		#if ADS
-		AdMob.onInterstitialEvent = onInterstitialEvent;
+		Admob.status.addEventListener(AdmobEvent.INTERSTITIAL_LOADED, onInterstitialEvent);
+		// AdMob.onInterstitialEvent = onInterstitialEvent;
 		trace("##################Show Interstitial#################");
 
 		// if (Reg.playCount % 2 == 1)
-		AdMob.showInterstitial(0);
+		// AdMob.showInterstitial(0);
+		Admob.loadInterstitial(Reg.INTERSTITIAL_ID_ANDROID);
 		#end
 	}
 
-	function onInterstitialEvent(event:String)
+	function onInterstitialEvent(event:AdmobEvent)
 	{
-		trace("The interstitial is " + event);
+		trace(event.type, event.data);
+		Admob.showInterstitial();
 	}
 
 	private function onTimerComplete(event:FlxTimer):Void
@@ -226,6 +243,17 @@ class ScoreState extends BaseState
 		{
 			FlxG.switchState(new MenuState());
 		});
+	}
+
+	private function goLeaderboard()
+	{
+		trace("Display Leaderboard");
+		// GooglePlayGames.getPlayerScore(Reg.GPG_LEADERBOARD);
+		#if mobile
+		#if GPG
+		GooglePlayGames.displayScoreboard(Reg.GPG_LEADERBOARD);
+		#end
+		#end
 	}
 
 	override public function update(elapsed:Float):Void

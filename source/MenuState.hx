@@ -6,6 +6,8 @@ import flixel.FlxState;
 import flixel.math.FlxMath;
 import flixel.system.scaleModes.FillScaleMode;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import openfl.Lib;
@@ -15,8 +17,11 @@ import openfl.text.TextFieldType;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 #if ADS
-import extension.admob.AdMob;
-import extension.admob.GravityMode;
+import extension.admob.Admob;
+import extension.admob.AdmobEvent;
+#end
+#if GPG
+import extension.gpg.GooglePlayGames;
 #end
 
 /**
@@ -34,6 +39,8 @@ class MenuState extends BaseState
 	private var timer:FlxTimer;
 	private var _background:FlxSprite;
 
+	// private var _btnLeaderboard:FlxButton; // button to go to main menu
+
 	override public function create():Void
 	{
 		super.create();
@@ -43,33 +50,41 @@ class MenuState extends BaseState
 		// {
 		FlxG.sound.playMusic("Menu", 1, true);
 		// }
-		#if desktop
+		#if FLX_MOUSE
 		FlxG.mouse.visible = true;
 		#end
 		FlxG.scaleMode = new FillScaleMode();
+		#if GPG
+		GooglePlayGames.onGetPlayerScore = playerScoreCallback; // Work with Int data type.
+		GooglePlayGames.onLoginResult = loginCallback;
+		GooglePlayGames.init(false);
+		#end
+
 		#if ADS
+		Admob.status.addEventListener(AdmobEvent.INIT_OK, onInitOk);
+		Admob.init();
 		// AdMob.enableTestingAds();
 
-		// if your app is for children and you want to enable the COPPA policy,
+		// if your app is for children and you want to enable the COPPA policy
 		// you need to call tagForChildDirectedTreatment(), before calling INIT.
-		// AdMob.tagForChildDirectedTreatment();
+		// Admob.tagForChildDirectedTreatment();
 
 		// If you want to get instertitial events (LOADING, LOADED, CLOSED, DISPLAYING, ETC), provide
 		// some callback function for this.
-		AdMob.onInterstitialEvent = onInterstitialEvent;
+		// Admob.onInterstitialEvent = onInterstitialEvent;
 
 		// then call init with Android and iOS banner IDs in the main method.
 		// parameters are (bannerId:String, interstitialId:String, gravityMode:GravityMode).
 		// if you don't have the bannerId and interstitialId, go to www.google.com/ads/admob to create them.
 
-		AdMob.initAndroid("ca-app-pub-6964194614288140/8538635264", "ca-app-pub-6964194614288140/8511587241", [
-			"ca-app-pub-6964194614288140/9633097226",
-			"ca-app-pub-6964194614288140/9633097226"
-		], GravityMode.BOTTOM); // may also be GravityMode.TOP
-		AdMob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", [
-			"ca-app-pub-6964194614288140/4643184958",
-			"ca-app-pub-6964194614288140/4643184958"
-		], GravityMode.BOTTOM); // may also be GravityMode.TOP
+		// Admob.initAndroid("ca-app-pub-6964194614288140/8538635264", "ca-app-pub-6964194614288140/8511587241", [
+		// 	"ca-app-pub-6964194614288140/9633097226",
+		// 	"ca-app-pub-6964194614288140/9633097226"
+		// ], GravityMode.BOTTOM); // may also be GravityMode.TOP
+		// Admob.initIOS("ca-app-pub-6964194614288140/7785218114", "ca-app-pub-6964194614288140/8331302582", [
+		// 	"ca-app-pub-6964194614288140/4643184958",
+		// 	"ca-app-pub-6964194614288140/4643184958"
+		// ], GravityMode.BOTTOM); // may also be GravityMode.TOP
 		// if (Reg.playCount % 2 == 1)
 		// {
 		// 	trace("##################Show Interstitial#################");
@@ -90,9 +105,53 @@ class MenuState extends BaseState
 		_title.moves = true;
 		_title.velocity.y = TEXT_SPEED;
 		add(_title);
+
+		// _btnLeaderboard = new FlxButton(0, 0, "Leaderboard", displayLeaderboard);
+		// _btnLeaderboard.loadGraphic("assets/images/button01.png", 120, 36);
+		// _btnLeaderboard.screenCenter();
+		// _btnLeaderboard.onUp.sound = FlxG.sound.load("Click");
+		// _btnLeaderboard.label.setFormat(null, 15, FlxColor.WHITE, "center");
+		// add(_btnLeaderboard);
 		// openflTextFieldTest();
 
 		// add(new FlxText(20, FlxG.height - 30, FlxG.width - 40, "Original Frogger graphics and images by Konami. \nThis was created only for demonstration purposes").setFormat(null, 8, 0xffffffff, "center"));
+	}
+
+	function playerScoreCallback(idScoreboard:String, score:Int):Void
+	{
+		// This function must be adapted to your game logic.
+		Lib.trace("ID Scoreboard: " + idScoreboard + ". Score: " + score);
+		scoreTxt.text = Std.string(score);
+		scoreTxt.color = FlxColor.WHITE;
+	}
+
+	function loginCallback(result:Int):Void
+	{
+		// The possible returned values are:
+		// -1 = failed login
+		//  0 = trying to log in
+		//  1 = logged in
+		// this event is fired several times on differents situations, results vary and must be tested
+		// and adapted to your game logic. for example, if you execute init() and login() but the user
+		// doesn't login, cancel the operation, it will return: 0 -1 0 -1 , same as if the user is
+		// not connected to the internet.
+		Lib.trace("Login result = " + result);
+		if (result == 1)
+		{
+			trace("Login Successful");
+			// GooglePlayGames.setScore("CgkIzdyhmLQOEAIQAg", 234); // to set 234 points on scoreboard (Int data type).
+			#if mobile
+			#if GPG
+			GooglePlayGames.getPlayerScore(Reg.GPG_LEADERBOARD);
+			#end
+			#end
+		}
+	}
+
+	private function onInitOk(ae:AdmobEvent)
+	{
+		trace(ae.type, ae.data);
+		Admob.setVolume(0);
 	}
 
 	function onInterstitialEvent(event:String)
@@ -149,8 +208,25 @@ class MenuState extends BaseState
 		add(pressLabel);
 		// openflTextFieldTest();
 		#if ADS
-		AdMob.showBanner();
+		Admob.showBanner(Reg.BANNER_ID_ANDROID, Admob.BANNER_SIZE_BANNER, Admob.BANNER_ALIGN_BOTTOM);
+		// AdMob.showBanner();
 		#end
+	}
+
+	private function displayLeaderboard():Void
+	{
+		// FlxG.camera.fade(FlxColor.BLACK, .33, false, function()
+		// {
+		trace("Display Leaderboard");
+		#if mobile
+		#if GPG
+		GooglePlayGames.getPlayerScore(Reg.GPG_LEADERBOARD);
+
+		GooglePlayGames.displayScoreboard(Reg.GPG_LEADERBOARD);
+		#end
+		#end
+		// FlxG.switchState(new MenuState());
+		// });
 	}
 
 	override public function update(elapsed:Float):Void
@@ -165,15 +241,31 @@ class MenuState extends BaseState
 			_title.velocity.y = 0;
 
 		#if FLX_TOUCH
+		// for (touch in FlxG.touches.list)
+		// {
+		// 	if (touch.justPressed && touch.overlaps(pressLabel))
+		// 	{
+		// 		Reg.level = 0;
+		// 		levelTxt.text = Std.string(Reg.level);
+		// 		FlxG.cameras.fade(0xff969867, 1, false, startGame);
+		// 	}
+		// }
+
 		if (FlxG.touches.justStarted().length > 0 && timer.finished)
-		#elseif FLX_MOUSE
-		if (FlxG.mouse.justPressed && timer.finished)
-		#end
 		{
 			Reg.level = 0;
 			levelTxt.text = Std.string(Reg.level);
 			FlxG.cameras.fade(0xff969867, 1, false, startGame);
 		}
+		#end
+		#if FLX_MOUSE
+		if (FlxG.mouse.justPressed && timer.finished)
+		{
+			Reg.level = 0;
+			levelTxt.text = Std.string(Reg.level);
+			FlxG.cameras.fade(0xff969867, 1, false, startGame);
+		}
+		#end
 
 		super.update(elapsed);
 	}
@@ -184,7 +276,7 @@ class MenuState extends BaseState
 		FlxG.sound.music.stop();
 		Reg.playCount++;
 		#if ADS
-		AdMob.hideBanner();
+		Admob.hideBanner();
 		#end
 	}
 }

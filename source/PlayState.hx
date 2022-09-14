@@ -105,6 +105,8 @@ class PlayState extends BaseState
 		carGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
 		turtleGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
 		logGroupNew = new FlxTypedSpriteGroup<FlxSprite>();
+		// logGroupNew = new FlxTypedGroup<WrappingSprite>();
+
 		alligatorGroup = new FlxTypedSpriteGroup<FlxSprite>();
 		safeStoneGroup = new FlxTypedSpriteGroup<FlxSprite>();
 		homeGroup = new FlxTypedSpriteGroup<FlxSprite>();
@@ -305,7 +307,7 @@ class PlayState extends BaseState
 			scoreTxt.text = Std.string(Reg.score);
 			// scoreTxt.text = FlxG.score.toString();
 		}
-		else if (gameState == GameStates.DEATH_OVER)
+		else if (gameState == GameStates.DEATH_OVER || gameState == GameStates.RESTART)
 		{
 			// restart();
 			if (hideGameMessageDelay == 0)
@@ -354,7 +356,8 @@ class PlayState extends BaseState
 		}
 
 		// TODO this can be cleaned up better
-		if (!player.isMoving && !playerIsFloating)
+		// if (!player.isMoving && !playerIsFloating)
+		if (!playerIsFloating)
 			waterCollision();
 
 		if ((player.x > FlxG.width - player.frameWidth / 2) || (player.x < -player.frameWidth / 2))
@@ -413,7 +416,7 @@ class PlayState extends BaseState
 		{
 			// sndCarGroup.getRandom().play();
 			// FlxG.play(GameAssets.FroggerSquashSound);
-			if (Std.is(target, Car) || Std.is(target, Car1) || Std.is(target, Truck) || Std.is(target, Snake))
+			if (Std.isOfType(target, Car) || Std.isOfType(target, Car1) || Std.isOfType(target, Truck) || Std.isOfType(target, Snake))
 			{
 				FlxG.sound.play("Squash");
 				killPlayer(false);
@@ -484,7 +487,10 @@ class PlayState extends BaseState
 		}
 		else
 		{
-			restart();
+			hideGameMessageDelay = 50;
+			gameState = GameStates.RESTART;
+			player.restart();
+			// restart();
 		}
 	}
 
@@ -517,7 +523,7 @@ class PlayState extends BaseState
 	private function float(target:WrappingSprite, player:Frog):Void
 	{
 		playerIsFloating = true;
-		if (Std.is(target, Alligator))
+		if (Std.isOfType(target, Alligator))
 		{
 			target.color = 0xff0000;
 			trace("Alligator X:" + target.x);
@@ -549,10 +555,11 @@ class PlayState extends BaseState
 			}
 			levelTxt.text = Std.string(Reg.level);
 			// Change game state to Playing so animation can continue.
-			gameState = GameStates.PLAYING;
 			timer = gameTime;
 			player.restart();
 			timeAlmostOverFlag = false;
+			gameState = GameStates.PLAYING;
+			trace("restart end");
 			// totalElapsed = 0;
 		}
 	}
@@ -562,43 +569,43 @@ class PlayState extends BaseState
 		actorSpeed += 0.2;
 		if (actorSpeed > 2.0)
 			actorSpeed = 2.0;
-		carGroupNew.forEach(function(_car:FlxSprite)
+		alligatorGroup.forEachOfType(Alligator, function(_alligator)
 		{
-			var car:Car1 = cast _car;
+			// var alligator:Alligator = cast _alligator;
 
-			car.speed = actorSpeed;
-			trace("Car Speed:" + car.speed);
+			_alligator.speed = actorSpeed;
+			trace("Alligator Speed:" + _alligator.speed);
 		});
-		logGroupNew.forEach(function(_log:FlxSprite)
+		turtleGroupNew.forEachOfType(WrappingSprite, function(_turtle)
 		{
-			var log:Log = cast _log;
+			// var turtle:WrappingSprite = cast _turtle;
 
-			log.speed = actorSpeed;
-			trace("Log Speed:" + log.speed);
+			_turtle.speed = actorSpeed;
+			trace("Turtle Speed:" + _turtle.speed);
 		});
-		turtleGroupNew.forEach(function(_turtle:FlxSprite)
+		carGroupNew.forEachOfType(Car1, function(_car)
 		{
-			var turtle:WrappingSprite = cast _turtle;
+			// var car:Car1 = cast _car;
 
-			turtle.speed = actorSpeed;
-			trace("Turtle Speed:" + turtle.speed);
+			_car.speed = actorSpeed;
+			trace("Car Speed:" + _car.speed);
 		});
-		alligatorGroup.forEach(function(_alligator:FlxSprite)
+		logGroupNew.forEachOfType(WrappingSprite, function(_logMoving)
 		{
-			var alligator:Alligator = cast _alligator;
+			// var logMoving:WrappingSprite = cast(_logMoving, WrappingSprite);
 
-			alligator.speed = actorSpeed;
-			trace("Alligator Speed:" + alligator.speed);
+			_logMoving.speed = actorSpeed;
+			trace("Log Speed:" + _logMoving.speed);
 		});
 	}
 
 	private function resetBases():Void
 	{
-		homeGroup.forEach(function(base:FlxSprite)
+		homeGroup.forEachOfType(Home, function(_base)
 		{
-			var here = cast base;
-			trace("base:", here);
-			here.empty();
+			// var here = cast base;
+			trace("base:", _base);
+			_base.empty();
 		});
 		// Reset safe frogs
 		safeFrogs = 0;
