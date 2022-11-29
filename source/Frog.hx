@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.util.FlxDirectionFlags;
 import haxe.io.Input;
 import openfl.geom.Point;
 
@@ -56,14 +57,14 @@ class Frog extends FlxSprite
 
 		// animation.add("idle" + FlxObject.UP, [0], 0, false, true, false);
 		// animation.add("idle" + FlxObject.RIGHT, [0], 0, false);
-		animation.add("idle" + FlxObject.DOWN, [0], 0, false);
-		animation.add("idle" + FlxObject.LEFT, [2], 0, false);
-		animation.add("walk" + FlxObject.DOWN, [0, 1], 15, true);
-		animation.add("walk" + FlxObject.LEFT, [2, 3], 15, true);
-		animation.add("idle" + FlxObject.UP, [0], 0, false, false, true);
-		animation.add("idle" + FlxObject.RIGHT, [2], 0, false, true, false);
-		animation.add("walk" + FlxObject.UP, [0, 1], 15, true, false, true);
-		animation.add("walk" + FlxObject.RIGHT, [2, 3], 15, true, true, false);
+		animation.add("idle" + FlxDirectionFlags.DOWN, [0], 0, false);
+		animation.add("idle" + FlxDirectionFlags.LEFT, [2], 0, false);
+		animation.add("walk" + FlxDirectionFlags.DOWN, [0, 1], 15, true);
+		animation.add("walk" + FlxDirectionFlags.LEFT, [2, 3], 15, true);
+		animation.add("idle" + FlxDirectionFlags.UP, [0], 0, false, false, true);
+		animation.add("idle" + FlxDirectionFlags.RIGHT, [2], 0, false, true, false);
+		animation.add("walk" + FlxDirectionFlags.UP, [0, 1], 15, true, false, true);
+		animation.add("walk" + FlxDirectionFlags.RIGHT, [2, 3], 15, true, true, false);
 		// animation.add("idle" + FlxObject.LEFT, [0], 0, false);
 		// animation.add("walk" + FlxObject.UP, [0,1], 15, true);
 		// animation.add("walk" + FlxObject.RIGHT, [2,3], 15, true);
@@ -75,7 +76,7 @@ class Frog extends FlxSprite
 		// Set facing direction
 		// facing = FlxObject.UP;
 		// angle = 180;
-		set_facing(FlxObject.UP);
+		set_facing(UP);
 		animation.play("idle" + facing);
 
 		// Save an instance of the PlayState to help with collision detection and movement
@@ -91,7 +92,7 @@ class Frog extends FlxSprite
 	{
 		super.facing = value;
 
-		if (value == FlxObject.UP || value == FlxObject.DOWN)
+		if (value == FlxDirectionFlags.UP || value == FlxDirectionFlags.DOWN)
 		{
 			width = 38;
 			height = 26;
@@ -160,7 +161,7 @@ class Frog extends FlxSprite
 					// #end
 				{
 					targetX = x - maxMoveX;
-					set_facing(FlxObject.LEFT);
+					set_facing(FlxDirectionFlags.LEFT);
 					// facing = FlxObject.LEFT;
 				}
 					// #if desktop
@@ -173,7 +174,7 @@ class Frog extends FlxSprite
 					// #end
 				{
 					targetX = x + maxMoveX;
-					set_facing(FlxObject.RIGHT);
+					set_facing(FlxDirectionFlags.RIGHT);
 					// facing = FlxObject.RIGHT;
 				}
 					// #if desktop
@@ -185,7 +186,7 @@ class Frog extends FlxSprite
 					// #end
 				{
 					targetY = y - maxMoveY;
-					set_facing(FlxObject.UP);
+					set_facing(FlxDirectionFlags.UP);
 					// facing = FlxObject.UP;
 				}
 					// #if desktop
@@ -197,7 +198,7 @@ class Frog extends FlxSprite
 					// #end
 				{
 					targetY = y + maxMoveY;
-					set_facing(FlxObject.DOWN);
+					set_facing(FlxDirectionFlags.DOWN);
 					// facing = FlxObject.DOWN;
 				}
 
@@ -225,19 +226,19 @@ class Frog extends FlxSprite
 			// If isMoving is true we are going to update the actual position.
 			if (isMoving == true)
 			{
-				if (facing == FlxObject.LEFT)
+				if (facing == FlxDirectionFlags.LEFT)
 				{
 					x -= moveX;
 				}
-				else if (facing == FlxObject.RIGHT)
+				else if (facing == FlxDirectionFlags.RIGHT)
 				{
 					x += moveX;
 				}
-				else if (facing == FlxObject.UP)
+				else if (facing == FlxDirectionFlags.UP)
 				{
 					y -= moveY;
 				}
-				else if (facing == FlxObject.DOWN)
+				else if (facing == FlxDirectionFlags.DOWN)
 				{
 					y += moveY;
 				}
@@ -281,7 +282,7 @@ class Frog extends FlxSprite
 		y = startPosition.y;
 		targetX = startPosition.x;
 		targetY = startPosition.y;
-		set_facing(FlxObject.UP);
+		set_facing(FlxDirectionFlags.UP);
 		// facing = FlxObject.UP;
 		animation.play("idle" + facing);
 		if (!visible)
@@ -298,7 +299,7 @@ class Frog extends FlxSprite
 	{
 		if (isMoving != true)
 		{
-			x += (facing == FlxObject.RIGHT) ? speed : -speed;
+			x += (facing == FlxDirectionFlags.RIGHT) ? speed : -speed;
 			targetX = x;
 			isMoving = true;
 		}
