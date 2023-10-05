@@ -1,8 +1,10 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxMath;
 import flixel.system.scaleModes.FillScaleMode;
 import flixel.text.FlxText;
@@ -11,6 +13,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import openfl.Lib;
+import openfl.geom.Rectangle;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFieldType;
@@ -43,6 +46,13 @@ class MenuState extends BaseState
 
 	override public function create():Void
 	{
+		if (Main.tongue == null)
+		{
+			Main.tongue = new FireTongueEx();
+			Main.tongue.initialize({locale: "en-US"});
+			FlxUIState.static_tongue = Main.tongue;
+		}
+
 		super.create();
 		if (FlxG.sound.music != null && FlxG.sound.music.playing)
 			FlxG.sound.music.stop();
@@ -152,11 +162,31 @@ class MenuState extends BaseState
 	{
 		trace(ae.type, ae.data);
 		Admob.setVolume(0);
+		// #if 0
+		// Admob.status.addEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
+		// Admob.status.addEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
+
+		// // AdMob.onInterstitialEvent = onInterstitialEvent;
+		// trace("##################Load Rewarded Video#################");
+
+		// // if (Reg.playCount % 2 == 1)
+		// // AdMob.showInterstitial(0);
+		// Admob.loadRewarded(Reg.REWARDED_ID_ANDROID);
+		// #end
 	}
 
-	function onInterstitialEvent(event:String)
+	function onRewardedEarnedEvent(event:String)
 	{
-		trace("The interstitial is " + event);
+		trace("The Rewarded Video Event is " + event);
+		// if (event == AdMob.LOADED)
+		// {
+		// 	AdMob.showInterstitial(0);
+		// }
+	}
+
+	function onRewardedLoadedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
 		// if (event == AdMob.LOADED)
 		// {
 		// 	AdMob.showInterstitial(0);
@@ -202,8 +232,8 @@ class MenuState extends BaseState
 
 	private function myCallback(Timer:FlxTimer):Void
 	{
-		startLabel = new FlxText(0, 200, FlxG.width, "START").setFormat(null, 18, 0xffffffff, "center");
-		pressLabel = new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center");
+		startLabel = new FlxText(0, 200, FlxG.width, "START").setFormat("assets/data/smallfont.ttf", 24, 0xffffffff, "center");
+		pressLabel = new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat("assets/data/smallfont.ttf", 24, 0xd33bd1, "center");
 		add(startLabel);
 		add(pressLabel);
 		// openflTextFieldTest();

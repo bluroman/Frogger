@@ -10,7 +10,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.math.FlxPoint;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -21,15 +21,18 @@ import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFieldType;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
-
-// import zerolib.ZSpotLight;
 // import zerolib.ZCountDown;
+// import zerolib.ZSpotLight;
+#if ADS
+import extension.admob.Admob;
+import extension.admob.AdmobEvent;
+#end
+
 class PlayState extends BaseState
 {
 	public static inline var TILE_SIZE = 40;
 
 	public var gameState:GameStates;
-
 	public var actorSpeed:Float = 1.0;
 
 	private var gameTime:Int;
@@ -57,10 +60,13 @@ class PlayState extends BaseState
 	private var safeFrogs:Int = 0;
 	private var timeAlmostOverFlag:Bool = false;
 	private var playerIsFloating:Bool;
+
 	// private var timeAlmostOverWarning:Int;
 	private var lastLifeScore:Int = 0;
 	private var nextLife:Int = 5000;
 	private var totalElapsed:Float = 0;
+	private var isRewardedLoaded:Bool = false;
+	private var isRewardedEarned:Bool = false;
 
 	public var snake:Snake;
 
@@ -170,6 +176,18 @@ class PlayState extends BaseState
 		Input.virtualPad.buttonLeft.setPosition(480 - 200, calculateRow(16) + 20);
 		Input.virtualPad.buttonRight.setPosition(480 - 100, calculateRow(16) + 20);
 		#end
+		#if ADS
+		Admob.status.addEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
+		Admob.status.addEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
+		Admob.status.addEventListener(AdmobEvent.REWARDED_DISMISSED, onRewardedDismissedEvent);
+
+		// AdMob.onInterstitialEvent = onInterstitialEvent;
+		trace("##################Start Load Rewarded Video#################");
+
+		// if (Reg.playCount % 2 == 1)
+		// AdMob.showInterstitial(0);
+		Admob.loadRewarded(Reg.REWARDED_ID_ANDROID);
+		#end
 
 		// var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
 		// add(_timer);
@@ -182,6 +200,34 @@ class PlayState extends BaseState
 		trace("Turtle Group: " + turtleGroupNew.length);
 		trace("Car Group: " + carGroupNew.length);
 		trace("PlayState display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
+	}
+
+	function onRewardedDismissedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		if (isRewardedEarned)
+		{
+			hud.createLives(1);
+
+			hud.showGameMessage("Earned 1-Life");
+			hideGameMessageDelay = 50;
+			isRewardedEarned = false;
+			FlxG.sound.play("Bonus");
+		}
+		closeSubState();
+	}
+
+	function onRewardedEarnedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		isRewardedEarned = true;
+		isRewardedLoaded = false;
+	}
+
+	function onRewardedLoadedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		isRewardedLoaded = true;
 	}
 
 	/**
@@ -225,6 +271,11 @@ class PlayState extends BaseState
 			{
 				// FlxG.state = new StartState();
 				// ToDo by hoon
+				#if ADS
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_DISMISSED, onRewardedDismissedEvent);
+				#end
 				if (!displayFlag)
 				{
 					displayFlag = true;
@@ -307,12 +358,35 @@ class PlayState extends BaseState
 			scoreTxt.text = Std.string(Reg.score);
 			// scoreTxt.text = FlxG.score.toString();
 		}
-		else if (gameState == GameStates.DEATH_OVER || gameState == GameStates.RESTART)
+		else if (gameState == GameStates.RESTART)
 		{
 			// restart();
 			if (hideGameMessageDelay == 0)
 			{
 				restart();
+			}
+			else
+			{
+				hideGameMessageDelay -= 1; // FlxG.elapsed;
+			}
+		}
+		else if (gameState == GameStates.DEATH_OVER)
+		{
+			if (hideGameMessageDelay == 0)
+			{
+				// restart();
+				if (hud.get_totalLives() == 0)
+				{
+					if (isRewardedLoaded)
+					{
+						// Admob.showRewarded();
+						openSubState(new Popup_Demo());
+					}
+					else
+						restart();
+				}
+				else
+					restart();
 			}
 			else
 			{
@@ -537,7 +611,7 @@ class PlayState extends BaseState
 		}
 	}
 
-	private function restart():Void
+	public function restart():Void
 	{
 		// Make sure the player still has lives to restart
 		if (hud.get_totalLives() == 0 && gameState != GameStates.GAME_OVER)

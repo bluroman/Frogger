@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Frogger" file="Frogger" main="Main" version="1.4.2" company="BluromanGames" build-number="34" package="com.bluroman.frogger"/>
+	<app title="Frogger" file="Frogger" main="Main" version="1.6.0" company="BluromanGames" build-number="36" package="com.bluroman.frogger"/>
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -15,7 +15,7 @@
     <!-- <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/> -->
 
     <!-- <android minimum-sdk-version="23" target-sdk-version="30" /> -->
-    <android minimum-sdk-version="23" target-sdk-version="31" if="android" />
+    <android minimum-sdk-version="23" target-sdk-version="33" if="android" />
 
     <certificate path="bluromangames.keystore" alias="bluroman" password="nam2363" if="android" />
     <config:android gradle-version="6.7.1" if="android" />
@@ -29,7 +29,9 @@
 
 
     <!-- <set name="openfl-legacy" /> -->
-	<set name="playServicesVersionNew" value="+" />
+	<set name="playServicesVersion" value="22.2.0" />
+    <set name="playServicesGamesVersion" value="+" />
+
     <!-- <set name="playServicesVersion" value="17.0.0" /> -->
     <!-- <set name="play-services-auth" value="19.0.0" />
     <set name="play-services-base" value="17.1.0" />
@@ -69,6 +71,7 @@
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
+    <haxelib name="firetongue"/>
     <!--<haxelib name="zerolib" />-->
 
 	<!--In case you want to use nape with flixel-->
@@ -115,7 +118,7 @@
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
     <set name="PRERENDERED_ICON" value="true" />
 
-    <icon path="Icon.png" size="57" if="ios" />
+    <!-- <icon path="Icon.png" size="57" if="ios" />
     <icon path="Icon@2x.png" size="114" if="ios" />
     <icon path="Icon-72.png" size="72" if="ios" />
     <icon path="Icon-72@2x.png" size="144" if="ios" />
@@ -132,7 +135,7 @@
     <icon path="Icon-152.png" size="152" if="ios" />
     <icon path="Icon-167.png" size="167" if="ios" />
     <icon path="Icon-180.png" size="180" if="ios" />
-    <icon path="Icon-1024.png" size="1024" if="ios" />
+    <icon path="Icon-1024.png" size="1024" if="ios" /> -->
 
     <launchImage path="Default.png" width="320" height="480" if="ios" />
     <launchImage path="Default@2x.png" width="640" height="960" />

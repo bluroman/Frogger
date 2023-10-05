@@ -2,7 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.util.FlxDirectionFlags;
 
 class Snake extends WrappingSprite
