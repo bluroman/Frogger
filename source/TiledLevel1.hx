@@ -17,8 +17,10 @@ import flixel.addons.tile.FlxTilemapExt;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxColor;
 import haxe.io.Path;
 import openfl.filters.BlurFilter;
 import openfl.filters.ColorMatrixFilter;
@@ -49,6 +51,8 @@ class TiledLevel1 extends TiledMap
 
 	// Sprites of images layers
 	public var imagesLayer:FlxGroup;
+
+	var bonusFrog:Bool = false;
 
 	public function new(tiledLevel:Dynamic, state:PlayState)
 	{
@@ -273,8 +277,13 @@ class TiledLevel1 extends TiledMap
 				// group.add(car);
 				state.carGroupNew.add(car);
 			case "truck":
-				var truck = new Truck(x, y, Std.parseInt(o.properties.get("direction")), 1);
+				// var sprite = new FlxSprite(x, y);
+				// sprite.makeGraphic(40, 40, FlxColor.RED);
+				// sprite.screenCenter();
+				var truck = new Truck(x, y, Std.parseInt(o.properties.get("direction")), 1, null);
 				state.carGroupNew.add(truck);
+			// state.carGroupNew.add(sprite);
+
 			case "stone":
 				var stone = new SafeStone(x, y, Std.parseInt(o.properties.get("hideTimer")), Std.parseInt(o.properties.get("startTime")), 0x01, 0);
 				state.safeStoneGroup.add(stone);
@@ -296,24 +305,57 @@ class TiledLevel1 extends TiledMap
 					trace("something wrong with turtles");
 				}
 			case "log":
-				var simpleGraphic:FlxGraphicAsset = null;
+				var rand2:Bool = FlxG.random.bool(20);
 				if (o.type == "0")
 				{
-					simpleGraphic = "assets/images/log_short.png";
-					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
-					state.logGroupNew.add(logMoving);
+					if (rand2 && !bonusFrog)
+					{
+						var blueFroggy = new BlueFrog(x, y, 0xffffff);
+						var logMoving = new Log(x, y, 0, Std.parseInt(o.properties.get("direction")), 1, blueFroggy);
+						state.logGroupNew.add(logMoving);
+						state.blueFrog = blueFroggy;
+						// state.logGroupNew.add(blueFroggy);
+						bonusFrog = true;
+					}
+					else
+					{
+						var logMoving = new Log(x, y, 0, Std.parseInt(o.properties.get("direction")), 1, null);
+						state.logGroupNew.add(logMoving);
+					}
 				}
 				else if (o.type == "1")
 				{
-					simpleGraphic = "assets/images/log_long.png";
-					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
-					state.logGroupNew.add(logMoving);
+					if (rand2 && !bonusFrog)
+					{
+						var blueFroggy = new BlueFrog(x, y, 0xffffff);
+						var logMoving = new Log(x, y, 1, Std.parseInt(o.properties.get("direction")), 1, blueFroggy);
+						state.logGroupNew.add(logMoving);
+						state.blueFrog = blueFroggy;
+						// state.logGroupNew.add(blueFroggy);
+						bonusFrog = true;
+					}
+					else
+					{
+						var logMoving = new Log(x, y, 1, Std.parseInt(o.properties.get("direction")), 1, null);
+						state.logGroupNew.add(logMoving);
+					}
 				}
 				else if (o.type == "2")
 				{
-					simpleGraphic = "assets/images/log_mid.png";
-					var logMoving = new WrappingSprite(x, y, simpleGraphic, Std.parseInt(o.properties.get("direction")), 1);
-					state.logGroupNew.add(logMoving);
+					if (rand2 && !bonusFrog)
+					{
+						var blueFroggy = new BlueFrog(x, y, 0xffffff);
+						var logMoving = new Log(x, y, 2, Std.parseInt(o.properties.get("direction")), 1, blueFroggy);
+						state.logGroupNew.add(logMoving);
+						state.blueFrog = blueFroggy;
+						// state.logGroupNew.add(blueFroggy);
+						bonusFrog = true;
+					}
+					else
+					{
+						var logMoving = new Log(x, y, 2, Std.parseInt(o.properties.get("direction")), 1, null);
+						state.logGroupNew.add(logMoving);
+					}
 				}
 				else
 				{

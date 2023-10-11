@@ -20,19 +20,18 @@ class LogGroup extends FlxTypedSpriteGroup<FlxSprite>
 	public function new(Row:Int, actorSpeed:Int)
 	{
 		super();
+		blueFrog = new BlueFrog(100, 100, 0xffffff);
 
-		log1_1 = new Log(0, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed);
-		log1_2 = new Log(Log.TYPE_C_WIDTH + 77, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed);
-		log1_3 = new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed);
+		log1_1 = new Log(0, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
+		log1_2 = new Log(Log.TYPE_C_WIDTH + 77, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
+		log1_3 = new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(Row), Log.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
 
-		log2_1 = new Log(30, calculateRow(Row + 2), Log.TYPE_B, FlxDirectionFlags.RIGHT, actorSpeed * 2);
-		log2_2 = new Log(Log.TYPE_B_WIDTH + 130, calculateRow(Row + 2), Log.TYPE_B, FlxDirectionFlags.RIGHT, actorSpeed * 2);
+		log2_1 = new Log(30, calculateRow(Row + 2), Log.TYPE_B, FlxDirectionFlags.RIGHT, actorSpeed * 2, blueFrog);
+		log2_2 = new Log(Log.TYPE_B_WIDTH + 130, calculateRow(Row + 2), Log.TYPE_B, FlxDirectionFlags.RIGHT, actorSpeed * 2, blueFrog);
 
-		log3_1 = new Log(0, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed);
-		log3_2 = new Log(Log.TYPE_A_WIDTH + 77, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed);
-		log3_3 = new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed);
-
-		blueFrog = new BlueFrog(100, 100, 0xffffff, log2_1);
+		log3_1 = new Log(0, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
+		log3_2 = new Log(Log.TYPE_A_WIDTH + 77, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
+		log3_3 = new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(Row + 3), Log.TYPE_A, FlxDirectionFlags.RIGHT, actorSpeed, blueFrog);
 
 		add(log1_1);
 		add(log1_2);

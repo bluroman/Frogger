@@ -158,22 +158,13 @@ class MenuState extends BaseState
 		}
 	}
 
+	#if ADS
 	private function onInitOk(ae:AdmobEvent)
 	{
 		trace(ae.type, ae.data);
 		Admob.setVolume(0);
-		// #if 0
-		// Admob.status.addEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
-		// Admob.status.addEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
-
-		// // AdMob.onInterstitialEvent = onInterstitialEvent;
-		// trace("##################Load Rewarded Video#################");
-
-		// // if (Reg.playCount % 2 == 1)
-		// // AdMob.showInterstitial(0);
-		// Admob.loadRewarded(Reg.REWARDED_ID_ANDROID);
-		// #end
 	}
+	#end
 
 	function onRewardedEarnedEvent(event:String)
 	{

@@ -72,12 +72,16 @@ class Frog extends FlxSprite
 		// animation.add("walk" + FlxObject.LEFT, [6,7], 15, true);
 		animation.add("die_water", [5, 6, 7, 8, 9, 4, 4], 3, false);
 		animation.add("die_road", [10, 10, 10, 4], 3, false);
+		// offset.set(20, 20);
 
 		// Set facing direction
 		// facing = FlxObject.UP;
 		// angle = 180;
 		set_facing(UP);
 		animation.play("idle" + facing);
+		// width = 38;
+		// height = 26;
+		// centerOffsets();
 
 		// Save an instance of the PlayState to help with collision detection and movement
 		state = Reg.PS;
@@ -92,38 +96,38 @@ class Frog extends FlxSprite
 	{
 		super.facing = value;
 
-		if (value == FlxDirectionFlags.UP || value == FlxDirectionFlags.DOWN)
-		{
-			width = 38;
-			height = 26;
-			// centerOffsets(true);
-			// centerOffsets();
-			// setGraphicSize(38, 26);
-			// updateHitbox();
-			// offset.set(20, 20);
-			// offset.x = 1;
-			// offset.y = 7;
-			// if (value == FlxObject.UP)
-			//    angle = 180;
-			// else
-			//    angle = 0;
-		}
-		else
-		{
-			// if(value == FlxObject.LEFT)
-			//   angle = 90;
-			// else
-			//    angle = 270;
-			width = 26;
-			height = 38;
-			// centerOffsets(true);
-			// centerOffsets();
-			// setGraphicSize(26, 38);
-			// updateHitbox();
-			// offset.set(20, 20);
-			// offset.x = 7;
-			// offset.y = 1;
-		}
+		// if (value == FlxDirectionFlags.UP || value == FlxDirectionFlags.DOWN)
+		// {
+		// 	width = 38;
+		// 	height = 26;
+		// 	// centerOffsets(true);
+		// 	// centerOffsets();
+		// 	// setGraphicSize(38, 26);
+		// 	// updateHitbox();
+		// 	// offset.set(20, 20);
+		// 	// offset.x = 1;
+		// 	// offset.y = 7;
+		// 	// if (value == FlxObject.UP)
+		// 	//    angle = 180;
+		// 	// else
+		// 	//    angle = 0;
+		// }
+		// else
+		// {
+		// 	// if(value == FlxObject.LEFT)
+		// 	//   angle = 90;
+		// 	// else
+		// 	//    angle = 270;
+		// 	width = 26;
+		// 	height = 38;
+		// 	// centerOffsets(true);
+		// 	// centerOffsets();
+		// 	// setGraphicSize(26, 38);
+		// 	// updateHitbox();
+		// 	// offset.set(20, 20);
+		// 	// offset.x = 7;
+		// 	// offset.y = 1;
+		// }
 		return value;
 	}
 

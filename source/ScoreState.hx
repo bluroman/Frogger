@@ -228,6 +228,7 @@ class ScoreState extends BaseState
 		#end
 	}
 
+	#if ADS
 	function onInterstitialLoadedEvent(event:String)
 	{
 		trace("The Interstitial Event is " + event);
@@ -238,6 +239,7 @@ class ScoreState extends BaseState
 	{
 		trace("The Interstitial Event is " + event);
 	}
+	#end
 
 	override public function destroy():Void
 	{

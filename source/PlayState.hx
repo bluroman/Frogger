@@ -69,8 +69,9 @@ class PlayState extends BaseState
 	private var isRewardedEarned:Bool = false;
 
 	public var snake:Snake;
+	public var blueFrog:BlueFrog = null;
 
-	private var blueFrog:BlueFrog;
+	// private var blueFrog:BlueFrog;
 	var alligator:Alligator;
 	var backgroundGroup:BackgroundGroup;
 	var hud:Hud;
@@ -131,6 +132,7 @@ class PlayState extends BaseState
 		// Load player objects
 		add(level.objectsLayer);
 		add(snake);
+		add(blueFrog);
 		// CONFIG::mobile
 		// {
 		actorSpeed = 1.0;
@@ -310,12 +312,78 @@ class PlayState extends BaseState
 			// FlxG.overlap(carGroup, player, carCollision);
 			// FlxG.overlap(carGroup1, player, carCollision);
 			// FlxG.overlap(road, player, roadCollision);
-			FlxG.overlap(carGroupNew, player, carCollision);
+			// FlxG.overlap(carGroupNew, player, carCollision);
+			for (newCar in carGroupNew)
+			{
+				var collides = false;
+				if (FlxG.pixelPerfectOverlap(newCar, player))
+				{
+					if (gameState != GameStates.COLLISION)
+					{
+						collides = true;
+						// newCar.color = 0xFFac3232;
+						FlxG.sound.play("Squash");
+						killPlayer(false);
+						break;
+						// carCollision(carGroupNew, player);
+					}
+				}
+			}
+			for (newLog in logGroupNew)
+			{
+				if (FlxG.pixelPerfectOverlap(newLog, player))
+				{
+					playerIsFloating = true;
+					#if desktop
+					if (!(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT))
+					#end
+					{
+						var castLog:WrappingSprite = cast(newLog, WrappingSprite);
+						player.float(castLog.speed, castLog.facing);
+					}
+				}
+			}
+			if (FlxG.pixelPerfectOverlap(blueFrog, player))
+			{
+				Reg.score += ScoreValues.HOME_BONUS;
 
-			FlxG.overlap(logGroupNew, player, float);
+				FlxG.sound.play("Bonus");
+				blueFrog.kill();
+			}
+			if (FlxG.pixelPerfectOverlap(snake, player))
+			{
+				if (gameState != GameStates.COLLISION)
+				{
+					// collides = true;
+					// newCar.color = 0xFFac3232;
+					FlxG.sound.play("Squash");
+					killPlayer(false);
+					// break;
+					// carCollision(carGroupNew, player);
+				}
+			}
+			// for (newTurtle in turtleGroupNew)
+			// {
+			// 	if (FlxG.overlap(newTurtle, player))
+			// 	{
+			// 		var target:TimerSprite = cast(newTurtle, TimerSprite);
+			// 		// Test to see if the target is active. If it is active the player can float. If not the player
+			// 		// is in the water
+			// 		if (target.get_isActive())
+			// 		{
+			// 			float(target, player);
+			// 		}
+			// 		else if (!player.isMoving)
+			// 		{
+			// 			waterCollision();
+			// 		}
+			// 	}
+			// }
+
+			// FlxG.overlap(logGroupNew, player, float);
 			FlxG.overlap(turtleGroupNew, player, turtleFloat);
 			FlxG.overlap(homeGroup, player, baseCollision);
-			FlxG.overlap(snake, player, carCollision);
+			// FlxG.overlap(snake, player, carCollision);
 			FlxG.overlap(alligatorGroup, player, float);
 			FlxG.overlap(safeStoneGroup, player, stoneCollision);
 			FlxG.overlap(water, player, liquidCollision);

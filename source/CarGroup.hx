@@ -3,6 +3,7 @@ package;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.util.FlxColor;
 import flixel.util.FlxDirectionFlags;
 
 class CarGroup extends FlxTypedSpriteGroup<FlxSprite>
@@ -23,8 +24,10 @@ class CarGroup extends FlxTypedSpriteGroup<FlxSprite>
 	public function new(X:Float, Y:Float, actorSpeed:Int)
 	{
 		super();
-		truck1 = new Truck(0, Y, FlxDirectionFlags.LEFT, actorSpeed);
-		truck2 = new Truck(270, Y, FlxDirectionFlags.LEFT, actorSpeed);
+		var sprite = new FlxSprite(x, y);
+		sprite.makeGraphic(40, 40, FlxColor.RED);
+		truck1 = new Truck(0, Y, FlxDirectionFlags.LEFT, actorSpeed, sprite);
+		truck2 = new Truck(270, Y, FlxDirectionFlags.LEFT, actorSpeed, sprite);
 		car1_1 = new Car(0, Y + PlayState.TILE_SIZE, Car.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed * 2);
 		car1_2 = new Car(270, Y + PlayState.TILE_SIZE, Car.TYPE_C, FlxDirectionFlags.RIGHT, actorSpeed * 2);
 		car2_1 = new Car(0, Y + PlayState.TILE_SIZE * 2, Car.TYPE_D, FlxDirectionFlags.LEFT, actorSpeed);
