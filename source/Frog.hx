@@ -88,7 +88,7 @@ class Frog extends FlxSprite
 	 *
 	 * @param value
 	 */
-	override public function set_facing(value:Int):Int
+	override public function set_facing(value:FlxDirectionFlags):FlxDirectionFlags
 	{
 		super.facing = value;
 

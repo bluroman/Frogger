@@ -2,7 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxObject;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 
 class Car1 extends WrappingSprite
 {

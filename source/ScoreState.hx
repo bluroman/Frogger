@@ -7,6 +7,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+// using cpp.Object;
 #if ADS
 import extension.admob.Admob;
 import extension.admob.AdmobEvent;
@@ -16,7 +17,6 @@ import extension.admob.AdmobEvent;
 import extension.gpg.GooglePlayGames;
 #end
 
-// using cpp.Object;
 class ScoreState extends BaseState
 {
 	private var scores:Array<User_Score>;
@@ -215,21 +215,28 @@ class ScoreState extends BaseState
 			// timer = new FlxTimer().start(10.0, onTimerComplete, 1);
 		}
 		#if ADS
-		Admob.status.addEventListener(AdmobEvent.INTERSTITIAL_LOADED, onInterstitialEvent);
+		// Admob.status.addEventListener(AdmobEvent.INTERSTITIAL_LOADED, onInterstitialEvent);
+		Admob.setCallback(function(event:String, message:String):Void
+		{
+			if (event == AdmobEvent.INTERSTITIAL_LOADED)
+			{
+				trace(event, message);
+				Admob.showInterstitial();
+			}
+		});
 		// AdMob.onInterstitialEvent = onInterstitialEvent;
 		trace("##################Show Interstitial#################");
-
 		// if (Reg.playCount % 2 == 1)
 		// AdMob.showInterstitial(0);
 		Admob.loadInterstitial(Reg.INTERSTITIAL_ID_ANDROID);
 		#end
 	}
 
-	function onInterstitialEvent(event:AdmobEvent)
-	{
-		trace(event.type, event.data);
-		Admob.showInterstitial();
-	}
+	// function onInterstitialEvent(event:AdmobEvent)
+	// {
+	// 	trace(event.type, event.data);
+	// 	Admob.showInterstitial();
+	// }
 
 	private function onTimerComplete(event:FlxTimer):Void
 	{

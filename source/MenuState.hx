@@ -17,8 +17,8 @@ import openfl.text.TextFieldType;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 #if ADS
-import extension.admob.Admob;
-import extension.admob.AdmobEvent;
+import extension.admob.*;
+// import extension.admob.AdmobEvent;
 #end
 #if GPG
 import extension.gpg.GooglePlayGames;
@@ -61,7 +61,15 @@ class MenuState extends BaseState
 		#end
 
 		#if ADS
-		Admob.status.addEventListener(AdmobEvent.INIT_OK, onInitOk);
+		// Admob.status.addEventListener(AdmobEvent.INIT_OK, onInitOk);
+		Admob.setCallback(function(event:String, message:String):Void
+		{
+			if (event == AdmobEvent.INIT_OK)
+			{
+				trace(event, message);
+				Admob.setVolume(0);
+			}
+		});
 		Admob.init();
 		// AdMob.enableTestingAds();
 
@@ -148,11 +156,11 @@ class MenuState extends BaseState
 		}
 	}
 
-	private function onInitOk(ae:AdmobEvent)
-	{
-		trace(ae.type, ae.data);
-		Admob.setVolume(0);
-	}
+	// private function onInitOk(ae:AdmobEvent)
+	// {
+	// 	trace(ae.type, ae.data);
+	// 	Admob.setVolume(0);
+	// }
 
 	function onInterstitialEvent(event:String)
 	{
@@ -208,7 +216,7 @@ class MenuState extends BaseState
 		add(pressLabel);
 		// openflTextFieldTest();
 		#if ADS
-		Admob.showBanner(Reg.BANNER_ID_ANDROID, Admob.BANNER_SIZE_BANNER, Admob.BANNER_ALIGN_BOTTOM);
+		Admob.showBanner(Reg.BANNER_ID_ANDROID);
 		// AdMob.showBanner();
 		#end
 	}

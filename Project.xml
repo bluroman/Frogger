@@ -14,19 +14,14 @@
     <setenv name="ADMOB_APPID" value="ca-app-pub-6964194614288140~8575555606" if="ios"/>
     <!-- <setenv name="NSBluetoothAlwaysUsageDescription" value="App would like to use your bluetooth for communication purposes" if="ios"/> -->
 
-    <!-- <android minimum-sdk-version="23" target-sdk-version="30" /> -->
-    <android minimum-sdk-version="23" target-sdk-version="31" if="android" />
+    <android minimum-sdk-version="23" target-sdk-version="34" />
+    <android minSdkVersion = "23" />
+    <android target-sdk-version="34" if="android" />
+    <architecture name="ARM64" exclude="ARMV7" if="android" />
 
     <certificate path="bluromangames.keystore" alias="bluroman" password="nam2363" if="android" />
-    <config:android gradle-version="6.7.1" if="android" />
-    <config:android gradle-plugin="4.2.0" if="android" />
-    <!-- <config:android gradle-plugin="3.5.4" /> -->
-    <!-- <set name="google-play-services-ads-lite" value="20.2.0"/> -->
-    <!-- <set name="google-play-services-basement" value="20.2.0"/> -->
-    <!-- <set name="google-play-services-games" value="17.0.0"/> -->
-    <!-- <set name="google-play-services-plus" value="17.0.0"/> -->
-    <!-- <set name="google-play-services-drive" value="17.0.0"/> -->
-
+    <!-- <config:android gradle-version="6.7.1" if="android" /> -->
+    <!-- <config:android gradle-plugin="4.2.0" if="android" /> -->
 
     <!-- <set name="openfl-legacy" /> -->
 	<set name="playServicesVersionNew" value="+" />
@@ -37,7 +32,8 @@
     <set name="google-play-game-services" value="17.0.0" /> -->
     <setenv name="GOOGLE_PLAY_GAMES_ID" value="495045865037" /> <!-- REPLACE THIS WITH YOUR GOOGLE PLAY GAMES ID! -->
 
-    <setenv name="ANDROID_GRADLE_TASK" value=":app:bundleRelease" />
+    <!-- <setenv name="ANDROID_GRADLE_TASK" value=":app:bundleRelease" /> -->
+    <config:ios team-id="9989FERQ9X" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
@@ -62,7 +58,9 @@
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-	<haxelib name="extension-admob" />
+    <section if="cpp">
+        <haxelib name ="extension-admob" if="mobile"/>
+    </section>
     <haxelib name="extension-googleplaygames" />
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
