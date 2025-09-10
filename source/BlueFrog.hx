@@ -20,7 +20,7 @@ class BlueFrog extends FlxSprite
 	 */
 	private var _originalX:Int;
 
-	private var _log:Log;
+	// private var _log:Log;
 	var _moveRight:Bool;
 	var _moveLeft:Bool;
 
@@ -28,7 +28,7 @@ class BlueFrog extends FlxSprite
 	 * This is the constructor for the blue froggy.
 	 * We are going to set up the basic values and then create a simple animation.
 	 */
-	public function new(X:Int, Y:Int, Color:Int, log:Log)
+	public function new(X:Float, Y:Float, Color:Int)
 	{
 		// Initialize sprite object
 		super(X, Y);
@@ -36,11 +36,11 @@ class BlueFrog extends FlxSprite
 		loadGraphic("assets/images/frog2_sprites.png", true, 40, 40);
 		// Setting the color tints the plain white alien graphic
 		color = Color;
-		_originalX = Std.int(log.x);
-		_log = log;
+		// _originalX = Std.int(log.x);
+		// _log = log;
 		// resetShotClock();
-		x = _log.x;
-		y = _log.y;
+		// x = _log.x;
+		// y = _log.y;
 		_moveRight = true;
 		_moveLeft = false;
 
@@ -63,34 +63,34 @@ class BlueFrog extends FlxSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		if (!_log.isOnScreen())
-			x = _log.x;
-		// x = _log.x;
-		// y = _log.y;
-		if (_moveRight)
-		{
-			facing = RIGHT;
-			angle = 90;
-			x += 3;
-			if (x > _log.x + _log.width - width)
-			{
-				x = _log.x + _log.width - width;
-				_moveRight = false;
-				_moveLeft = true;
-			}
-		}
-		if (_moveLeft)
-		{
-			facing = LEFT;
-			angle = -90;
-			x -= 1;
-			if (x < _log.x)
-			{
-				x = _log.x;
-				_moveLeft = false;
-				_moveRight = true;
-			}
-		}
+		// if (!_log.isOnScreen())
+		// 	x = _log.x;
+		// // x = _log.x;
+		// // y = _log.y;
+		// if (_moveRight)
+		// {
+		// 	facing = RIGHT;
+		// 	angle = 90;
+		// 	x += 3;
+		// 	if (x > _log.x + _log.width - width)
+		// 	{
+		// 		x = _log.x + _log.width - width;
+		// 		_moveRight = false;
+		// 		_moveLeft = true;
+		// 	}
+		// }
+		// if (_moveLeft)
+		// {
+		// 	facing = LEFT;
+		// 	angle = -90;
+		// 	x -= 1;
+		// 	if (x < _log.x)
+		// 	{
+		// 		x = _log.x;
+		// 		_moveLeft = false;
+		// 		_moveRight = true;
+		// 	}
+		// }
 
 		//        if (x < _log.x)
 		//            x = _log.x;

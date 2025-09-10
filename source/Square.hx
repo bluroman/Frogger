@@ -42,10 +42,12 @@ class Square extends FlxSprite
 
 	private inline function handleInput():Void
 	{
+		#if FLX_TOUCH
 		for (touch in FlxG.touches.list)
 		{
 			pressed = this.overlapsPoint(touch.getScreenPosition());
 		}
+		#end
 	}
 
 	private inline function handleAnimations():Void

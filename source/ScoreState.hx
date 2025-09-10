@@ -226,9 +226,11 @@ class ScoreState extends BaseState
 		});
 		// AdMob.onInterstitialEvent = onInterstitialEvent;
 		trace("##################Show Interstitial#################");
+
 		// if (Reg.playCount % 2 == 1)
 		// AdMob.showInterstitial(0);
-		Admob.loadInterstitial(Reg.INTERSTITIAL_ID_ANDROID);
+		if (Reg.playCount % 2 == 1)
+			Admob.loadInterstitial(Reg.INTERSTITIAL_ID_ANDROID);
 		#end
 	}
 
@@ -237,6 +239,23 @@ class ScoreState extends BaseState
 	// 	trace(event.type, event.data);
 	// 	Admob.showInterstitial();
 	// }
+
+
+	function onInterstitialDismissedEvent(event:String)
+	{
+		trace("The Interstitial Event is " + event);
+	}
+	#end
+
+	override public function destroy():Void
+	{
+		trace("$$$$$$Destroy Called$$$$$$$$$$$");
+		#if ADS
+		Admob.status.removeEventListener(AdmobEvent.INTERSTITIAL_LOADED, onInterstitialLoadedEvent);
+		Admob.status.removeEventListener(AdmobEvent.INTERSTITIAL_DISMISSED, onInterstitialDismissedEvent);
+		#end
+		super.destroy();
+	}
 
 	private function onTimerComplete(event:FlxTimer):Void
 	{

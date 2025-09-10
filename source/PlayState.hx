@@ -24,12 +24,16 @@ import openfl.text.TextFormatAlign;
 
 // import zerolib.ZCountDown;
 // import zerolib.ZSpotLight;
+#if ADS
+import extension.admob.Admob;
+import extension.admob.AdmobEvent;
+#end
+
 class PlayState extends BaseState
 {
 	public static inline var TILE_SIZE = 40;
 
 	public var gameState:GameStates;
-
 	public var actorSpeed:Float = 1.0;
 
 	private var gameTime:Int;
@@ -57,14 +61,18 @@ class PlayState extends BaseState
 	private var safeFrogs:Int = 0;
 	private var timeAlmostOverFlag:Bool = false;
 	private var playerIsFloating:Bool;
+
 	// private var timeAlmostOverWarning:Int;
 	private var lastLifeScore:Int = 0;
 	private var nextLife:Int = 5000;
 	private var totalElapsed:Float = 0;
+	private var isRewardedLoaded:Bool = false;
+	private var isRewardedEarned:Bool = false;
 
 	public var snake:Snake;
+	public var blueFrog:BlueFrog = null;
 
-	private var blueFrog:BlueFrog;
+	// private var blueFrog:BlueFrog;
 	var alligator:Alligator;
 	var backgroundGroup:BackgroundGroup;
 	var hud:Hud;
@@ -125,6 +133,7 @@ class PlayState extends BaseState
 		// Load player objects
 		add(level.objectsLayer);
 		add(snake);
+		add(blueFrog);
 		// CONFIG::mobile
 		// {
 		actorSpeed = 1.0;
@@ -170,6 +179,18 @@ class PlayState extends BaseState
 		Input.virtualPad.buttonLeft.setPosition(480 - 200, calculateRow(16) + 20);
 		Input.virtualPad.buttonRight.setPosition(480 - 100, calculateRow(16) + 20);
 		#end
+		#if ADS
+		Admob.status.addEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
+		Admob.status.addEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
+		Admob.status.addEventListener(AdmobEvent.REWARDED_DISMISSED, onRewardedDismissedEvent);
+
+		// AdMob.onInterstitialEvent = onInterstitialEvent;
+		trace("##################Start Load Rewarded Video#################");
+
+		// if (Reg.playCount % 2 == 1)
+		// AdMob.showInterstitial(0);
+		Admob.loadRewarded(Reg.REWARDED_ID_ANDROID);
+		#end
 
 		// var _timer = new ZCountDown(new FlxPoint(20, 20), 1);
 		// add(_timer);
@@ -182,6 +203,34 @@ class PlayState extends BaseState
 		trace("Turtle Group: " + turtleGroupNew.length);
 		trace("Car Group: " + carGroupNew.length);
 		trace("PlayState display width: " + Lib.current.stage.stageWidth + " display height: " + Lib.current.stage.stageHeight);
+	}
+
+	function onRewardedDismissedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		if (isRewardedEarned)
+		{
+			hud.createLives(1);
+
+			hud.showGameMessage("Earned 1-Life");
+			hideGameMessageDelay = 50;
+			isRewardedEarned = false;
+			FlxG.sound.play("Bonus");
+		}
+		closeSubState();
+	}
+
+	function onRewardedEarnedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		isRewardedEarned = true;
+		isRewardedLoaded = false;
+	}
+
+	function onRewardedLoadedEvent(event:String)
+	{
+		trace("The Rewarded Video Event is " + event);
+		isRewardedLoaded = true;
 	}
 
 	/**
@@ -225,6 +274,11 @@ class PlayState extends BaseState
 			{
 				// FlxG.state = new StartState();
 				// ToDo by hoon
+				#if ADS
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_LOADED, onRewardedLoadedEvent);
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_EARNED, onRewardedEarnedEvent);
+				Admob.status.removeEventListener(AdmobEvent.REWARDED_DISMISSED, onRewardedDismissedEvent);
+				#end
 				if (!displayFlag)
 				{
 					displayFlag = true;
@@ -259,12 +313,78 @@ class PlayState extends BaseState
 			// FlxG.overlap(carGroup, player, carCollision);
 			// FlxG.overlap(carGroup1, player, carCollision);
 			// FlxG.overlap(road, player, roadCollision);
-			FlxG.overlap(carGroupNew, player, carCollision);
+			// FlxG.overlap(carGroupNew, player, carCollision);
+			for (newCar in carGroupNew)
+			{
+				var collides = false;
+				if (FlxG.pixelPerfectOverlap(newCar, player))
+				{
+					if (gameState != GameStates.COLLISION)
+					{
+						collides = true;
+						// newCar.color = 0xFFac3232;
+						FlxG.sound.play("Squash");
+						killPlayer(false);
+						break;
+						// carCollision(carGroupNew, player);
+					}
+				}
+			}
+			for (newLog in logGroupNew)
+			{
+				if (FlxG.pixelPerfectOverlap(newLog, player))
+				{
+					playerIsFloating = true;
+					#if desktop
+					if (!(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT))
+					#end
+					{
+						var castLog:WrappingSprite = cast(newLog, WrappingSprite);
+						player.float(castLog.speed, castLog.facing);
+					}
+				}
+			}
+			if (FlxG.pixelPerfectOverlap(blueFrog, player))
+			{
+				Reg.score += ScoreValues.HOME_BONUS;
 
-			FlxG.overlap(logGroupNew, player, float);
+				FlxG.sound.play("Bonus");
+				blueFrog.kill();
+			}
+			if (FlxG.pixelPerfectOverlap(snake, player))
+			{
+				if (gameState != GameStates.COLLISION)
+				{
+					// collides = true;
+					// newCar.color = 0xFFac3232;
+					FlxG.sound.play("Squash");
+					killPlayer(false);
+					// break;
+					// carCollision(carGroupNew, player);
+				}
+			}
+			// for (newTurtle in turtleGroupNew)
+			// {
+			// 	if (FlxG.overlap(newTurtle, player))
+			// 	{
+			// 		var target:TimerSprite = cast(newTurtle, TimerSprite);
+			// 		// Test to see if the target is active. If it is active the player can float. If not the player
+			// 		// is in the water
+			// 		if (target.get_isActive())
+			// 		{
+			// 			float(target, player);
+			// 		}
+			// 		else if (!player.isMoving)
+			// 		{
+			// 			waterCollision();
+			// 		}
+			// 	}
+			// }
+
+			// FlxG.overlap(logGroupNew, player, float);
 			FlxG.overlap(turtleGroupNew, player, turtleFloat);
 			FlxG.overlap(homeGroup, player, baseCollision);
-			FlxG.overlap(snake, player, carCollision);
+			// FlxG.overlap(snake, player, carCollision);
 			FlxG.overlap(alligatorGroup, player, float);
 			FlxG.overlap(safeStoneGroup, player, stoneCollision);
 			FlxG.overlap(water, player, liquidCollision);
@@ -307,12 +427,35 @@ class PlayState extends BaseState
 			scoreTxt.text = Std.string(Reg.score);
 			// scoreTxt.text = FlxG.score.toString();
 		}
-		else if (gameState == GameStates.DEATH_OVER || gameState == GameStates.RESTART)
+		else if (gameState == GameStates.RESTART)
 		{
 			// restart();
 			if (hideGameMessageDelay == 0)
 			{
 				restart();
+			}
+			else
+			{
+				hideGameMessageDelay -= 1; // FlxG.elapsed;
+			}
+		}
+		else if (gameState == GameStates.DEATH_OVER)
+		{
+			if (hideGameMessageDelay == 0)
+			{
+				// restart();
+				if (hud.get_totalLives() == 0)
+				{
+					if (isRewardedLoaded)
+					{
+						// Admob.showRewarded();
+						openSubState(new Popup_Demo());
+					}
+					else
+						restart();
+				}
+				else
+					restart();
 			}
 			else
 			{
@@ -537,7 +680,7 @@ class PlayState extends BaseState
 		}
 	}
 
-	private function restart():Void
+	public function restart():Void
 	{
 		// Make sure the player still has lives to restart
 		if (hud.get_totalLives() == 0 && gameState != GameStates.GAME_OVER)
